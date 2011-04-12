@@ -1,7 +1,7 @@
 package Meterologi;
 
 ////////////////////////////////////////
-///////HovedVindu-gui skrevet av Nam Le
+///////HovedVindu-gui skrevet av Nam Le og  Mikael Jakhelln
 ////// tab1.java "Registrer et nytt sted"
 ////// tab2.java "Regsitrer ny data"
 ////// tab3.java "Vis Data"
@@ -9,22 +9,10 @@ package Meterologi;
 ////////////////////////////////////////
 
 import javax.swing.*;
-<<<<<<< HEAD
-
-=======
->>>>>>> a90d4423c413b1109f19924e09453726cf3a276a
 import java.awt.*;
 
 public class HovedVindu extends JFrame
 {
-<<<<<<< HEAD
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-=======
->>>>>>> a90d4423c413b1109f19924e09453726cf3a276a
 	RegistrerSted regsted = new RegistrerSted(); //tab 1 = "Registrer et nytt sted"
 	RegistrerData regdata= new RegistrerData(); //tab 2 = "Regsitrer ny data"
 	VisData visdata = new VisData(); //tab 3 = "Vis Data"

@@ -1,14 +1,14 @@
 /*
  * Skrevet av Thomas Nordegnen den 11 april 2011
+ * Oppdatert den 12 april 20121
  */
 package Meterologi.Lister;
 
 
 import java.awt.*;
-	
 import java.awt.event.*;
 import javax.swing.*;
-	
+
 public class StedListeTest extends JFrame implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
@@ -17,18 +17,18 @@ public class StedListeTest extends JFrame implements ActionListener
 		private JButton leggtilny;
 		private JTextField sted;
 		private JTextField fylke;
-		
+
 		private String fylke2;
 		private String sted2;
 		private StedListe stedliste;
 		private Sted nytsted;
-		
+
 		public StedListeTest()
 		{
 			super("StedListeTest");
 			Container c = getContentPane();
 			c.setLayout(new FlowLayout());
-			
+
 			c.add(new JLabel("fylke"));
 			fylke = new JTextField(15);
 			c.add(fylke);
@@ -39,7 +39,7 @@ public class StedListeTest extends JFrame implements ActionListener
 			leggtilny = new JButton("Registrer Nytt Fylke");
 			leggtilny.addActionListener(this);
 			c.add(leggtilny);
-			
+
 			skrivut = new JButton("skriv ut");
 			skrivut.addActionListener(this);
 			c.add(skrivut);
@@ -49,21 +49,21 @@ public class StedListeTest extends JFrame implements ActionListener
 
 			setSize(500, 500);
 			setVisible(true);
-			
+
 			stedliste = new StedListe();
 		}
-		
+
 		public void melding(String m)
 		{
-			JOptionPane.showMessageDialog(null, m);
+			JOptionPane.showMessageDialog(this, m);
 		}
-		
+
 		public boolean getFylke()
 		{
 			try
 			{
-				fylke2 = fylke.getText(); 
-				
+				fylke2 = fylke.getText();
+
 			}
 			catch(Exception e)
 			{
@@ -77,36 +77,52 @@ public class StedListeTest extends JFrame implements ActionListener
 			catch(Exception e)
 			{
 				melding ("Ugyldig stedsverdi!");
+				return false;
 			}
-			return true;	
+			return true;
 		}
-		
 
-		public void actionPerformed(ActionEvent event) 
+		public void tømFelter()
+		{
+			fylke.setText("");
+			sted.setText("");
+		}
+
+
+		public void actionPerformed(ActionEvent event)
 		{
 			if(event.getSource() == skrivut)
 			{
 				if( stedliste.tomListe())
 					utskrift.setText("ingen data i systemet!");
 				else
-				{
 					utskrift.setText(stedliste.toString() );
-					getFylke();
-				}
-					
-			}		
+			}
 			if(event.getSource() == leggtilny)
-			{	
+			{
 				try
 				{
 					//lager en ny node med dataen
+					getFylke();
 					nytsted = new Sted(sted2, fylke2);
-					stedliste.setInnFylke(nytsted);
-				}	
+
+					boolean dobbeltregistrering = stedliste.fylkeStedEksisterer(nytsted);
+					if(dobbeltregistrering)
+					{
+						melding("Dette setdet er allerede lagt til");
+					}
+					else
+					{
+						stedliste.setInnFylke(nytsted);
+						melding("Sted lagt til i lista!");
+					}
+					tømFelter();
+
+				}
 				catch(Exception ex)
 				{
 					melding("Feil ved innsetting av nytt sted!");
-				}	
+				}
 			}
 		}
 
