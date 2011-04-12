@@ -1,22 +1,23 @@
 /*
- * Skrevet av Mikael Jakhelln, 
+ * Re-edit av Nam le
  * Oppdatert: 11.4.2011
- * Denne klassen skal bygge gui, samt metoder og lytter for registrering av nyData 
- * og legges til i Tab.java
+ * Denne klassen skal bygge gui, samt metoder og lytter for registrering av visData
+ * og legges til i Hovedvindu
+ * .java
  */
 
 package Meterologi;
 
 import java.awt.*;
-		import java.util.*;
-		import java.awt.event.*;
+import java.util.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 import Meterologi.Lister.Data;
 import Meterologi.Lister.DataListe;
 import Meterologi.Lister.Sted;
 
-public class RegistrerData implements ActionListener{
+public class visData implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,21 +28,14 @@ public class RegistrerData implements ActionListener{
 	private JComboBox dagboks;
 	private JComboBox månedboks;
 	private JTextField årfelt;
-	private JTextField mintempfelt;
-	private JTextField maxtempfelt;
-	private JTextField nedbørfelt;
-	private JButton skrivut;
-	private JButton leggtilny;
+	private JButton visData;
 	
 	private int dag;
 	private int måned;
 	private int år;
-	private double min;
-	private double max;
-	private double ned;
-	
+
 	//lager pekere til dataliste og data, og valgt sted.
-	private DataListe dataliste = new DataListe();
+	private DataListe dataliste;
 	private Data nydata;
 	private Sted valgtSted; 
 	//valgtSted skal peke på stedet man velger i comboboksene.
@@ -70,7 +64,7 @@ public class RegistrerData implements ActionListener{
 		
 		//panel for alt utenom utksiftsfelt
 		JPanel toppanel = new JPanel();
-		toppanel.setLayout(new GridLayout(4,0));
+		toppanel.setLayout(new GridLayout(3,0));
 		//dropdown for valg av fylke og sted
 		JPanel stedpanel = new JPanel();
 		stedpanel.add(new JLabel("Fylke:"));
@@ -94,26 +88,11 @@ public class RegistrerData implements ActionListener{
 		dagboks = new JComboBox(dager);
 		datopanel.add(dagboks);				
 		toppanel.add(datopanel);
-		//inputfelter for inndata
-		JPanel inndatapanel = new JPanel();
-		inndatapanel.add(new JLabel("Minimumstemp"));
-		mintempfelt = new JTextField(2);
-		inndatapanel.add(mintempfelt);
-		inndatapanel.add(new JLabel("Maksimumstemp"));
-		maxtempfelt = new JTextField(2);
-		inndatapanel.add(maxtempfelt);
-		inndatapanel.add(new JLabel("Nedbør"));
-		nedbørfelt= new JTextField(3);
-		inndatapanel.add(nedbørfelt);
-		toppanel.add(inndatapanel);
 		//knapper
 		JPanel knappepanel = new JPanel();
-		leggtilny = new JButton("Registrer Ny Data");
-		leggtilny.addActionListener(this);
-		knappepanel.add(leggtilny);
-		skrivut = new JButton("skriv ut");
-		skrivut.addActionListener(this);
-		knappepanel.add(skrivut);
+		visData = new JButton("Vis Data");
+		visData.addActionListener(this);
+		knappepanel.add(visData);
 		toppanel.add(knappepanel);
 		//legger til toppanelet
 		panelet.add(toppanel);
@@ -169,46 +148,26 @@ public class RegistrerData implements ActionListener{
 		return true;
 	}//end of getDatoVerdier()
 	
-	public boolean getVærVerdier()
-	{
-		try{
-		min = Integer.parseInt(mintempfelt.getText());
-		}catch(Exception e){melding("ugyldig mintempverdi");return false;}
-		try{
-		max = Integer.parseInt(maxtempfelt.getText());
-		}catch(Exception e){melding("ugyldig maxtempverdi");return false;}
-		try{
-		ned = Integer.parseInt(nedbørfelt.getText());
-		}catch(Exception e){melding("ugyldig nedbørsverdi");return false;}
-		
-		if(ned < 0 )
-		{melding("ugyldig nedbørsverdi"); return false;}
-		if(ned > 229.6)
-		{melding("Ny nedbørsrekord");}
-		if(min < -273.15)
-		{melding("minimumstemperaturen som er innskrevet er mindre enn det absolutte nullpunkt!");return false;}
-		if(max < min)
-		{melding("Innskrevet MaxTemp er mindre en MinTemp!");return false;}
-		if(max > 9999)
-		{melding("ekstremnedbør");}
-		
-		return true;
-	}//end of getVærVerdier()
 	
-	public String sendTilVisData()
-	{
-		return dataliste.skrivUtListe();
-	}
 
 	public void actionPerformed(ActionEvent event) {
-		if(event.getSource() == skrivut)
+		
+		
+		if(årfelt.getText().length() == 0 || årfelt.getText().length() != 4)
+		{
+			JOptionPane.showMessageDialog(null, "Skriv inn i feltet år igjen!");
+			return;
+		}
+	
+		
+		if(event.getSource() == visData)
 		{
 			if( dataliste.tomListe() )
 				utskrift.setText("ingen data i systemet!");
 			else
 				utskrift.setText(dataliste.skrivUtListe() );
 		}
-		if(event.getSource() == leggtilny)
+		if(event.getSource() == visData)
 		{	
 			try{
 				if(!getStedVerdier())//henter valg fra sted og fylkesinput, returnerer false ved feil
@@ -227,21 +186,7 @@ public class RegistrerData implements ActionListener{
 					return;
 				}
 				
-				if(!getVærVerdier())
-					return;
-				
-				//lager en ny node med dataen
-				nydata = new Data(dato, min, max, ned);
-				
-				//prøver å sette den inn i lista.
-				boolean dobbeltregistrering = dataliste.datoEksisterer(nydata);
-					
-				if(dobbeltregistrering)
-				{melding("Det er allerede registrert data på denne datoen");}
-				else{
-					dataliste.nyData(nydata);
-					melding("Data er lagt til");
-				}
+			
 			}
 			catch(Exception ex){melding("Feil ved innsetting av data!");};
 		}
