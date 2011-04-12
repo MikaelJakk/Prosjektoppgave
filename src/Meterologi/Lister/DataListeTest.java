@@ -74,7 +74,7 @@ public class DataListeTest extends JFrame implements ActionListener{
 			setSize(500, 500);
 			setVisible(true);
 			
-			dataliste = new DataListe2();
+			dataliste = new DataListe();
 		}
 		
 		public void melding(String m)
