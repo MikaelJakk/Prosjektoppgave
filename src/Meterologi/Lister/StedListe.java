@@ -59,19 +59,21 @@ public class StedListe implements Serializable
 
 	public boolean fylkeStedEksisterer(Sted n)
 	{
-		String output;
 		Iterator<Sted> iterator = stedliste.iterator();
 		while(iterator.hasNext())
+<<<<<<< HEAD
 		{
 			if(iterator.next().getFylke().compareTo(n.getFylke()) == 0 && iterator.next().getSted().equals(n.getSted()))
+=======
+		{	Sted gjeldende = iterator.next();
+			if(gjeldende.getFylke().compareTo(n.getFylke()) == 0 
+					&& gjeldende.getSted().compareTo(n.getSted()) == 0)
+>>>>>>> 37e412bb61d46a410ceef7882f7da684e9f19040
 				return true;
 		}
 		return false;
 	}
 }
-
-
-
 
 class Stedsammenlikner implements Comparator<Sted>
 {

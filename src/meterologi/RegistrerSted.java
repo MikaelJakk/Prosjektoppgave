@@ -100,6 +100,11 @@ public class RegistrerSted implements ActionListener
 			melding("Det opptod en feil ved val av verdier!");
 			return false;
 		}
+		if(sted.length() == 0)
+		{
+			melding("Du må skrive inn sted");
+			return false;
+		}
 		return true;
 	}
 
