@@ -8,8 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.*;
 
 import Meterologi.Lister.*;
+import Meterologi.*;
 
-public class RegistrerSted implements ActionListener{
+public class RegistrerSted extends Lista implements ActionListener{
 	
 	StedListe stedliste;
 	private String sted;

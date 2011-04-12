@@ -16,8 +16,9 @@ import javax.swing.*;
 import Meterologi.Lister.Data;
 import Meterologi.Lister.DataListe;
 import Meterologi.Lister.Sted;
+import Meterologi.*;
 
-public class visData implements ActionListener{
+public class visData extends Lista implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 
@@ -162,10 +163,10 @@ public class visData implements ActionListener{
 		
 		if(event.getSource() == visData)
 		{
-			if( dataliste.tomListe() )
+			if( super.dataliste.tomListe() )
 				utskrift.setText("ingen data i systemet!");
 			else
-				utskrift.setText(dataliste.skrivUtListe() );
+				utskrift.setText(super.dataliste.skrivUtListe() );
 		}
 		if(event.getSource() == visData)
 		{	
