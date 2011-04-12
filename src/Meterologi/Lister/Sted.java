@@ -4,7 +4,7 @@
 package Meterologi.Lister;
 
 import java.io.Serializable;
-import java.util.*;
+//import java.util.*;
 import java.text.*;
 public class Sted implements Serializable, Comparable<Sted>{
 
