@@ -37,7 +37,6 @@ public class RegistrerData extends Lista implements ActionListener{
 	private double min;
 	private double max;
 	private double ned;
-
 	private Data nydata;
 	private Sted valgtSted; 
 	//valgtSted skal peke på stedet man velger i comboboksene.
@@ -169,6 +168,11 @@ public class RegistrerData extends Lista implements ActionListener{
 		
 		return true;
 	}//end of getVærVerdier()
+	
+	public String sendTilVisData()
+	{
+		return dataliste.skrivUtListe();
+	}
 
 	public String[] makeyeararray()
 	{

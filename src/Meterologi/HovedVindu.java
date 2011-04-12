@@ -18,7 +18,7 @@ public class HovedVindu extends JFrame
 
 	RegistrerSted regsted = new RegistrerSted(); //tab 1 = "Registrer et nytt sted"
 	RegistrerData regdata= new RegistrerData(); //tab 2 = "Regsitrer ny data"
-	tab3 t3 = new tab3(); //tab 3 = "Vis Data"
+	visData visdata = new visData(); //tab 3 = "Vis Data"
 	tab4 t4 = new tab4(); //tab 4 = "Statistikk"
 
 	public HovedVindu()
@@ -31,7 +31,7 @@ public class HovedVindu extends JFrame
 
 		JPanel p1 = regsted.ByggPanel();
 		JPanel p2 = regdata.ByggPanel(); //<--- her henter jeg return; FUNKER IKKE!"#¤%&/(
-		JPanel p3 = t3.tab3();
+		JPanel p3 = visdata.ByggPanel();
 		JPanel p4 = t4.tab4();
 
 		tabs.addTab("Registrer et nytt sted",null,p1, "funker");
