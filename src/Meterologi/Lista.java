@@ -5,9 +5,10 @@ import java.io.*;
 import Meterologi.Lister.*;
 
 public abstract class Lista {
-	private final static String fila="listedata.dat";
+	public final static String fila="listedata.dat";
 	public static DataListe dataliste = new DataListe();
 	
+/*
 	public static void lesLista()
 	{
 		try{
@@ -29,5 +30,6 @@ public abstract class Lista {
 		catch (IOException e) {System.out.println("Problem ved skriving til fil");}
 		
 	}
+*/
 
 }
