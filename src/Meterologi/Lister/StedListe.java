@@ -63,7 +63,7 @@ public class StedListe implements Serializable
 		Iterator<Sted> iterator = stedliste.iterator();
 		while(iterator.hasNext())
 		{
-			if(iterator.next().getFylke().compareTo(n.getFylke()) == 0 /*&& iterator.next().getSted().equals(n.getSted())*/)
+			if(iterator.next().getFylke().compareTo(n.getFylke()) == 0 && iterator.next().getSted().equals(n.getSted()))
 				return true;
 		}
 		return false;

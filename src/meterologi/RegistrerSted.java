@@ -118,6 +118,11 @@ public class RegistrerSted implements ActionListener
 			try
 			{
 				//sjekker at fylke og sted er valgt, og oppretter Sted-Objekt med de innskrevene verdiene
+				if(stedfelt.getText().length() == 0)
+				{
+					JOptionPane.showMessageDialog(null, "fyll inn sted");
+				return;
+				}
 				if(!getStedVerdier())
 					return;
 				nyttsted  = new Sted(sted, fylke);
