@@ -168,11 +168,6 @@ public class RegistrerData extends Lista implements ActionListener{
 		
 		return true;
 	}//end of getVærVerdier()
-	
-	public String sendTilVisData()
-	{
-		return dataliste.skrivUtListe();
-	}
 
 	public String[] makeyeararray()
 	{

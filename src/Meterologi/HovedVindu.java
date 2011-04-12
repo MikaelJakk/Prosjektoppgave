@@ -9,16 +9,22 @@ package Meterologi;
 ////////////////////////////////////////
 
 import javax.swing.*;
+<<<<<<< HEAD
 
+=======
+>>>>>>> a90d4423c413b1109f19924e09453726cf3a276a
 import java.awt.*;
 
 public class HovedVindu extends JFrame
 {
+<<<<<<< HEAD
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+=======
+>>>>>>> a90d4423c413b1109f19924e09453726cf3a276a
 	RegistrerSted regsted = new RegistrerSted(); //tab 1 = "Registrer et nytt sted"
 	RegistrerData regdata= new RegistrerData(); //tab 2 = "Regsitrer ny data"
 	VisData visdata = new VisData(); //tab 3 = "Vis Data"
@@ -33,7 +39,7 @@ public class HovedVindu extends JFrame
 		JTabbedPane tabs = new JTabbedPane(); // tabs
 
 		JPanel p1 = regsted.ByggPanel();
-		JPanel p2 = regdata.ByggPanel(); //<--- her henter jeg return; FUNKER IKKE!"#¤%&/(
+		JPanel p2 = regdata.ByggPanel();
 		JPanel p3 = visdata.ByggPanel();
 		JPanel p4 = t4.tab4();
 
@@ -49,11 +55,5 @@ public class HovedVindu extends JFrame
 		frame.setSize(800,600);
 		frame.setVisible(true);
 	}
-
-	public static void main(String [] args)
-	{
-		HovedVindu m = new HovedVindu();
-
-    }
 }
 
