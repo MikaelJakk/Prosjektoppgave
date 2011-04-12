@@ -15,7 +15,8 @@ public class RegistrerSted implements ActionListener{
 	{
 		JPanel panelet = new JPanel();
 		panelet.setLayout(new FlowLayout());
-		//panelet.add(arg0);
+		//her lager du panelet sånn du vil ha det
+		//feks: panelet.add(blablab);
 		
 		
 		return panelet;
