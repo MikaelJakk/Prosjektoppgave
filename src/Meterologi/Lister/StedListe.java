@@ -52,7 +52,7 @@ public class StedListe
 	{
 		String result = "";
 
-		result += "Dette er den totale og sorterte listen av alle stedene." + skrivUt() + "\n";
+		result += "Dette er den totale og sorterte listen av alle stedene.\n" + skrivUt() + "\n";
 
 		return result;
 	}
@@ -85,16 +85,14 @@ class Stedsammenlikner implements Comparator<Sted>
 		
 		public int compare(Sted p1, Sted p2)
 		{
-			String nr1 = p1.getFylke();
+			/*String nr1 = p1.getFylke();
 			String nr2 = p2.getFylke();
 			String f1 = p1.getSted();
 			String f2 = p2.getSted();
 			int d = kollator.compare(nr1, nr2);
-			if( d != 0)
-				return d;
-			else
-				return kollator.compare(f1,f2);
-		}
+			if( d != 0)*/
+				return 4;
+			}
 }
 
 

@@ -86,11 +86,15 @@ public class StedListeTest extends JFrame implements ActionListener
 		{
 			if(event.getSource() == skrivut)
 			{
-				if( !stedliste.tomListe())
+				if( stedliste.tomListe())
 					utskrift.setText("ingen data i systemet!");
 				else
+				{
 					utskrift.setText(stedliste.toString() );
-			}
+					getFylke();
+				}
+					
+			}		
 			if(event.getSource() == leggtilny)
 			{	
 				try
