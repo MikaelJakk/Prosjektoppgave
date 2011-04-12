@@ -1,12 +1,12 @@
 /*
  * Skrevet av Thomas Nordegnen den 11 april 2011
  */
-
+package Meterologi.Lister;
 
 
 import java.awt.*;
 	
-	import java.awt.event.*;
+import java.awt.event.*;
 import javax.swing.*;
 	
 public class StedListeTest extends JFrame implements ActionListener
@@ -86,7 +86,7 @@ public class StedListeTest extends JFrame implements ActionListener
 		{
 			if(event.getSource() == skrivut)
 			{
-				if( stedliste.tomListe())
+				if( !stedliste.tomListe())
 					utskrift.setText("ingen data i systemet!");
 				else
 					utskrift.setText(stedliste.toString() );

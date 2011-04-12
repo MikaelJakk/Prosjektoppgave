@@ -1,3 +1,5 @@
+package Meterologi.Lister;
+
 /*
  * Skrevet av Thomas Nordengen den 4 april 2011
  */
