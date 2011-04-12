@@ -1,97 +1,145 @@
+/*
+ * Skrevet av Thomas Nordengen,
+ * Oppdatert: 12.4.2011
+ * Denne klassen skal bygge gui, samt metoder og lytter for registrering av nyData
+ * og legges til i Tab.java
+ */
 package Meterologi;
 
 import java.awt.*;
+import java.util.*;
 import java.awt.event.*;
-
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.*;
-
+import javax.swing.JPanel;
 import Meterologi.Lister.*;
 import Meterologi.*;
 
-public class RegistrerSted extends Lista implements ActionListener{
-	
-	StedListe stedliste;
-	private String sted;
-	private String fylke;
-	private JTextField fylkefelt;
-	private JTextField stedfelt;
-	private JButton registrerknapp;
-	private JButton skrivutknapp;
+
+public class RegistrerSted implements ActionListener
+{
 	private JTextArea utskrift;
+
+	private JComboBox fylkeboks;
+	private JTextField stedfelt;
+	private JButton skrivut;
+	private JButton leggtilny;
+
+	private String fylke;
+	private String sted;
+	private StedListe stedliste;
+	private Sted nyttsted;
+
+
+	private final String[] fylker = {"Akershus", "Aust-Agder", "Buskerud", "Finnmark",
+										"Hedmark","Hordaland","Møre og Romsdal",
+										"Nordland","Nord-Trøndelag","Oppland","Oslo","Rogaland",
+										"Sogn og Fjordane","Sør-Trøndelag","Telemark",
+										"Troms","Vest-Agder","Vestfold","Østfold"};
 
 	public JPanel ByggPanel()
 	{
+		//GUI på parameter panelet
 		JPanel panelet = new JPanel();
 		panelet.setLayout(new FlowLayout());
-		
-		//oppretter et panel for inputfelter og knapper
+
+		//panel på alt utenom utskriftsfelt
 		JPanel toppanel = new JPanel();
-		toppanel.setLayout(new GridLayout(2,0));
-		
-		JPanel stedpanel = new JPanel();
-		stedpanel.setLayout(new FlowLayout());
-		fylkefelt = new JTextField(20);
-		stedpanel.add(new JLabel("Fylke:"));
-		stedpanel.add(fylkefelt);
-		stedfelt = new JTextField(20);
-		stedpanel.add(new JLabel("Sted:"));
-		stedpanel.add(stedfelt);
-		toppanel.add(stedpanel);
-		
+		toppanel.setLayout(new GridLayout(4,0));
+		//droppned meny for valg av fylke
+		JPanel stedPanel = new JPanel();
+		stedPanel.add(new JLabel("Fylke"));
+		fylkeboks = new JComboBox(fylker);
+		fylkeboks.addActionListener(this);
+		stedPanel.add(fylkeboks);
+		//Textfelt for innskrivning av navn på Sted
+		stedPanel.add(new JLabel("Sted"));
+		stedfelt = new JTextField(15);
+		stedfelt.addActionListener(this);
+		stedPanel.add(stedfelt);
+		toppanel.add(stedPanel);
+		//knapper
+			//leg til nytt sted
 		JPanel knappepanel = new JPanel();
-		knappepanel.setLayout(new FlowLayout());
-		registrerknapp = new JButton("Registrer nytt sted");
-		registrerknapp.addActionListener(this);
-		knappepanel.add(registrerknapp);
-		skrivutknapp = new JButton("Skriv ut liste");
-		skrivutknapp.addActionListener(this);
-		knappepanel.add(skrivutknapp);
+		leggtilny = new JButton("Legg til nytt sted");
+		leggtilny.addActionListener(this);
+		knappepanel.add(leggtilny);
+			//skriv ut steder
+		skrivut = new JButton("Skriv ut");
+		skrivut.addActionListener(this);
+		knappepanel.add(skrivut);
 		toppanel.add(knappepanel);
-		
+		//legg til toppanelet
 		panelet.add(toppanel);
-		
-		utskrift = new JTextArea(25,60);
-		panelet.add(utskrift);
-		
-		
+		//utskriftvindu
+		utskrift = new JTextArea(20,50);
+		panelet.add(new JScrollPane(utskrift));
+		panelet.setVisible(true);
+
+
+		//Initsialiserer listen med Fylker og Steder
+		stedliste = new StedListe();
+
 		return panelet;
-	}
-	
-	public boolean getInput()
+	}//slutt på byggPanel
+
+
+	public void melding(String melding)
 	{
-		try{
-		sted = stedfelt.getText();
-		fylke = fylkefelt.getText();
-		}catch(Exception e){melding("problem ved innlesing av sted og fylke");return false;}
-		if(sted.length() == 0 || fylke.length() == 0)
+		JOptionPane.showMessageDialog(null,melding, "OBS!", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public boolean getStedVerdier()
+	{
+		try
 		{
-			melding("Feltene er ikke riktig utfylt");
+			fylke = (String) fylkeboks.getSelectedItem();
+			sted = stedfelt.getText();
+		}
+		catch(Exception e)
+		{
+			melding("Det opptod en feil ved val av verdier!");
 			return false;
 		}
 		return true;
 	}
-	
-	public void melding(String m)
-	{
-		JOptionPane.showMessageDialog(null,m, "OBS!", JOptionPane.INFORMATION_MESSAGE);
-	}
-	
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == registrerknapp)
-		{
-			if(!getInput())
-				return;
-			//stedliste.nyttSted(fylke, sted);
-			utskrift.setText("la til nytt sted");
-		}
-		else if(e.getSource() == skrivutknapp)
-		{
-			utskrift.setText("Fylke\tSted\n");
-			utskrift.append("skal kalle opp stedliste.skrivutliste");
-		}
-		
-	}
 
-}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource() == skrivut)
+		{
+			if(stedliste.tomListe())
+				utskrift.setText("Ingen steder i systemet!");
+			else
+				utskrift.setText(stedliste.toString());
+		}
+		if(e.getSource() == leggtilny)
+		{
+			try
+			{
+				//sjekker at fylke og sted er valgt, og oppretter Sted-Objekt med de innskrevene verdiene
+				if(!getStedVerdier())
+					return;
+				nyttsted  = new Sted(sted, fylke);
+
+				//setter Objektet inn i lista
+				boolean dobbeltregistrering = stedliste.fylkeStedEksisterer(nyttsted);
+				if(dobbeltregistrering)
+				{
+					melding("Dette stedet finnes allerede!");
+				}
+				else
+				{
+					stedliste.setInnFylke(nyttsted);
+					melding("Nytt sted lagt inn i lista");
+				}
+			}
+			catch(Exception ex)
+			{
+				melding("Det oppstod en feil ved registrering av data!");
+			}
+		}
+
+	}//slutt på ActionPerformed
+
+}//Slutt på RegistrerSted
