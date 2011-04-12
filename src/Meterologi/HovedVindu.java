@@ -30,7 +30,7 @@ public class HovedVindu extends JFrame
 		JTabbedPane tabs = new JTabbedPane(); // tabs
 
 		JPanel p1 = regsted.ByggPanel();
-		JPanel p2 = regdata.ByggPanel(); //<--- her henter jeg return; FUNKER IKKE!"#¤%&/(
+		JPanel p2 = regdata.ByggPanel();
 		JPanel p3 = visdata.ByggPanel();
 		JPanel p4 = t4.tab4();
 
