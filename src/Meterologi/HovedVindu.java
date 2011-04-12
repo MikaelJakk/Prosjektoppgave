@@ -16,7 +16,7 @@ import java.awt.*;
 public class HovedVindu extends JFrame
 {
 
-	tab1 t1 = new tab1(); //tab 1 = "Registrer et nytt sted"
+	RegistrerSted regsted = new RegistrerSted(); //tab 1 = "Registrer et nytt sted"
 	RegistrerData regdata= new RegistrerData(); //tab 2 = "Regsitrer ny data"
 	tab3 t3 = new tab3(); //tab 3 = "Vis Data"
 	tab4 t4 = new tab4(); //tab 4 = "Statistikk"
@@ -29,7 +29,7 @@ public class HovedVindu extends JFrame
 
 		JTabbedPane tabs = new JTabbedPane(); // tabs
 
-		JPanel p1 = t1.tab1();
+		JPanel p1 = regsted.ByggPanel();
 		JPanel p2 = regdata.ByggPanel(); //<--- her henter jeg return; FUNKER IKKE!"#¤%&/(
 		JPanel p3 = t3.tab3();
 		JPanel p4 = t4.tab4();
