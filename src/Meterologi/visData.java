@@ -30,7 +30,7 @@ public class VisData extends Lista implements ActionListener{
 	private JComboBox stedboks;
 	private JComboBox dagboks;
 	private JComboBox månedboks;
-	private JTextField årfelt;
+	private JComboBox årfelt;
 	private JButton visData;
 	
 	private int dag;
@@ -82,7 +82,7 @@ public class VisData extends Lista implements ActionListener{
 		//innputfeltet for dato
 		JPanel datopanel = new JPanel();
 		datopanel.add(new JLabel("År"));
-		årfelt = new JTextField(4);
+		årfelt = new JComboBox(makeyeararray());
 		datopanel.add(årfelt);
 		datopanel.add(new JLabel("Måned"));
 		månedboks = new JComboBox(makearray(1, 12));
@@ -130,7 +130,7 @@ public class VisData extends Lista implements ActionListener{
 	{
 		dag = Integer.parseInt((String) dagboks.getSelectedItem());
 		måned =Integer.parseInt((String) månedboks.getSelectedItem());
-		år = Integer.parseInt(årfelt.getText());
+		år = Integer.parseInt((String)årfelt.getSelectedItem());
 		if(dag <= 0 || dag > 31)
 		{	melding("ugyldig dag");
 			return false; 
@@ -165,41 +165,37 @@ public class VisData extends Lista implements ActionListener{
 		return dagarray;
 	}
 
+
 	public void actionPerformed(ActionEvent event) {
 		
-		
-		if(årfelt.getText().length() == 0 || årfelt.getText().length() != 4)
-		{
-			JOptionPane.showMessageDialog(null, "Skriv inn i feltet år igjen!");
-			return;
-		}
-	
-		
+			
 		if(event.getSource() == visData)
 		{
 			if( super.dataliste.tomListe() )
 				utskrift.setText("ingen data i systemet!");
 			else
-				utskrift.setText(super.dataliste.skrivUtListe() );
+			{
+				getDatoVerdier();
+				//lagrer dato som calendar objekt
+				Calendar dato = Calendar.getInstance();
+				dato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
+				dato.set(år,måned-1,dag);/*måned-1 fordi Calendar.set() er teit*/
+				nydata = new Data(dato, 0, 0, 0);
+				if(super.dataliste.datoEksisterer(nydata))
+					if(super.dataliste.getData(nydata).toString() != null)
+						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + 
+												super.dataliste.getData(nydata).toString());
+					else
+						utskrift.setText("Datoen er registrert uten verdier");
+				else
+					utskrift.setText("Datoen er ikke registrert");
+			}
 		}
 		if(event.getSource() == visData)
 		{	
 			try{
 				if(!getStedVerdier())//henter valg fra sted og fylkesinput, returnerer false ved feil
 					return;
-				//henter dato input
-				if(!getDatoVerdier())
-					return;
-				//lagrer dato som calendar objekt
-				Calendar dato = Calendar.getInstance(); 
-				dato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
-				dato.set(år,måned-1,dag);/*måned-1 fordi Calendar.set() er teit*/
-				Calendar nå = Calendar.getInstance();
-				if(nå.before(dato))
-				{
-					melding("innskrevet dato har ikke intruffet ennå");
-					return;
-				}
 				
 			
 			}

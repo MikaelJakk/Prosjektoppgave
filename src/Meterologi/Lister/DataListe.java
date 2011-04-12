@@ -66,6 +66,26 @@ public class DataListe {
 		}
 		return false;
 	}
+	public Data getData(Data n)//skrevet av Nam Le til VisData.java
+	{
+		if(første == null)
+			return null;
+		
+		if(første.getDato().compareTo(n.getDato()) == 0)
+			return første;
+		
+		Data a = første;
+		
+		while(a.neste != null)
+		{
+			if(a.neste.getDato().compareTo(n.getDato())== 0)
+				return a;
+			a = a.neste;
+		}
+		if(a.neste.getDato().compareTo(n.getDato())== 0)
+			return a;
+		return null;
+	}
 	
 	public String skrivUtListe()
 	{
@@ -91,6 +111,7 @@ public class DataListe {
 			return true;
 		return false;
 	}
+	
 	
 	
 }

@@ -10,12 +10,15 @@ package Meterologi;
 
 import javax.swing.*;
 
-import java.awt.event.*;
 import java.awt.*;
 
 public class HovedVindu extends JFrame
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	RegistrerSted regsted = new RegistrerSted(); //tab 1 = "Registrer et nytt sted"
 	RegistrerData regdata= new RegistrerData(); //tab 2 = "Regsitrer ny data"
 	VisData visdata = new VisData(); //tab 3 = "Vis Data"
