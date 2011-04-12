@@ -12,11 +12,9 @@ import java.awt.*;
 		import java.awt.event.*;
 import javax.swing.*;
 
-import Meterologi.Lister.Data;
-import Meterologi.Lister.DataListe;
-import Meterologi.Lister.Sted;
+import Meterologi.Lister.*;
 
-public class RegistrerData implements ActionListener{
+public class RegistrerData extends Lista implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,9 +37,7 @@ public class RegistrerData implements ActionListener{
 	private double min;
 	private double max;
 	private double ned;
-	
-	//lager pekere til dataliste og data, og valgt sted.
-	private DataListe dataliste;
+
 	private Data nydata;
 	private Sted valgtSted; 
 	//valgtSted skal peke på stedet man velger i comboboksene.
@@ -122,9 +118,6 @@ public class RegistrerData implements ActionListener{
 		utskrift = new JTextArea(20, 50);
 		panelet.add(new JScrollPane(utskrift));
 		panelet.setVisible(true);
-		
-		//Initialiserer listen med steder og data  (forøvring bare datalisten)
-		dataliste = new DataListe();
 		
 		return panelet;
 	}//end of byggPanel()
@@ -213,10 +206,10 @@ public class RegistrerData implements ActionListener{
 		}	
 		if(event.getSource() == skrivut)
 		{
-			if( dataliste.tomListe() )
+			if( super.dataliste.tomListe() )
 				utskrift.setText("ingen data i systemet!");
 			else
-				utskrift.setText(dataliste.skrivUtListe() );
+				utskrift.setText(super.dataliste.skrivUtListe() );
 		}
 		if(event.getSource() == leggtilny)
 		{	
@@ -243,12 +236,12 @@ public class RegistrerData implements ActionListener{
 				nydata = new Data(dato, min, max, ned);
 				
 				//prøver å sette den inn i lista.
-				boolean dobbeltregistrering = dataliste.datoEksisterer(nydata);
+				boolean dobbeltregistrering = super.dataliste.datoEksisterer(nydata);
 					
 				if(dobbeltregistrering)
 				{melding("Det er allerede registrert data på denne datoen");}
 				else{
-					dataliste.nyData(nydata);
+					super.dataliste.nyData(nydata);
 					melding("Data er lagt til");
 				}
 			}
