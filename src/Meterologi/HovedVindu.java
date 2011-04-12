@@ -18,7 +18,7 @@ public class HovedVindu extends JFrame
 
 	RegistrerSted regsted = new RegistrerSted(); //tab 1 = "Registrer et nytt sted"
 	RegistrerData regdata= new RegistrerData(); //tab 2 = "Regsitrer ny data"
-	visData visdata = new visData(); //tab 3 = "Vis Data"
+	VisData visdata = new VisData(); //tab 3 = "Vis Data"
 	tab4 t4 = new tab4(); //tab 4 = "Statistikk"
 
 	public HovedVindu()
@@ -35,7 +35,7 @@ public class HovedVindu extends JFrame
 		JPanel p4 = t4.tab4();
 
 		tabs.addTab("Registrer et nytt sted",null,p1, "funker");
-		tabs.addTab("Regsitrer ny Data",null,p2, "funker");
+		tabs.addTab("Registrer ny Data",null,p2, "funker");
 	    tabs.addTab("Vis Data",null,p3, "funker");
 	    tabs.addTab("Statistikk",null,p4, "funker");
 
