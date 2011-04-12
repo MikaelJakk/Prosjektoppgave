@@ -46,11 +46,5 @@ public class HovedVindu extends JFrame
 		frame.setSize(800,600);
 		frame.setVisible(true);
 	}
-
-	public static void main(String [] args)
-	{
-		HovedVindu m = new HovedVindu();
-
-    }
 }
 
