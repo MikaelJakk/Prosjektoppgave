@@ -26,7 +26,7 @@ public class RegistrerData implements ActionListener{
 	private JComboBox stedboks;
 	private JComboBox dagboks;
 	private JComboBox månedboks;
-	private JTextField årfelt;
+	private JComboBox årboks;
 	private JTextField mintempfelt;
 	private JTextField maxtempfelt;
 	private JTextField nedbørfelt;
@@ -56,10 +56,8 @@ public class RegistrerData implements ActionListener{
 									"Troms","Vest-Agder","Vestfold","Østfold"};
 	private String sted;
 	private final String[] steder = {"Sted 1","Sted 2","Sted 3"};
-	private final String[] dager = {"1","2","3","4","5","6","7","8","9","10",
-									"11","12","13","14","15","16","17","18","19",
-									"20","21","22","23","24","25","26","27","28","29","30","31"};
-	private final String[] måneder= {"1","2","3","4","5","6","7","8","9","10","11","12"};
+	
+	private final int fraår = 1970;
 	//skal egentlig bruke stedsliste.getRegistrerteSteder() og stedsliste.getRegistrerteFylker()
 	//som skal returnere en String[] med registrerte fylker, og en annen med steder
 
@@ -85,13 +83,15 @@ public class RegistrerData implements ActionListener{
 		//innputfeltet for dato
 		JPanel datopanel = new JPanel();
 		datopanel.add(new JLabel("År"));
-		årfelt = new JTextField(4);
-		datopanel.add(årfelt);
+		årboks = new JComboBox(makeyeararray());
+		årboks.addActionListener(this);
+		datopanel.add(årboks);
 		datopanel.add(new JLabel("Måned"));
-		månedboks = new JComboBox(måneder);
+		månedboks = new JComboBox(makearray(1, 12));
+		månedboks.addActionListener(this);
 		datopanel.add(månedboks);
 		datopanel.add(new JLabel("Dag"));
-		dagboks = new JComboBox(dager);
+		dagboks = new JComboBox(makearray(1, 31));
 		datopanel.add(dagboks);				
 		toppanel.add(datopanel);
 		//inputfelter for inndata
@@ -144,29 +144,11 @@ public class RegistrerData implements ActionListener{
 		return true;
 	}
 	
-	public boolean getDatoVerdier()
+	public void getDatoVerdier()
 	{
-		dag = Integer.parseInt((String) dagboks.getSelectedItem());
+		år = Integer.parseInt((String) årboks.getSelectedItem());
 		måned =Integer.parseInt((String) månedboks.getSelectedItem());
-		år = Integer.parseInt(årfelt.getText());
-		if(dag <= 0 || dag > 31)
-		{	melding("ugyldig dag");
-			return false; 
-		}
-		if(måned == 0 || måned >12 || måned < 1)
-		{	melding("ugyldig måned");
-			return false;
-		}
-		if(år < 1970)
-		{	melding("ugyldig årstall");
-			return false;
-		}
-		if(år > 3000)
-		{	melding("Morsom eller.\nÅr "+år+" :P");
-			return false;
-		}
-		//må lage test på registrering av datoer som ikke har vært ennå.
-		return true;
+		dag = Integer.parseInt((String) dagboks.getSelectedItem());
 	}//end of getDatoVerdier()
 	
 	public boolean getVærVerdier()
@@ -195,7 +177,40 @@ public class RegistrerData implements ActionListener{
 		return true;
 	}//end of getVærVerdier()
 
+	public String[] makeyeararray()
+	{
+		return makearray(fraår, Calendar.getInstance().get(Calendar.YEAR));
+	}
+	public String[] makearray(int fra, int til)
+	{
+		String[] dagarray = new String[til-fra+1];
+		for(int i = fra; i <= til; i++)
+		{
+			dagarray[i-fra] = i + "";
+		}
+		return dagarray;
+	}
+
 	public void actionPerformed(ActionEvent event) {
+		if(event.getSource() == årboks || event.getSource() == månedboks)
+		{
+			int månednr = 1 + månedboks.getSelectedIndex();
+			int antalldager;
+			if (månednr == 1 || månednr == 3 || månednr == 5 || månednr == 7 ||
+					månednr == 8 || månednr == 10 || månednr == 12) {
+				antalldager = 31;
+			} else if (månednr == 2) {
+				int år = Integer.parseInt((String) årboks.getSelectedItem());
+				//sjekk skuddår
+				if(år%400 == 0 || (år%4 == 0 && år%100 != 0))
+				{antalldager = 29;}
+				else antalldager = 28;
+			} else {
+				antalldager = 30;
+			}
+			String[] dager = makearray(1, antalldager);
+			dagboks.setModel(new DefaultComboBoxModel(dager));
+		}	
 		if(event.getSource() == skrivut)
 		{
 			if( dataliste.tomListe() )
@@ -209,10 +224,9 @@ public class RegistrerData implements ActionListener{
 				if(!getStedVerdier())//henter valg fra sted og fylkesinput, returnerer false ved feil
 					return;
 				//henter dato input
-				if(!getDatoVerdier())
-					return;
+				getDatoVerdier();
 				//lagrer dato som calendar objekt
-				Calendar dato = Calendar.getInstance(); 
+				Calendar dato = Calendar.getInstance();
 				dato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
 				dato.set(år,måned-1,dag);/*måned-1 fordi Calendar.set() er teit*/
 				Calendar nå = Calendar.getInstance();
