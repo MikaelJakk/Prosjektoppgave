@@ -35,7 +35,7 @@ public class HovedVindu extends JFrame
 		JPanel p4 = t4.tab4();
 
 		tabs.addTab("Registrer et nytt sted",null,p1, "funker");
-		tabs.addTab("Regsitrer ny Data",null,p2, "funker");
+		tabs.addTab("Registrer ny Data",null,p2, "funker");
 	    tabs.addTab("Vis Data",null,p3, "funker");
 	    tabs.addTab("Statistikk",null,p4, "funker");
 
