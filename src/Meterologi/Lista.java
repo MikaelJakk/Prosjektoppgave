@@ -6,7 +6,7 @@ import Meterologi.Lister.*;
 
 public abstract class Lista {
 	private final String fila="listedata.dat";
-	DataListe dataliste = new DataListe();
+	static DataListe dataliste = new DataListe();
 	ObjectInputStream input;
 	public Lista()
 	{

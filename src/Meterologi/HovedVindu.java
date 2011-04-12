@@ -18,7 +18,7 @@ public class HovedVindu extends JFrame
 
 	RegistrerSted regsted = new RegistrerSted(); //tab 1 = "Registrer et nytt sted"
 	RegistrerData regdata= new RegistrerData(); //tab 2 = "Regsitrer ny data"
-	visData visdata = new visData(); //tab 3 = "Vis Data"
+	VisData visdata = new VisData(); //tab 3 = "Vis Data"
 	tab4 t4 = new tab4(); //tab 4 = "Statistikk"
 
 	public HovedVindu()

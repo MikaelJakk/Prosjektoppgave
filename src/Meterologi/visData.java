@@ -9,6 +9,7 @@
 package Meterologi;
 
 import java.awt.*;
+import java.awt.List;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -18,10 +19,11 @@ import Meterologi.Lister.DataListe;
 import Meterologi.Lister.Sted;
 import Meterologi.*;
 
-public class visData extends Lista implements ActionListener{
+
+public class VisData extends Lista implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
-
+	private final int fraår = 1970;
 	private JTextArea utskrift;
 	
 	private JComboBox fylkeboks;
@@ -83,10 +85,10 @@ public class visData extends Lista implements ActionListener{
 		årfelt = new JTextField(4);
 		datopanel.add(årfelt);
 		datopanel.add(new JLabel("Måned"));
-		månedboks = new JComboBox(måneder);
+		månedboks = new JComboBox(makearray(1, 12));
 		datopanel.add(månedboks);
 		datopanel.add(new JLabel("Dag"));
-		dagboks = new JComboBox(dager);
+		dagboks = new JComboBox(makearray(1, 31));
 		datopanel.add(dagboks);				
 		toppanel.add(datopanel);
 		//knapper
@@ -149,7 +151,19 @@ public class visData extends Lista implements ActionListener{
 		return true;
 	}//end of getDatoVerdier()
 	
-	
+	public String[] makeyeararray()
+	{
+		return makearray(fraår, Calendar.getInstance().get(Calendar.YEAR));
+	}
+	public String[] makearray(int fra, int til)
+	{
+		String[] dagarray = new String[til-fra+1];
+		for(int i = fra; i <= til; i++)
+		{
+			dagarray[i-fra] = i + "";
+		}
+		return dagarray;
+	}
 
 	public void actionPerformed(ActionEvent event) {
 		
