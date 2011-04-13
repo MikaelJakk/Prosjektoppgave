@@ -159,3 +159,5 @@ public class RegistrerSted implements ActionListener
 	}//slutt på ActionPerformed
 
 }//Slutt på RegistrerSted
+
+//Github nede?
