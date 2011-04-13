@@ -83,7 +83,7 @@ public class DataListe {
 			a = a.neste;
 		}
 		if(a.neste.getDato().compareTo(n.getDato())== 0)
-			return a;
+			return a.neste;
 		return null;
 	}
 	

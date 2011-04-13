@@ -32,6 +32,8 @@ public class VisData extends Lista implements ActionListener{
 	private JComboBox månedboks;
 	private JComboBox årfelt;
 	private JButton visData;
+	private JButton visMnd;
+	private JButton visÅr;
 	
 	private int dag;
 	private int måned;
@@ -95,7 +97,13 @@ public class VisData extends Lista implements ActionListener{
 		JPanel knappepanel = new JPanel();
 		visData = new JButton("Vis Data");
 		visData.addActionListener(this);
+		visMnd = new JButton("Data for måned");
+		visMnd.addActionListener(this);
+		visÅr = new JButton("Data for år");
+		visÅr.addActionListener(this);
 		knappepanel.add(visData);
+		knappepanel.add(visMnd);
+		knappepanel.add(visÅr);
 		toppanel.add(knappepanel);
 		//legger til toppanelet
 		panelet.add(toppanel);
@@ -164,7 +172,52 @@ public class VisData extends Lista implements ActionListener{
 		}
 		return dagarray;
 	}
-
+	public String regnUtDag()
+	{
+		getDatoVerdier();
+		int dagløp = 0;
+		
+		String tekst = "";
+		for(int i = 1; i < 33;i++)
+		{
+			dagløp++;			
+			Calendar dato = Calendar.getInstance();
+			dato.setTimeInMillis(0);
+			dato.set(år,måned-1,dagløp++);
+			nydata = new Data(dato, 0, 0, 0);
+				if(super.dataliste.datoEksisterer(nydata))
+					if(super.dataliste.getData(nydata).toString() != null)
+						tekst += super.dataliste.getData(nydata).toString() + "\n";
+				
+		}
+		return tekst;
+	}
+	public String regnUtÅr()
+	{
+		getDatoVerdier();
+		String tekst = "";
+		int mnder = 1;
+		int dager = 1;
+		
+			for(int i = 0;i<14;i++) // i<13 for 12 måneder.
+			{
+				
+				for(int j = 0;j<31;j++)
+				{			
+					Calendar dato = Calendar.getInstance();
+					dato.setTimeInMillis(0);
+					dato.set(år,mnder-1,dager++);
+					nydata = new Data(dato, 0, 0, 0);
+						if(super.dataliste.datoEksisterer(nydata))
+							if(super.dataliste.getData(nydata).toString() != null)
+								tekst += super.dataliste.getData(nydata).toString() + "\n";
+						dager++;
+				}
+				mnder++;
+			}
+			
+		return tekst;
+	}
 
 	public void actionPerformed(ActionEvent event) {
 		
@@ -186,20 +239,25 @@ public class VisData extends Lista implements ActionListener{
 						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + 
 												super.dataliste.getData(nydata).toString());
 					else
-						utskrift.setText("Datoen er registrert uten verdier");
+						utskrift.setText("toStringen returnerer 0 ");
 				else
-					utskrift.setText("Datoen er ikke registrert");
+					utskrift.setText("Denne datoen er ikke registrert enda");
 			}
 		}
-		if(event.getSource() == visData)
-		{	
-			try{
-				if(!getStedVerdier())//henter valg fra sted og fylkesinput, returnerer false ved feil
-					return;
-				
-			
-			}
-			catch(Exception ex){melding("Feil ved innsetting av data!");};
+		else if(event.getSource() == visMnd)
+		{
+			if(regnUtDag() == "")
+				utskrift.setText("Fant ingen data for denne måned");
+			else
+				utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + regnUtDag() + "\n\n\n Dette er alle dataene for valgt måned." );
+		}		
+		else if(event.getSource() == visÅr)
+		{
+			if(regnUtÅr() == "")
+				utskrift.setText("Fant ingen data for dette året.");
+			else
+				utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + regnUtÅr() + "\n\n\n Dette er alle dataene for valgt for året.");
 		}
+		
 	}//end of actionPerformed()
 }//End of registrerData

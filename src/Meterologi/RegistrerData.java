@@ -132,7 +132,10 @@ public class RegistrerData extends Lista implements ActionListener{
 		fylke = (String) fylkeboks.getSelectedItem();
 		sted = (String) stedboks.getSelectedItem();
 		}catch(Exception e)
-		{melding("det oppstod en feil med valg av fylke og sted");return false;}
+		{
+			melding("det oppstod en feil med valg av fylke og sted");
+			return false;
+		}
 		return true;
 	}
 	
