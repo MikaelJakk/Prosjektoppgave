@@ -178,12 +178,12 @@ public class VisData extends Lista implements ActionListener{
 		int dagløp = 0;
 		
 		String tekst = "";
-		for(int i = 1; i < 33;i++)
+		for(int i = 0; i < 40;i++)
 		{
 			dagløp++;			
 			Calendar dato = Calendar.getInstance();
 			dato.setTimeInMillis(0);
-			dato.set(år,måned-1,dagløp++);
+			dato.set(år,måned-1,dagløp);
 			nydata = new Data(dato, 0, 0, 0);
 				if(super.dataliste.datoEksisterer(nydata))
 					if(super.dataliste.getData(nydata).toString() != null)
@@ -196,13 +196,13 @@ public class VisData extends Lista implements ActionListener{
 	{
 		getDatoVerdier();
 		String tekst = "";
-		int mnder = 1;
-		int dager = 1;
+		int mnder = 0;
+		int dager = 0;
 		
 			for(int i = 0;i<14;i++) // i<13 for 12 måneder.
 			{
-				
-				for(int j = 0;j<31;j++)
+				mnder++;
+				for(int j = 0;j<100;j++)
 				{			
 					Calendar dato = Calendar.getInstance();
 					dato.setTimeInMillis(0);
@@ -211,10 +211,10 @@ public class VisData extends Lista implements ActionListener{
 						if(super.dataliste.datoEksisterer(nydata))
 							if(super.dataliste.getData(nydata).toString() != null)
 								tekst += super.dataliste.getData(nydata).toString() + "\n";
-						dager++;
 				}
-				mnder++;
 			}
+			
+			
 			
 		return tekst;
 	}
@@ -253,10 +253,21 @@ public class VisData extends Lista implements ActionListener{
 		}		
 		else if(event.getSource() == visÅr)
 		{
-			if(regnUtÅr() == "")
+				String nyttår = "";
+				getDatoVerdier();
+				Calendar dato1 = Calendar.getInstance(); dato1.setTimeInMillis(0); dato1.set(år, 11, 31);
+					nydata = new Data(dato1,0,0,0);
+			if(super.dataliste.datoEksisterer(nydata))
+			{
+					nyttår = super.dataliste.getData(nydata).toString();
+					utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + regnUtÅr() + nyttår + "\n\n\n Dette er alle dataene for valgt for året." );
+			}
+						
+			else if(regnUtÅr() == "")
 				utskrift.setText("Fant ingen data for dette året.");
 			else
-				utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + regnUtÅr() + "\n\n\n Dette er alle dataene for valgt for året.");
+				utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + regnUtÅr()  +  "\n\n\n Dette er alle dataene for valgt for året.");
+				
 		}
 		
 	}//end of actionPerformed()

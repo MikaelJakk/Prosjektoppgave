@@ -78,12 +78,12 @@ public class DataListe {
 		
 		while(a.neste != null)
 		{
-			if(a.neste.getDato().compareTo(n.getDato())== 0)
+			if(a.getDato().compareTo(n.getDato())== 0)
 				return a;
 			a = a.neste;
 		}
-		if(a.neste.getDato().compareTo(n.getDato())== 0)
-			return a.neste;
+		if(a.getDato().compareTo(n.getDato())== 0)
+			return a;
 		return null;
 	}
 	
