@@ -107,6 +107,11 @@ public class RegistrerSted implements ActionListener
 		}
 		return true;
 	}
+	
+	public void tømFelter()
+	{
+		stedfelt.setText("");
+	}
 
 
 	public void actionPerformed(ActionEvent e)
@@ -143,6 +148,7 @@ public class RegistrerSted implements ActionListener
 					stedliste.setInnFylke(nyttsted);
 					melding("Nytt sted lagt inn i lista");
 				}
+				tømFelter();
 			}
 			catch(Exception ex)
 			{
