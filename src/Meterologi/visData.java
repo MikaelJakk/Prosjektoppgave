@@ -36,7 +36,7 @@ public class VisData extends Lista implements ActionListener{
 	private JButton visÅr;
 	
 	private int dag;
-	private int måned;
+	private int mnd;
 	private int år;
 
 	//lager pekere til dataliste og data, og valgt sted.
@@ -137,13 +137,13 @@ public class VisData extends Lista implements ActionListener{
 	public boolean getDatoVerdier()
 	{
 		dag = Integer.parseInt((String) dagboks.getSelectedItem());
-		måned =Integer.parseInt((String) månedboks.getSelectedItem());
+		mnd =Integer.parseInt((String) månedboks.getSelectedItem());
 		år = Integer.parseInt((String)årfelt.getSelectedItem());
 		if(dag <= 0 || dag > 31)
 		{	melding("ugyldig dag");
 			return false; 
 		}
-		if(måned == 0 || måned >12 || måned < 1)
+		if(mnd == 0 || mnd >12 || mnd < 1)
 		{	melding("ugyldig måned");
 			return false;
 		}
@@ -172,24 +172,46 @@ public class VisData extends Lista implements ActionListener{
 		}
 		return dagarray;
 	}
+	public int telldager() // metode for å skjekke hvor mange dager det er i mnden
+	{
+		getDatoVerdier();
+		if(mnd == 1 || mnd == 3 || mnd == 5 || mnd == 7 ||mnd == 8 || mnd == 10 || mnd == 12 )
+			return 31;
+		if(mnd == 2) // passer på skuddåret
+		{
+			if(år%4 == 0 && år%100 != 0 && år%400 == 0 )
+				return 29;
+			return 28;
+		}
+			
+			
+		return 30;
+	}
 	public String regnUtDag()
 	{
 		getDatoVerdier();
 		int dagløp = 0;
 		
 		String tekst = "";
-		for(int i = 0; i < 40;i++)
+		for(int i = 0; i < telldager();i++)
 		{
-			dagløp++;			
+			dagløp++;
+			
+			
 			Calendar dato = Calendar.getInstance();
 			dato.setTimeInMillis(0);
-			dato.set(år,måned-1,dagløp);
+			dato.set(år,mnd-1,dagløp);
 			nydata = new Data(dato, 0, 0, 0);
 				if(super.dataliste.datoEksisterer(nydata))
 					if(super.dataliste.getData(nydata).toString() != null)
 						tekst += super.dataliste.getData(nydata).toString() + "\n";
+					
+				
+				
+				
 				
 		}
+		
 		return tekst;
 	}
 	public String regnUtÅr()
@@ -198,25 +220,27 @@ public class VisData extends Lista implements ActionListener{
 		String tekst = "";
 		int mnder = 0;
 		int dager = 0;
+		int  tekst1 = 0;
 		
-			for(int i = 0;i<14;i++) // i<13 for 12 måneder.
+			for(int i = 0;i<13;i++) // i<13 for 12 måneder.
 			{
 				mnder++;
-				for(int j = 0;j<100;j++)
-				{			
+				for(int j = 0;j<500;j++) // 500 er at sikret tall for at J skal være nok av dager den går gjennom. kunne ha kanskje skrevet 366?
+				{
+					dager++;
 					Calendar dato = Calendar.getInstance();
 					dato.setTimeInMillis(0);
-					dato.set(år,mnder-1,dager++);
-					nydata = new Data(dato, 0, 0, 0);
+					dato.set(år,mnder-1,dager);
+					nydata = new Data(dato, 1, 2, 3);
 						if(super.dataliste.datoEksisterer(nydata))
 							if(super.dataliste.getData(nydata).toString() != null)
 								tekst += super.dataliste.getData(nydata).toString() + "\n";
+						if(mnder-1 == 13)
+							return tekst;
+						
 				}
 			}
-			
-			
-			
-		return tekst;
+			return tekst;			
 	}
 
 	public void actionPerformed(ActionEvent event) {
@@ -232,7 +256,7 @@ public class VisData extends Lista implements ActionListener{
 				//lagrer dato som calendar objekt
 				Calendar dato = Calendar.getInstance();
 				dato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
-				dato.set(år,måned-1,dag);/*måned-1 fordi Calendar.set() er teit*/
+				dato.set(år,mnd-1,dag);/*måned-1 fordi Calendar.set() er teit*/
 				nydata = new Data(dato, 0, 0, 0);
 				if(super.dataliste.datoEksisterer(nydata))
 					if(super.dataliste.getData(nydata).toString() != null)

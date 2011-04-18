@@ -66,24 +66,27 @@ public class DataListe {
 		}
 		return false;
 	}
-	public Data getData(Data n)//skrevet av Nam Le til VisData.java
+	@SuppressWarnings("null")
+	public Data getData(Data n)// noe galt her..
 	{
-		if(første == null)
+		if(første == null) //hvis første er null så er lista tom..
 			return null;
 		
 		if(første.getDato().compareTo(n.getDato()) == 0)
 			return første;
 		
-		Data a = første;
+		Data ny = første;
 		
-		while(a.neste != null)
+		while(ny != null)
 		{
-			if(a.getDato().compareTo(n.getDato())== 0)
-				return a;
-			a = a.neste;
+			if(ny.getDato().compareTo(n.getDato())== 0)
+				return ny;
+			ny = ny.neste;
+			if(ny.neste == null)
+				return ny;
 		}
-		if(a.getDato().compareTo(n.getDato())== 0)
-			return a;
+		if(ny.getDato().compareTo(n.getDato())== 0)
+			return ny;
 		return null;
 	}
 	
