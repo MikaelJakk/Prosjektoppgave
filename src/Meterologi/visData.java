@@ -1,4 +1,4 @@
-/*
+	/*
  * Re-edit av Nam le
  * Oppdatert: 11.4.2011
  * Denne klassen skal bygge gui, samt metoder og lytter for registrering av visData
