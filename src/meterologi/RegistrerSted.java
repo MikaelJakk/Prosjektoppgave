@@ -7,12 +7,10 @@
 package Meterologi;
 
 import java.awt.*;
-import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.JPanel;
 import Meterologi.Lister.*;
-import Meterologi.*;
 
 
 public class RegistrerSted extends Lista implements ActionListener

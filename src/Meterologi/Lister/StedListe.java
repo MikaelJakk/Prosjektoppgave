@@ -20,6 +20,18 @@ public class StedListe implements Serializable
 	{
 		stedliste.add(obj);
 	}
+	
+	public boolean nyData(String f, String s, Data d)
+	{
+		Iterator<Sted> iterator = stedliste.iterator();
+		while(iterator.hasNext())
+		{	Sted gjeldende = iterator.next();
+			if(gjeldende.getFylke().compareTo(f) == 0 
+					&& gjeldende.getSted().compareTo(s) == 0)
+				return gjeldende.nyData(d);
+		}
+		return false;
+	}
 
 	//Sorterer Sted-Lista alfabetisk basert p� Fylke
 	public void sorter()
@@ -38,6 +50,28 @@ public class StedListe implements Serializable
 			output += iterator.next().toString() + "\n";
 		}
 		return output;
+	}
+	
+	public String[] getFylkeArray()
+	{
+		int arraysize = 0;
+		Iterator<Sted> iterator = stedliste.iterator();
+		if(iterator.hasNext())
+		{}
+		while(iterator.hasNext())
+		{arraysize++; iterator.next();}
+		String[] returting = new Array[arraysize];
+	}
+	
+	public String skrivUtDataListe(String f, String s)
+	{
+		Iterator<Sted> iterator = stedliste.iterator();
+		while(iterator.hasNext())
+		{	Sted gjeldende = iterator.next();
+			if(gjeldende.getFylke().equals(f)&& gjeldende.getSted().equals(s))
+				return gjeldende.dataliste.skrivUtListe();
+		}
+		return "ingen data";
 	}
 
 	public boolean tomListe()

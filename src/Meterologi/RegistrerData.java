@@ -210,10 +210,12 @@ public class RegistrerData extends Lista implements ActionListener{
 		
 		if(event.getSource() == skrivut)
 		{
-			if( dataliste.tomListe() )
+			if( stedliste.tomListe() )
 				utskrift.setText("ingen data i systemet!");
 			else
-				utskrift.setText(dataliste.skrivUtListe() );
+				utskrift.setText(
+						stedliste.skrivUtDataListe((String) fylkeboks.getSelectedItem(),
+								(String)stedboks.getSelectedItem()));
 		}
 		if(event.getSource() == leggtilny)
 		{	

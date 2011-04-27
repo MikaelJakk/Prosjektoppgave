@@ -12,6 +12,6 @@ public class RunProgram extends Lista{
 	public static void main(String[] args)
 	{
 		vindu = new HovedVindu();
-		lesLista();
+		//lesLista();
 	}
 }
