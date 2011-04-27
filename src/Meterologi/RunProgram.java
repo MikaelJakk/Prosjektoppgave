@@ -9,15 +9,16 @@ public class RunProgram extends Lista{
 	public static void main(String[] args)
 	{
 		vindu = new HovedVindu();
-		
+		lesLista();
 
 		vindu.addWindowListener(new java.awt.event.WindowAdapter() {
 		    public void windowClosing(WindowEvent winEvt) {
-		        //lesLista();
+		        lagreLista();
 
 		        System.exit(0);
 		    }
 		});
+		
 		
 	}
 }

@@ -16,7 +16,7 @@ public class StedListe implements Serializable
 	private TreeSet<Sted> stedliste = new TreeSet<Sted>();
 
 	//Setter inn sted bakerst i listen
-	public void setInnFylke(Sted obj)
+	public void settInnFylke(Sted obj)
 	{
 		stedliste.add(obj);
 	}
@@ -57,7 +57,7 @@ public class StedListe implements Serializable
 
 		return result;
 	}
-
+	
 	public boolean fylkeStedEksisterer(Sted n)
 	{
 		Iterator<Sted> iterator = stedliste.iterator();
