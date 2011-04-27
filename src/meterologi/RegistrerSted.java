@@ -133,6 +133,15 @@ public class RegistrerSted implements ActionListener
 					JOptionPane.showMessageDialog(null, "fyll inn sted");
 				return;
 				}
+				if(stedfelt.getText().length() != 0)
+				{
+					int valg = JOptionPane.showConfirmDialog(null, 
+							"Vil du registrere "+stedfelt.getText()+"?", "Registrere Sted?",
+                            JOptionPane.YES_NO_OPTION);
+					if( valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION) 
+						return;
+				}
+				
 				if(!getStedVerdier())
 					return;
 				nyttsted  = new Sted(sted, fylke);
