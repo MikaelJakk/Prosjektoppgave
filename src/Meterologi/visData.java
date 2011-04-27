@@ -193,7 +193,7 @@ public class VisData extends Lista implements ActionListener{
 		int dagløp = 0;
 		
 		String tekst = "";
-		for(int i = 0; i < telldager();i++)
+		for(int i = 0; i < telldager();i++)  //telldager() er en metode som skjekker hvilke mnd vi er og hvor mange dager den har.
 		{
 			dagløp++;
 			
@@ -204,12 +204,7 @@ public class VisData extends Lista implements ActionListener{
 			nydata = new Data(dato, 0, 0, 0);
 				if(super.dataliste.datoEksisterer(nydata))
 					if(super.dataliste.getData(nydata).toString() != null)
-						tekst += super.dataliste.getData(nydata).toString() + "\n";
-					
-				
-				
-				
-				
+						tekst += super.dataliste.getData(nydata).toString() + "\n";		
 		}
 		
 		return tekst;
@@ -225,7 +220,7 @@ public class VisData extends Lista implements ActionListener{
 			for(int i = 0;i<13;i++) // i<13 for 12 måneder.
 			{
 				mnder++;
-				for(int j = 0;j<500;j++) // 500 er at sikret tall for at J skal være nok av dager den går gjennom. kunne ha kanskje skrevet 366?
+				for(int j = 0;j<366;j++)// j < 366 for ant dager i året.
 				{
 					dager++;
 					Calendar dato = Calendar.getInstance();
@@ -237,7 +232,6 @@ public class VisData extends Lista implements ActionListener{
 								tekst += super.dataliste.getData(nydata).toString() + "\n";
 						if(mnder-1 == 13)
 							return tekst;
-						
 				}
 			}
 			return tekst;			
