@@ -13,7 +13,7 @@ import java.awt.List;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
-
+	
 import Meterologi.Lister.Data;
 import Meterologi.Lister.DataListe;
 import Meterologi.Lister.Sted;

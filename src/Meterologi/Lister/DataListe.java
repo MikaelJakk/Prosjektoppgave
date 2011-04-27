@@ -68,7 +68,7 @@ public class DataListe {
 	}
 	@SuppressWarnings("null")
 	public Data getData(Data n)// noe galt her..
-	{
+	{	
 		if(første == null) //hvis første er null så er lista tom..
 			return null;
 		
