@@ -250,6 +250,7 @@ public class RegistrerData extends Lista implements ActionListener{
 				}
 			}
 			catch(Exception ex){melding("Feil ved innsetting av data!");};
+			lagreLista();//lagrer lista etter hver nye datainput
 		}
 	}//end of actionPerformed()
 }//End of registrerData
