@@ -22,7 +22,6 @@ public class HovedVindu extends JFrame
 	{
 
 		JFrame frame = new JFrame("Hovedvindu");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JTabbedPane tabs = new JTabbedPane(); // tabs
 

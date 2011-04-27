@@ -49,6 +49,7 @@ public class RegistrerData extends Lista implements ActionListener{
 									"Nordland","Nord-Trøndelag","Oppland","Oslo","Rogaland",
 									"Sogn og Fjordane","Sør-Trøndelag","Telemark",
 									"Troms","Vest-Agder","Vestfold","Østfold"};
+	
 	private String sted;
 	private final String[] steder = {"Sted 1","Sted 2","Sted 3"};
 	
@@ -205,13 +206,14 @@ public class RegistrerData extends Lista implements ActionListener{
 			}
 			String[] dager = makearray(1, antalldager);
 			dagboks.setModel(new DefaultComboBoxModel(dager));
-		}	
+		}
+		
 		if(event.getSource() == skrivut)
 		{
-			if( super.dataliste.tomListe() )
+			if( dataliste.tomListe() )
 				utskrift.setText("ingen data i systemet!");
 			else
-				utskrift.setText(super.dataliste.skrivUtListe() );
+				utskrift.setText(dataliste.skrivUtListe() );
 		}
 		if(event.getSource() == leggtilny)
 		{	
@@ -238,12 +240,12 @@ public class RegistrerData extends Lista implements ActionListener{
 				nydata = new Data(dato, min, max, ned);
 				
 				//prøver å sette den inn i lista.
-				boolean dobbeltregistrering = super.dataliste.datoEksisterer(nydata);
+				boolean dobbeltregistrering = dataliste.datoEksisterer(nydata);
 					
 				if(dobbeltregistrering)
 				{melding("Det er allerede registrert data på denne datoen");}
 				else{
-					super.dataliste.nyData(nydata);
+					dataliste.nyData(nydata);
 					melding("Data er lagt til");
 				}
 			}

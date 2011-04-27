@@ -10,12 +10,13 @@ import java.util.*;
 
 public class StedListe implements Serializable
 {
+	private static final long serialVersionUID = 1L;
 	//private List<Sted> stedliste = new LinkedList<Sted>();
 	//private TreeSet<Sted> stedliste = new TreeSet<Sted>(new Stedsammenlikner());
 	private TreeSet<Sted> stedliste = new TreeSet<Sted>();
 
 	//Setter inn sted bakerst i listen
-	public void setInnFylke(Sted obj)
+	public void settInnFylke(Sted obj)
 	{
 		stedliste.add(obj);
 	}
@@ -56,7 +57,7 @@ public class StedListe implements Serializable
 
 		return result;
 	}
-
+	
 	public boolean fylkeStedEksisterer(Sted n)
 	{
 		Iterator<Sted> iterator = stedliste.iterator();

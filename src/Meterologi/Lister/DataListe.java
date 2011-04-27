@@ -4,8 +4,11 @@
 
 package Meterologi.Lister;
 
-public class DataListe {
+import java.io.Serializable;
+
+public class DataListe implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private Data første;
 	
 	public boolean nyData(Data n)

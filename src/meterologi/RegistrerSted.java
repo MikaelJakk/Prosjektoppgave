@@ -15,7 +15,7 @@ import Meterologi.Lister.*;
 import Meterologi.*;
 
 
-public class RegistrerSted implements ActionListener
+public class RegistrerSted extends Lista implements ActionListener
 {
 	private JTextArea utskrift;
 
@@ -26,7 +26,7 @@ public class RegistrerSted implements ActionListener
 
 	private String fylke;
 	private String sted;
-	private StedListe stedliste;
+	
 	private Sted nyttsted;
 
 
@@ -34,7 +34,8 @@ public class RegistrerSted implements ActionListener
 										"Hedmark","Hordaland","Møre og Romsdal",
 										"Nordland","Nord-Trøndelag","Oppland","Oslo","Rogaland",
 										"Sogn og Fjordane","Sør-Trøndelag","Telemark",
-										"Troms","Vest-Agder","Vestfold","Østfold"};
+										"Troms","Vest-Agder","Vestfold","Østfold", "Svalbard"};
+	
 
 	public JPanel ByggPanel()
 	{
@@ -58,7 +59,7 @@ public class RegistrerSted implements ActionListener
 		stedPanel.add(stedfelt);
 		toppanel.add(stedPanel);
 		//knapper
-			//leg til nytt sted
+			//legg til nytt sted
 		JPanel knappepanel = new JPanel();
 		leggtilny = new JButton("Legg til nytt sted");
 		leggtilny.addActionListener(this);
@@ -74,10 +75,6 @@ public class RegistrerSted implements ActionListener
 		utskrift = new JTextArea(20,50);
 		panelet.add(new JScrollPane(utskrift));
 		panelet.setVisible(true);
-
-
-		//Initsialiserer listen med Fylker og Steder
-		stedliste = new StedListe();
 
 		return panelet;
 	}//slutt på byggPanel
@@ -133,6 +130,15 @@ public class RegistrerSted implements ActionListener
 					JOptionPane.showMessageDialog(null, "fyll inn sted");
 				return;
 				}
+				if(stedfelt.getText().length() != 0)
+				{
+					int valg = JOptionPane.showConfirmDialog(null, 
+							"Vil du registrere "+stedfelt.getText()+"?", "Registrere Sted?",
+                            JOptionPane.YES_NO_OPTION);
+					if( valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION) 
+						return;
+				}
+				
 				if(!getStedVerdier())
 					return;
 				nyttsted  = new Sted(sted, fylke);
@@ -145,7 +151,7 @@ public class RegistrerSted implements ActionListener
 				}
 				else
 				{
-					stedliste.setInnFylke(nyttsted);
+					stedliste.settInnFylke(nyttsted);
 					melding("Nytt sted lagt inn i lista");
 				}
 				tømFelter();
