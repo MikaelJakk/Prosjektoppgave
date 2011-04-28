@@ -26,8 +26,8 @@ public class StedListe implements Serializable
 		Iterator<Sted> iterator = stedliste.iterator();
 		while(iterator.hasNext())
 		{	Sted gjeldende = iterator.next();
-			if(gjeldende.getFylke().compareTo(f) == 0 
-					&& gjeldende.getSted().compareTo(s) == 0)
+			if(gjeldende.getFylke().equals(f)
+					&& gjeldende.getSted().equals(s))
 				return gjeldende.nyData(d);
 		}
 		return false;
@@ -56,11 +56,14 @@ public class StedListe implements Serializable
 	{
 		int arraysize = 0;
 		Iterator<Sted> iterator = stedliste.iterator();
-		if(iterator.hasNext())
-		{}
 		while(iterator.hasNext())
 		{arraysize++; iterator.next();}
-		String[] returting = new Array[arraysize];
+		String[] returting = new String[arraysize];
+		iterator = stedliste.iterator();
+		while(iterator.hasNext())
+		{}
+		return null;
+		
 	}
 	
 	public String skrivUtDataListe(String f, String s)
