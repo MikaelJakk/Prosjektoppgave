@@ -64,22 +64,14 @@ public class Sted implements Serializable, Comparable<Sted>{
 		parameterens dato, skal den returnere false.
 		Ved vellykket innsetting skal den returnere true
 		*/
-		if( !dataFinnesILista(n) )
+		if( !datoEksisterer(n) )
 			{
-				dataliste.nyData(n);
-				return true;
+				return dataliste.nyData(n);
 			}
 		else return false;
 	}
 
-	public boolean stedFinnesILista(Sted n)
-	{
-		if(stedliste.fylkeStedEksisterer(n))
-			return true;
-		return false;
-	}
-
-	public boolean dataFinnesILista(Data n)
+	public boolean datoEksisterer(Data n)
 	//sjekker igjennom datalista om dato er registrert ifra før
 	{
 		if(dataliste.datoEksisterer(n))

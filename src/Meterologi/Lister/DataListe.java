@@ -69,7 +69,7 @@ public class DataListe implements Serializable{
 		}
 		return false;
 	}
-	@SuppressWarnings("null")
+/*
 	public Data getData(Data n)// noe galt her..
 	{	
 		if(første == null) //hvis første er null så er lista tom..
@@ -92,10 +92,12 @@ public class DataListe implements Serializable{
 			return ny;
 		return null;
 	}
-	
+*/
 	public String skrivUtListe()
 	{
 		String retur = "Dato\tMinTemp\tMaxTemp\tNedbør\n";
+		if(første == null)
+			return "ingen data";
 		
 		if(første != null)
 		{
