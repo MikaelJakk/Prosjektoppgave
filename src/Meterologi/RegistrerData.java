@@ -251,20 +251,29 @@ public class RegistrerData extends Lista implements ActionListener{
 				nydata = new Data(dato, min, max, ned);
 				//prøver å sette den inn i lista.
 				if(!stedliste.finsStedNode(fylke, sted))
-				{	melding("stedet finsikke");
+				{	melding("stedet finnes ikke");
 					return;
 				}
 				else{
+					try{
 					valgtSted = stedliste.getStedNode(fylke, sted);
-	
-					boolean dobbeltregistrering = valgtSted.datoEksisterer(nydata);
-						
-					if(dobbeltregistrering)
-					{melding("Det er allerede registrert data på denne datoen");}
-					else{
-						valgtSted.nyData(nydata);
-						melding("Data er lagt til");
+					}catch(Exception ex){System.out.println("1");}
+					if(valgtSted != null)
+					{
+						boolean finnesidatalista = false;
+						try{
+						finnesidatalista = valgtSted.datoEksisterer(nydata);
+						}catch(Exception ex){System.out.println("2 "+ex);}
+						try{
+						if(finnesidatalista)
+						{melding("Det er allerede registrert data på denne datoen");}
+						else{
+							valgtSted.nyData(nydata);
+							melding("Data er lagt til");
+						}
+						}catch(Exception ex){System.out.println("3 "+ex);}
 					}
+					else if(valgtSted == null) return;
 				}
 			}
 			catch(Exception ex){System.out.println(ex);melding("Feil ved innsetting av data!");};

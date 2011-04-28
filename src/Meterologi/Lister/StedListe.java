@@ -39,12 +39,12 @@ public class StedListe implements Serializable
 		while(iterator.hasNext())
 		{
 			Sted denne = iterator.next();
-			if(denne.getFylke().compareTo(f) == 0 && denne.getSted().compareTo(s) ==0)
+			if(denne.getFylke().equals(f) && denne.getSted().equals(s))
 				return denne;
 		}
 		return null;
 	}
-/*
+/* bruker de i Sted.java istedenfor
 	public boolean datoEksisterer(String f, String s, Data nydata)
 	{
 		Iterator<Sted> iterator = stedliste.iterator();
