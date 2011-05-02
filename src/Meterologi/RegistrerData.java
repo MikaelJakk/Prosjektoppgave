@@ -163,12 +163,13 @@ public class RegistrerData extends Lista implements ActionListener{
 		{melding("ugyldig nedbørsverdi"); return false;}
 		if(ned > 229.6)
 		{melding("Ny nedbørsrekord");}
+		//må legg etil yes/no dialog, og ny gamlenedbør.
 		if(min < -273.15)
 		{melding("minimumstemperaturen som er innskrevet er mindre enn det absolutte nullpunkt!");return false;}
 		if(max < min)
 		{melding("Innskrevet MaxTemp er mindre en MinTemp!");return false;}
 		if(max > 9999)
-		{melding("ekstremnedbør");}
+		{melding("Ekstreme Temperaturer");}
 		
 		return true;
 	}//end of getVærVerdier()
@@ -258,11 +259,13 @@ public class RegistrerData extends Lista implements ActionListener{
 					try{
 					valgtSted = stedliste.getStedNode(fylke, sted);
 					}catch(Exception ex){System.out.println("1");}
-					if(valgtSted != null)
+					if(valgtSted == null)return;
+					
+					else if(valgtSted != null)
 					{
 						boolean finnesidatalista = false;
 						try{
-						finnesidatalista = valgtSted.datoEksisterer(nydata);
+						finnesidatalista = valgtSted.dataliste.datoEksisterer(nydata);
 						}catch(Exception ex){System.out.println("2 "+ex);}
 						try{
 						if(finnesidatalista)
@@ -271,9 +274,8 @@ public class RegistrerData extends Lista implements ActionListener{
 							valgtSted.nyData(nydata);
 							melding("Data er lagt til");
 						}
-						}catch(Exception ex){System.out.println("3 "+ex);}
+						}catch(Exception ex){System.out.println("3 "+ex);}	
 					}
-					else if(valgtSted == null) return;
 				}
 			}
 			catch(Exception ex){System.out.println(ex);melding("Feil ved innsetting av data!");};

@@ -31,7 +31,6 @@ public class Sted implements Serializable, Comparable<Sted>{
 
 	private static final long serialVersionUID = 1L;
 	public DataListe dataliste;
-	public StedListe stedliste;
 	private String sted;
 	private String fylke;
 
@@ -48,6 +47,8 @@ public class Sted implements Serializable, Comparable<Sted>{
 				System.out.println("Det oppstod en feil i sorteringen!");
 				System.exit(1);
 			}
+		
+		dataliste = new DataListe();
 	}
 
 	public String getSted()
