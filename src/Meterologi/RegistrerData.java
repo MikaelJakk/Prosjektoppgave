@@ -160,7 +160,7 @@ public class RegistrerData extends Lista implements ActionListener{
 		}catch(Exception e){melding("ugyldig nedbørsverdi");return false;}
 		
 		if(ned < 0 )
-		{melding("ugyldig nedbørsverdi"); return false;}
+		{melding("ugyldig nedbørsverdi\nSjekk innskrevet verdi på nedbør"); return false;}
 		if(ned > 229.6)
 		{melding("Ny nedbørsrekord");}
 		//må legg etil yes/no dialog, og ny gamlenedbør.
@@ -168,7 +168,7 @@ public class RegistrerData extends Lista implements ActionListener{
 		{melding("minimumstemperaturen som er innskrevet er mindre enn det absolutte nullpunkt!");return false;}
 		if(max < min)
 		{melding("Innskrevet MaxTemp er mindre en MinTemp!");return false;}
-		if(max > 9999)
+		if(max > 100)
 		{melding("Ekstreme Temperaturer");}
 		
 		return true;
@@ -279,7 +279,7 @@ public class RegistrerData extends Lista implements ActionListener{
 				}
 			}
 			catch(Exception ex){System.out.println(ex);melding("Feil ved innsetting av data!");};
-			//lagreLista();//lagrer lista etter hver nye datainput
+			lagreLista();//lagrer lista etter hver nye datainput
 		}
 	}//end of actionPerformed()
 }//End of registrerData

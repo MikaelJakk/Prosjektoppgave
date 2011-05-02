@@ -158,6 +158,7 @@ public class RegistrerSted extends Lista implements ActionListener
 			{
 				melding("Det oppstod en feil ved registrering av data!");
 			}
+			lagreLista();
 		}
 
 	}//slutt på ActionPerformed
