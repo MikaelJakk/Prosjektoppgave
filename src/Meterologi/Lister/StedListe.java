@@ -142,9 +142,14 @@ public class StedListe implements Serializable
 	}
 }
 
-class Stedsammenlikner implements Comparator<Sted>
+class Stedsammenlikner implements Comparator<Sted>, Serializable
 {
 	//Gjennoml�per og skriver ut lista alfabetisk
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	//Definerer rekkef�lgen p� sorteringen
 	String rekkefølge =
