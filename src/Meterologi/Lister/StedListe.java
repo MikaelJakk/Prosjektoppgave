@@ -10,9 +10,7 @@ import java.util.*;
 
 public class StedListe implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	//private List<Sted> stedliste = new LinkedList<Sted>();
-	//private TreeSet<Sted> stedliste = new TreeSet<Sted>(new Stedsammenlikner());
+	private static final long serialVersionUID = 1L;	
 	private TreeSet<Sted> stedliste = new TreeSet<Sted>();
 
 	//Setter inn sted bakerst i listen
@@ -81,36 +79,57 @@ public class StedListe implements Serializable
 		}
 		return output;
 	}
-	
+
+	// returnerere en array som inneholder alle Stedene som er registrert på hvert fylke
+	public String[] getStedArray(String f)
+	{
+		int arraysize = stedliste.size();
+		if(arraysize == 0)
+		{	String [] ingenreturarray = new String[0];
+			ingenreturarray[0] = "Ingen Steder opprettet";
+			return ingenreturarray;
+		}
+		
+		Iterator<Sted> iterator = stedliste.iterator();
+		String returnArray[] = new String[arraysize-1];
+		iterator = stedliste.iterator();
+		int i = 0;
+		while(iterator.hasNext())
+		{
+
+			Sted gjeldende = iterator.next();
+			if(gjeldende.getFylke() == f)
+			{
+				returnArray[i++] = gjeldende.getSted();
+			}
+		}
+		return returnArray;
+	}
+
+	// returnerer en array som inneholder alle fylkene som er registerert i systemet
 	public String[] getFylkeArray()
 	{
 		int arraysize = stedliste.size();
 		if(arraysize == 0)
-			return null;
-		String[] returting = new String[arraysize];
+		{
+			String[] ingenreturarray = new String[0];
+			ingenreturarray[0] = "ingen fylker oprettet";
+			return ingenreturarray;
+		}
+
 		Iterator<Sted> iterator = stedliste.iterator();
+		String[] returnArray = new String[arraysize-1];
+		iterator = stedliste.iterator();
 		int i = 0;
 		while(iterator.hasNext())
 		{
-			Sted gjeldende = iterator.next(); 
-			returting[i++] = gjeldende.getFylke();
+
+			Sted gjeldene = iterator.next();
+			returnArray[i++] = gjeldene.getFylke();
 		}
-		return null;	
+		return returnArray;
 	}
-/*
-	public String skrivUtDataListe(String f, String s)
-	{
-		Iterator<Sted> iterator = stedliste.iterator();
-		if(tomListe())
-			return "ingen data";
-		while(iterator.hasNext())
-		{	Sted gjeldende = iterator.next();
-			if(gjeldende.getFylke().equals(f)&& gjeldende.getSted().equals(s))
-				return gjeldende.dataliste.skrivUtListe();
-		}
-		return "ingen data";
-	}
-*/
+
 	public boolean tomListe()
 	{
 		Iterator<Sted> iter = stedliste.iterator();
@@ -141,15 +160,10 @@ public class StedListe implements Serializable
 		return false;
 	}
 }
-
-class Stedsammenlikner implements Comparator<Sted>, Serializable
+/*
+class Stedsammenlikner implements Comparator<Sted>
 {
 	//Gjennoml�per og skriver ut lista alfabetisk
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	//Definerer rekkef�lgen p� sorteringen
 	String rekkefølge =
@@ -184,9 +198,5 @@ class Stedsammenlikner implements Comparator<Sted>, Serializable
 		else
 			return kollator.compare(f1,f2);
 	}
-}
-
-
-
-
-
+}//end of comparator klassen
+*/
