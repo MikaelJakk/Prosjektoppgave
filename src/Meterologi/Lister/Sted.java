@@ -8,13 +8,25 @@ import java.io.Serializable;
 import java.text.*;
 public class Sted implements Serializable, Comparable<Sted>{
 
-		String rekkefølge =
+		private final static String rekkefølge =
 			"<\0<0<1<2<3<4<5<6<7<8<9" +
             "<A,a<B,b<C,c<D,d<E,e<F,f<G,g<H,h<I,i<J,j" +
            "<K,k<L,l<M,m<N,n<O,o<P,p<Q,q<R,r<S,s<T,t" +
            "<U,u<V,v<W,w<X,x<Y,y<Z,z<Æ,æ<Ø,ø<Å=AA,å=aa;AA,aa";
 
-		private RuleBasedCollator kollator;
+		private static RuleBasedCollator kollator;
+		
+		static {
+			try
+			{
+				kollator = new RuleBasedCollator (rekkefølge);
+			}
+			catch(ParseException pe)
+			{
+				System.out.println("Det oppstod en feil i sorteringen!");
+				System.exit(1);
+			}
+		}
 
 		public int compareTo(Sted sted)
 		{
@@ -38,16 +50,6 @@ public class Sted implements Serializable, Comparable<Sted>{
 	{
 		fylke = f;
 		sted = s;
-			try
-			{
-				kollator = new RuleBasedCollator (rekkefølge);
-			}
-			catch(ParseException pe)
-			{
-				System.out.println("Det oppstod en feil i sorteringen!");
-				System.exit(1);
-			}
-		
 		dataliste = new DataListe();
 	}
 
