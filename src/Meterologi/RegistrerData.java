@@ -258,7 +258,7 @@ public class RegistrerData extends Lista implements ActionListener{
 				else{
 					try{
 					valgtSted = stedliste.getStedNode(fylke, sted);
-					}catch(Exception ex){System.out.println("1");}
+					}catch(Exception ex){System.out.println("Feil: ved innsetting av data (1)");}
 					if(valgtSted == null)return;
 					
 					else if(valgtSted != null)
@@ -266,20 +266,20 @@ public class RegistrerData extends Lista implements ActionListener{
 						boolean finnesidatalista = false;
 						try{
 						finnesidatalista = valgtSted.dataliste.datoEksisterer(nydata);
-						}catch(Exception ex){System.out.println("2 "+ex);}
+						}catch(Exception ex){System.out.println("Feil: ved innsetting av data (2) "+ex);}
 						try{
 						if(finnesidatalista)
 						{melding("Det er allerede registrert data på denne datoen");}
 						else{
 							valgtSted.nyData(nydata);
+							lagreLista();//lagrer lista etter hver nye datainput
 							melding("Data er lagt til");
 						}
-						}catch(Exception ex){System.out.println("3 "+ex);}	
+						}catch(Exception ex){System.out.println("Feil: ved innsetting av data (3) "+ex);}	
 					}
 				}
 			}
-			catch(Exception ex){System.out.println(ex);melding("Feil ved innsetting av data!");};
-			lagreLista();//lagrer lista etter hver nye datainput
-		}
+			catch(Exception ex){System.out.println(ex);melding("Feil: ved innsetting av data (main)");};
+		}//end of registrernyttstedknapp actionlytter
 	}//end of actionPerformed()
 }//End of registrerData
