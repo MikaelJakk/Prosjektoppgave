@@ -32,6 +32,7 @@ public class VisData extends Lista implements ActionListener{
 	private JComboBox månedboks;
 	private JComboBox årfelt;
 	private JButton visData;
+	
 	private JButton visMnd;
 	private JButton visÅr;
 	
