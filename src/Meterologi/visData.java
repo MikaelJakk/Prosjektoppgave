@@ -32,6 +32,7 @@ public class VisData extends Lista implements ActionListener{
 	private JComboBox månedboks;
 	private JComboBox årfelt;
 	private JButton visData;
+	
 	private JButton visMnd;
 	private JButton visÅr;
 	
@@ -202,9 +203,9 @@ public class VisData extends Lista implements ActionListener{
 			dato.setTimeInMillis(0);
 			dato.set(år,mnd-1,dagløp);
 			nydata = new Data(dato, 0, 0, 0);
-				if(super.dataliste.datoEksisterer(nydata))
-					if(super.dataliste.getData(nydata).toString() != null)
-						tekst += super.dataliste.getData(nydata).toString() + "\n";		
+				if(dataliste.datoEksisterer(nydata))
+					if(dataliste.getData(nydata).toString() != null)
+						tekst += dataliste.getData(nydata).toString() + "\n";		
 		}
 		
 		return tekst;
@@ -227,9 +228,9 @@ public class VisData extends Lista implements ActionListener{
 					dato.setTimeInMillis(0);
 					dato.set(år,mnder-1,dager);
 					nydata = new Data(dato, 1, 2, 3);
-						if(super.dataliste.datoEksisterer(nydata))
-							if(super.dataliste.getData(nydata).toString() != null)
-								tekst += super.dataliste.getData(nydata).toString() + "\n";
+						if(dataliste.datoEksisterer(nydata))
+							if(dataliste.getData(nydata).toString() != null)
+								tekst += dataliste.getData(nydata).toString() + "\n";
 						if(mnder-1 == 13)
 							return tekst;
 				}
@@ -242,7 +243,7 @@ public class VisData extends Lista implements ActionListener{
 			
 		if(event.getSource() == visData)
 		{
-			if( super.dataliste.tomListe() )
+			if( dataliste.tomListe() )
 				utskrift.setText("ingen data i systemet!");
 			else
 			{
@@ -252,10 +253,9 @@ public class VisData extends Lista implements ActionListener{
 				dato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
 				dato.set(år,mnd-1,dag);/*måned-1 fordi Calendar.set() er teit*/
 				nydata = new Data(dato, 0, 0, 0);
-				if(super.dataliste.datoEksisterer(nydata))
-					if(super.dataliste.getData(nydata).toString() != null)
-						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + 
-												super.dataliste.getData(nydata).toString());
+				if(dataliste.datoEksisterer(nydata))
+					if(dataliste.getData(nydata).toString() != null)
+						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + dataliste.getData(nydata).toString());
 					else
 						utskrift.setText("toStringen returnerer 0 ");
 				else
@@ -275,9 +275,9 @@ public class VisData extends Lista implements ActionListener{
 				getDatoVerdier();
 				Calendar dato1 = Calendar.getInstance(); dato1.setTimeInMillis(0); dato1.set(år, 11, 31);
 					nydata = new Data(dato1,0,0,0);
-			if(super.dataliste.datoEksisterer(nydata))
+			if(dataliste.datoEksisterer(nydata))
 			{
-					nyttår = super.dataliste.getData(nydata).toString();
+					nyttår = dataliste.getData(nydata).toString();
 					utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + regnUtÅr() + nyttår + "\n\n\n Dette er alle dataene for valgt for året." );
 			}
 						

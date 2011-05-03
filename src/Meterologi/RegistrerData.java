@@ -160,15 +160,16 @@ public class RegistrerData extends Lista implements ActionListener{
 		}catch(Exception e){melding("ugyldig nedbørsverdi");return false;}
 		
 		if(ned < 0 )
-		{melding("ugyldig nedbørsverdi"); return false;}
+		{melding("ugyldig nedbørsverdi\nSjekk innskrevet verdi på nedbør"); return false;}
 		if(ned > 229.6)
 		{melding("Ny nedbørsrekord");}
+		//må legg etil yes/no dialog, og ny gamlenedbør.
 		if(min < -273.15)
 		{melding("minimumstemperaturen som er innskrevet er mindre enn det absolutte nullpunkt!");return false;}
 		if(max < min)
 		{melding("Innskrevet MaxTemp er mindre en MinTemp!");return false;}
-		if(max > 9999)
-		{melding("ekstremnedbør");}
+		if(max > 100)
+		{melding("Ekstreme Temperaturer");}
 		
 		return true;
 	}//end of getVærVerdier()
@@ -188,8 +189,9 @@ public class RegistrerData extends Lista implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent event) {
+		
 		if(event.getSource() == årboks || event.getSource() == månedboks)
-		{
+		{//forandrer antall dager i dagboksen så det blir riktig med tanke på skuddår osv.
 			int månednr = 1 + månedboks.getSelectedIndex();
 			int antalldager;
 			if (månednr == 1 || månednr == 3 || månednr == 5 || månednr == 7 ||
@@ -210,15 +212,29 @@ public class RegistrerData extends Lista implements ActionListener{
 		
 		if(event.getSource() == skrivut)
 		{
-			if( dataliste.tomListe() )
+			if( stedliste.tomListe() )
 				utskrift.setText("ingen data i systemet!");
-			else
-				utskrift.setText(dataliste.skrivUtListe() );
+			else if(getStedVerdier())
+			{	if(stedliste.getStedNode(fylke, sted) == null)
+					return;
+				else 
+				{
+					valgtSted = stedliste.getStedNode(fylke, sted);
+					utskrift.setText(valgtSted.dataliste.skrivUtListe());
+				}
+			}
 		}
 		if(event.getSource() == leggtilny)
 		{	
 			try{
-				if(!getStedVerdier())//henter valg fra sted og fylkesinput, returnerer false ved feil
+				if(stedliste.tomListe())
+				{
+					melding("Du har ikke registrert noen steder\n" +
+							"\nDu må registrere minst ett sted før du kan registrere data.");
+					return;
+				}
+				//henter valg fra sted og fylkesinput, returnerer false ved feil
+				if(!getStedVerdier())
 					return;
 				//henter dato input
 				getDatoVerdier();
@@ -228,29 +244,42 @@ public class RegistrerData extends Lista implements ActionListener{
 				dato.set(år,måned-1,dag);/*måned-1 fordi Calendar.set() er teit*/
 				Calendar nå = Calendar.getInstance();
 				if(nå.before(dato))
-				{
-					melding("innskrevet dato har ikke intruffet ennå");
-					return;
-				}
-				
+				{melding("innskrevet dato har ikke intruffet ennå");
+					return;}
 				if(!getVærVerdier())
 					return;
-				
 				//lager en ny node med dataen
 				nydata = new Data(dato, min, max, ned);
-				
 				//prøver å sette den inn i lista.
-				boolean dobbeltregistrering = dataliste.datoEksisterer(nydata);
-					
-				if(dobbeltregistrering)
-				{melding("Det er allerede registrert data på denne datoen");}
+				if(!stedliste.finsStedNode(fylke, sted))
+				{	melding("stedet finnes ikke");
+					return;
+				}
 				else{
-					dataliste.nyData(nydata);
-					melding("Data er lagt til");
+					try{
+					valgtSted = stedliste.getStedNode(fylke, sted);
+					}catch(Exception ex){System.out.println("Feil: ved innsetting av data (1)");}
+					if(valgtSted == null)return;
+					
+					else if(valgtSted != null)
+					{
+						boolean finnesidatalista = false;
+						try{
+						finnesidatalista = valgtSted.dataliste.datoEksisterer(nydata);
+						}catch(Exception ex){System.out.println("Feil: ved innsetting av data (2) "+ex);}
+						try{
+						if(finnesidatalista)
+						{melding("Det er allerede registrert data på denne datoen");}
+						else{
+							valgtSted.nyData(nydata);
+							lagreLista();//lagrer lista etter hver nye datainput
+							melding("Data er lagt til");
+						}
+						}catch(Exception ex){System.out.println("Feil: ved innsetting av data (3) "+ex);}	
+					}
 				}
 			}
-			catch(Exception ex){melding("Feil ved innsetting av data!");};
-			lagreLista();//lagrer lista etter hver nye datainput
-		}
+			catch(Exception ex){System.out.println(ex);melding("Feil: ved innsetting av data (main)");};
+		}//end of registrernyttstedknapp actionlytter
 	}//end of actionPerformed()
 }//End of registrerData

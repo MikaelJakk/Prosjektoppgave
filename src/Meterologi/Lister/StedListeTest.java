@@ -1,6 +1,6 @@
 /*
  * Skrevet av Thomas Nordegnen den 11 april 2011
- * Oppdatert den 12 april 20121
+ * Oppdatert den 03 mai 20121
  */
 package Meterologi.Lister;
 
@@ -21,7 +21,7 @@ public class StedListeTest extends JFrame implements ActionListener
 		private String fylke2;
 		private String sted2;
 		private StedListe stedliste;
-		private Sted nytsted;
+		private Sted nyttsted;
 
 		public StedListeTest()
 		{
@@ -104,16 +104,16 @@ public class StedListeTest extends JFrame implements ActionListener
 				{
 					//lager en ny node med dataen
 					getFylke();
-					nytsted = new Sted(sted2, fylke2);
+					nyttsted = new Sted(sted2, fylke2);
 
-					boolean dobbeltregistrering = stedliste.fylkeStedEksisterer(nytsted);
+					boolean dobbeltregistrering = stedliste.fylkeStedEksisterer(nyttsted);
 					if(dobbeltregistrering)
 					{
 						melding("Dette setdet er allerede lagt til");
 					}
 					else
 					{
-						stedliste.setInnFylke(nytsted);
+						stedliste.settInnFylke(nyttsted);
 						melding("Sted lagt til i lista!");
 					}
 					tømFelter();
