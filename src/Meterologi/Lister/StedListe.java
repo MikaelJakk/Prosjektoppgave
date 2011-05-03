@@ -12,6 +12,7 @@ public class StedListe implements Serializable
 {
 	private static final long serialVersionUID = 1L;	
 	private TreeSet<Sted> stedliste = new TreeSet<Sted>();
+	public String returnArray[] = new String[10];
 
 	//Setter inn sted bakerst i listen
 	public void settInnFylke(Sted obj)
@@ -31,6 +32,18 @@ public class StedListe implements Serializable
 		return false;
 	}
 	
+	public int getListeSize()
+	{
+		int listeSize = stedliste.size();
+		
+		Iterator<Sted> iterator = stedliste.iterator();
+		while(iterator.hasNext())
+		{
+			listeSize++;
+		}
+		return listeSize;
+	}
+	
 	public Sted getStedNode(String f, String s)
 	{
 		Iterator<Sted> iterator = stedliste.iterator();
@@ -41,6 +54,8 @@ public class StedListe implements Serializable
 				return denne;
 		}
 		return null;
+		
+		
 	}
 /* bruker de i Sted.java istedenfor
 	public boolean datoEksisterer(String f, String s, Data nydata)
@@ -80,12 +95,34 @@ public class StedListe implements Serializable
 		return output;
 	}
 
+	public String[] getSteder()
+	{
+		Iterator<Sted> iterator = stedliste.iterator();
+		iterator = stedliste.iterator();
+		int i = 0;
+		while(iterator.hasNext())
+		{
+			Sted gjeldende = iterator.next();
+			{
+				returnArray[i] = gjeldende.getSted();
+				i++;
+			}	
+		}
+		if(returnArray[0] == null)
+		{
+			returnArray[0] = "Noe feil!";
+		}
+			
+		return returnArray;
+	}
+
+	
 	// returnerere en array som inneholder alle Stedene som er registrert på hvert fylke
 	public String[] getStedArray(String f)
 	{
 		int arraysize = stedliste.size();
 		if(arraysize == 0)
-		{	String [] ingenreturarray = new String[0];
+		{	String[] ingenreturarray = new String[0];
 			ingenreturarray[0] = "Ingen Steder opprettet";
 			return ingenreturarray;
 		}
@@ -96,7 +133,6 @@ public class StedListe implements Serializable
 		int i = 0;
 		while(iterator.hasNext())
 		{
-
 			Sted gjeldende = iterator.next();
 			if(gjeldende.getFylke() == f)
 			{

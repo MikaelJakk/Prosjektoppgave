@@ -16,7 +16,7 @@ public class HovedVindu extends JFrame
 	private static final long serialVersionUID = 1L;
 	
 	RegistrerSted regsted = new RegistrerSted(); //tab 1 = "Registrer et nytt sted"
-	RegistrerData regdata= new RegistrerData(); //tab 2 = "Regsitrer ny data"
+	RegistrerData regdata = new RegistrerData(); //tab 2 = "Regsitrer ny data"
 	VisData visdata = new VisData(); //tab 3 = "Vis Data"
 	tab4 t4 = new tab4(); //tab 4 = "Statistikk"
 

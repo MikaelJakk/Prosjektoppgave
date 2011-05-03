@@ -51,7 +51,9 @@ public class RegistrerData extends Lista implements ActionListener{
 									"Troms","Vest-Agder","Vestfold","Østfold"};
 	
 	private String sted;
-	private final String[] steder = {"Sted 1","Sted 2","Sted 3"};
+	private String[] steder = getStedArray();//steder inneholder en liste over alle de stedene som har blitt registrert på bestemt fylke.
+	private StedListe stedliste;
+	
 	
 	private final int fraår = 1970;
 	//skal egentlig bruke stedsliste.getRegistrerteSteder() og stedsliste.getRegistrerteFylker()
@@ -138,6 +140,45 @@ public class RegistrerData extends Lista implements ActionListener{
 			return false;
 		}
 		return true;
+	}
+	
+	public String[] getStedArray()
+	{
+		String[] stedArray = new String[10];//stedliste.getSteder();
+		stedArray = stedliste.getSteder();
+		
+		String[] fylkeArray = {"Akershus", "Aust-Agder", "Buskerud", "Finnmark",
+				"Hedmark","Hordaland","Møre og Romsdal",
+				"Nordland","Nord-Trøndelag","Oppland","Oslo","Rogaland",
+				"Sogn og Fjordane","Sør-Trøndelag","Telemark",
+				"Troms","Vest-Agder","Vestfold","Østfold", "Svalbard"};
+		System.out.println(fylkeArray);
+		
+		/*try
+		{
+			stedArray = regSted.getStedArray();
+			return stedArray;
+		}
+		catch(Exception e)
+		{
+			melding("Feil ved lasting av array med registrererte steder!");
+		}*/
+		return stedArray;
+		
+		
+		/*String[] stedArray = new String[10];
+		for(int i = 0; i < stedArray.length; i++)
+		{
+			stedArray[i] = regSted.getSteder();
+		}
+		return stedArray;
+		*/
+		/*String fylke = "Oslo";
+		
+		String[] stedArray = new String[10];//[stedliste.getStedArray(fylke).length];
+		stedArray = stedliste.getStedArray(fylke);
+		
+		return stedArray;*/
 	}
 	
 	public void getDatoVerdier()

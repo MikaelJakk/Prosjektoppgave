@@ -24,8 +24,8 @@ public class RegistrerSted extends Lista implements ActionListener
 
 	private String fylke;
 	private String sted;
-	
 	private Sted nyttsted;
+	String[] stedArray = new String[0];
 
 
 	private final String[] fylker = {"Akershus", "Aust-Agder", "Buskerud", "Finnmark",
@@ -83,12 +83,15 @@ public class RegistrerSted extends Lista implements ActionListener
 		JOptionPane.showMessageDialog(null,melding, "OBS!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	
 	public boolean getStedVerdier()
 	{
+		
 		try
 		{
 			fylke = (String) fylkeboks.getSelectedItem();
 			sted = stedfelt.getText();
+			
 		}
 		catch(Exception e)
 		{
@@ -102,6 +105,7 @@ public class RegistrerSted extends Lista implements ActionListener
 		}
 		return true;
 	}
+	
 	
 	public void tømFelter()
 	{
