@@ -118,7 +118,10 @@ public class RegistrerSted extends Lista implements ActionListener
 			if(stedliste.tomListe())
 				utskrift.setText("Ingen steder i systemet!");
 			else
+			{
 				utskrift.setText(stedliste.toString());
+			
+			}
 		}
 		if(e.getSource() == leggtilny)
 		{

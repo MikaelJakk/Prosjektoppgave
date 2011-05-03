@@ -39,7 +39,10 @@ public class StedListe implements Serializable
 		}
 		return output;
 	}
-
+	public void test()
+	{
+		
+	}
 	public boolean tomListe()
 	{
 		Iterator<Sted> iter = stedliste.iterator();
