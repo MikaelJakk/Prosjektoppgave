@@ -95,6 +95,8 @@ public class StedListe implements Serializable
 		return output;
 	}
 
+
+
 	public String[] getSteder()
 	{
 		Iterator<Sted> iterator = stedliste.iterator();
@@ -165,6 +167,7 @@ public class StedListe implements Serializable
 		}
 		return returnArray;
 	}
+
 
 	public boolean tomListe()
 	{
