@@ -19,7 +19,6 @@ public class RegistrerData extends Lista implements ActionListener{
 	private static final long serialVersionUID = 1L;
 
 	private JTextArea utskrift;
-	
 	private JComboBox fylkeboks;
 	private JComboBox stedboks;
 	private JComboBox dagboks;
@@ -44,15 +43,17 @@ public class RegistrerData extends Lista implements ActionListener{
 	
 	//array over registrerte fylker og steder. samt pekere til valgt fylke og sted
 	private String fylke;
+	
 	private final String[] fylker = {"Akershus", "Aust-Agder", "Buskerud", "Finnmark",
 									"Hedmark","Hordaland","Møre og Romsdal",
 									"Nordland","Nord-Trøndelag","Oppland","Oslo","Rogaland",
 									"Sogn og Fjordane","Sør-Trøndelag","Telemark",
 									"Troms","Vest-Agder","Vestfold","Østfold"};
 	
+	/*private String[] fylker = stedliste.getFylkeArray();*/
 	private String sted;
-	private String[] steder = getStedArray();//steder inneholder en liste over alle de stedene som har blitt registrert på bestemt fylke.
-	private StedListe stedliste;
+	private String[] steder = {"Velg Fylke først"};
+	//steder inneholder en liste over alle de stedene som har blitt registrert på bestemt fylke.
 	
 	
 	private final int fraår = 1970;
@@ -142,45 +143,6 @@ public class RegistrerData extends Lista implements ActionListener{
 		return true;
 	}
 	
-	public String[] getStedArray()
-	{
-		String[] stedArray = new String[10];//stedliste.getSteder();
-		stedArray = stedliste.getSteder();
-		
-		String[] fylkeArray = {"Akershus", "Aust-Agder", "Buskerud", "Finnmark",
-				"Hedmark","Hordaland","Møre og Romsdal",
-				"Nordland","Nord-Trøndelag","Oppland","Oslo","Rogaland",
-				"Sogn og Fjordane","Sør-Trøndelag","Telemark",
-				"Troms","Vest-Agder","Vestfold","Østfold", "Svalbard"};
-		System.out.println(fylkeArray);
-		
-		/*try
-		{
-			stedArray = regSted.getStedArray();
-			return stedArray;
-		}
-		catch(Exception e)
-		{
-			melding("Feil ved lasting av array med registrererte steder!");
-		}*/
-		return stedArray;
-		
-		
-		/*String[] stedArray = new String[10];
-		for(int i = 0; i < stedArray.length; i++)
-		{
-			stedArray[i] = regSted.getSteder();
-		}
-		return stedArray;
-		*/
-		/*String fylke = "Oslo";
-		
-		String[] stedArray = new String[10];//[stedliste.getStedArray(fylke).length];
-		stedArray = stedliste.getStedArray(fylke);
-		
-		return stedArray;*/
-	}
-	
 	public void getDatoVerdier()
 	{
 		år = Integer.parseInt((String) årboks.getSelectedItem());
@@ -231,6 +193,14 @@ public class RegistrerData extends Lista implements ActionListener{
 
 	public void actionPerformed(ActionEvent event) {
 		
+		if(event.getSource() == fylkeboks)
+		{
+			steder = stedliste.getStedArray((String)fylkeboks.getSelectedItem());
+			stedboks.setModel(new DefaultComboBoxModel(steder));
+		}
+		
+		
+		//actionevent for dato comboboxer
 		if(event.getSource() == årboks || event.getSource() == månedboks)
 		{//forandrer antall dager i dagboksen så det blir riktig med tanke på skuddår osv.
 			int månednr = 1 + månedboks.getSelectedIndex();
@@ -249,7 +219,7 @@ public class RegistrerData extends Lista implements ActionListener{
 			}
 			String[] dager = makearray(1, antalldager);
 			dagboks.setModel(new DefaultComboBoxModel(dager));
-		}
+		}//end of actionlistener for datobokser
 		
 		if(event.getSource() == skrivut)
 		{

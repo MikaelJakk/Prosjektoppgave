@@ -3,16 +3,13 @@
  */
 package Meterologi.Lister;
 
-import javax.swing.*;
 import java.io.*;
-import java.text.*;
 import java.util.*;
 
 public class StedListe implements Serializable
 {
 	private static final long serialVersionUID = 1L;	
 	private TreeSet<Sted> stedliste = new TreeSet<Sted>();
-	public String returnArray[] = new String[10];
 
 	//Setter inn sted bakerst i listen
 	public void settInnFylke(Sted obj)
@@ -57,31 +54,7 @@ public class StedListe implements Serializable
 		
 		
 	}
-/* bruker de i Sted.java istedenfor
-	public boolean datoEksisterer(String f, String s, Data nydata)
-	{
-		Iterator<Sted> iterator = stedliste.iterator();
-		while(iterator.hasNext())
-		{ 
-			Sted gjeldende = iterator.next();
-			if(gjeldende.getFylke().equals(f) && gjeldende.getSted().equals(s))
-				return gjeldende.datoEksisterer(nydata);
-		}
-		return false;
-	}
-
-	public boolean nyData(String f, String s, Data d)
-	{
-		Iterator<Sted> iterator = stedliste.iterator();
-		while(iterator.hasNext())
-		{	Sted gjeldende = iterator.next();
-			if(gjeldende.getFylke().equals(f)
-					&& gjeldende.getSted().equals(s))
-				return gjeldende.nyData(d);
-		}
-		return false;
-	}
-*/
+	
 	//Gjennoml�per og skriver ut lista alfabetisk
 	public String skrivUt()
 	{
@@ -94,43 +67,56 @@ public class StedListe implements Serializable
 		}
 		return output;
 	}
-
-
-
-	public String[] getSteder()
+	
+	public String[] fjernDuplikater(String[] array)
+	{//kode fra http://www.kodejava.org/examples/194.html
+		List<String> liste = Arrays.asList(array);
+		Set<String> sett = new HashSet<String>(liste);
+		
+		String[] returarray = new String[sett.size()];
+		sett.toArray(returarray);
+		
+		return returarray;
+	}
+	
+	// returnerer en array som inneholder alle fylkene som er registerert i systemet
+	public String[] getFylkeArray()
 	{
+		if(tomListe())
+		{
+			String[] retur= {"Ingen Registrerte Fylker"};
+			return retur;
+		}
+		
 		Iterator<Sted> iterator = stedliste.iterator();
-		iterator = stedliste.iterator();
-		int i = 0;
+		int arraysize = stedliste.size();
+		String[] midlertidigarray = new String[arraysize];
+		int i=0;
 		while(iterator.hasNext())
 		{
 			Sted gjeldende = iterator.next();
-			{
-				returnArray[i] = gjeldende.getSted();
-				i++;
-			}	
+			midlertidigarray[i++] = gjeldende.getFylke();
 		}
-		if(returnArray[0] == null)
-		{
-			returnArray[0] = "Noe feil!";
-		}
-			
-		return returnArray;
+		
+		return fjernDuplikater(midlertidigarray);
 	}
-
 	
 	// returnerere en array som inneholder alle Stedene som er registrert på hvert fylke
 	public String[] getStedArray(String f)
 	{
-		int arraysize = stedliste.size();
-		if(arraysize == 0)
-		{	String[] ingenreturarray = new String[0];
-			ingenreturarray[0] = "Ingen Steder opprettet";
-			return ingenreturarray;
+		if(tomListe())
+		{	String[]retur={"Ingen Steder opprettet"};
+			return retur;
 		}
 		
+		int arraysize = 0;
 		Iterator<Sted> iterator = stedliste.iterator();
-		String returnArray[] = new String[arraysize-1];
+		while(iterator.hasNext())
+		{
+			iterator.next();
+			arraysize++;
+		}
+		String returnArray[] = new String[arraysize];
 		iterator = stedliste.iterator();
 		int i = 0;
 		while(iterator.hasNext())
@@ -143,31 +129,6 @@ public class StedListe implements Serializable
 		}
 		return returnArray;
 	}
-
-	// returnerer en array som inneholder alle fylkene som er registerert i systemet
-	public String[] getFylkeArray()
-	{
-		int arraysize = stedliste.size();
-		if(arraysize == 0)
-		{
-			String[] ingenreturarray = new String[0];
-			ingenreturarray[0] = "ingen fylker oprettet";
-			return ingenreturarray;
-		}
-
-		Iterator<Sted> iterator = stedliste.iterator();
-		String[] returnArray = new String[arraysize-1];
-		iterator = stedliste.iterator();
-		int i = 0;
-		while(iterator.hasNext())
-		{
-
-			Sted gjeldene = iterator.next();
-			returnArray[i++] = gjeldene.getFylke();
-		}
-		return returnArray;
-	}
-
 
 	public boolean tomListe()
 	{
