@@ -30,6 +30,7 @@ public class RegistrerData extends Lista implements ActionListener{
 	private JButton skrivut;
 	private JButton leggtilny;
 	private JButton slett;
+	private JButton refresh;
 	
 	private int dag;
 	private int måned;
@@ -72,6 +73,12 @@ public class RegistrerData extends Lista implements ActionListener{
 		toppanel.setLayout(new GridLayout(4,0));
 		//dropdown for valg av fylke og sted
 		JPanel stedpanel = new JPanel();
+		//new!!---------------------------------------
+		stedpanel.add(new JLabel ("Refresh:"));
+		refresh = new JButton("Oppdater:");
+		refresh.addActionListener(this);
+		stedpanel.add(refresh);
+		//new!!---------------------------------------
 		stedpanel.add(new JLabel("Fylke:"));
 		fylkeboks = new JComboBox(fylker);
 		fylkeboks.addActionListener(this);
@@ -80,13 +87,13 @@ public class RegistrerData extends Lista implements ActionListener{
 		stedboks = new JComboBox(steder);
 		stedboks.addActionListener(this);
 		stedpanel.add(stedboks);
-		toppanel.add(stedpanel);
-		
-		stedpanel.add(new JLabel("Slett sted"));
+		//new!!---------------------------------------
+		stedpanel.add(new JLabel("Slett sted:"));
 		slett = new JButton("Slett valgt sted");
 		slett.addActionListener(this);
 		stedpanel.add(slett);
-		
+		toppanel.add(stedpanel);
+		//new!!!--------------------------------------
 		//innputfeltet for dato
 		JPanel datopanel = new JPanel();
 		datopanel.add(new JLabel("År"));
@@ -198,6 +205,7 @@ public class RegistrerData extends Lista implements ActionListener{
 		}
 		return dagarray;
 	}
+	
 
 	public void actionPerformed(ActionEvent event) {
 		
@@ -206,7 +214,6 @@ public class RegistrerData extends Lista implements ActionListener{
 			steder = stedliste.getStedArray((String)fylkeboks.getSelectedItem());
 			stedboks.setModel(new DefaultComboBoxModel(steder));
 		}
-		
 		
 		//actionevent for dato comboboxer
 		if(event.getSource() == årboks || event.getSource() == månedboks)
@@ -242,7 +249,7 @@ public class RegistrerData extends Lista implements ActionListener{
 					utskrift.setText(valgtSted.dataliste.skrivUtListe());
 				}
 			}
-		}
+		}//end of ActionListener for skrivut
 		if(event.getSource() == leggtilny)
 		{	
 			try{
@@ -299,7 +306,7 @@ public class RegistrerData extends Lista implements ActionListener{
 				}
 			}
 			catch(Exception ex){System.out.println(ex);melding("Feil: ved innsetting av data (main)");};
-		}//end of registrernyttstedknapp actionlytter
+		}//end of ActionsListener for LeggTilNyKnapp
 		if(event.getSource() == slett)
 		{
 			try
@@ -313,12 +320,7 @@ public class RegistrerData extends Lista implements ActionListener{
 					
 				}
 				}catch(Exception ex){System.out.println("ingen flyke valgt (1) "+ex);}
-				//sjekker at fylke og sted faktisk finnes i lista
-				//if(!stedliste.finsStedNode(fylke, sted))
-				//{	
-				//	melding("stedet finnes ikke");
-				//	return;
-				//}
+			
 				try{
 				int valg = JOptionPane.showConfirmDialog(null, "Sikker på at du vil slette: " + stedboks.getSelectedItem()+"?",
 						"Slette sted?", JOptionPane.YES_NO_OPTION);
@@ -335,12 +337,27 @@ public class RegistrerData extends Lista implements ActionListener{
 				melding("Stedet er slettet!");
 				System.out.println("Sletting gjennomført!");
 				//Sørge for at combobox blir oppdatert etter sletting mens programmet fortsatt kjører.
-				//Tenker å lage en oppdaterListe metode for dette, for så å kalle den opp her.
+				//Tenker å lage en oppdaterListe metode for dette, for så å kalle den opp her. 
 			}
 			catch(Exception ex)
 			{
 				melding("Det oppstod en feil under sletting av valgt sted!");
 			}
+		}//end of slettValgtSted ActionListener
+		if(event.getSource() == refresh)
+		{
+			try
+			{
+				fylker = stedliste.getFylkeArray();
+				fylkeboks.setModel(new DefaultComboBoxModel(fylker));
+				steder = stedliste.getStedArray((String)fylkeboks.getSelectedItem());
+				stedboks.setModel(new DefaultComboBoxModel(steder));
+				System.out.println("Sucsess: Oppdatering av ComboBoxer!");
+			}
+			catch(Exception ex){System.out.println("feil i oppdateringen");}
+			
 		}
+		
+
 	}//end of actionPerformed()
 }//End of registrerData
