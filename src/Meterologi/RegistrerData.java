@@ -44,15 +44,16 @@ public class RegistrerData extends Lista implements ActionListener{
 	//array over registrerte fylker og steder. samt pekere til valgt fylke og sted
 	private String fylke;
 	
+	/*
 	private final String[] fylker = {"Akershus", "Aust-Agder", "Buskerud", "Finnmark",
 									"Hedmark","Hordaland","Møre og Romsdal",
 									"Nordland","Nord-Trøndelag","Oppland","Oslo","Rogaland",
 									"Sogn og Fjordane","Sør-Trøndelag","Telemark",
 									"Troms","Vest-Agder","Vestfold","Østfold"};
-	
-	/*private String[] fylker = stedliste.getFylkeArray();*/
+	*/
+	private String[] fylker = stedliste.getFylkeArray();
 	private String sted;
-	private String[] steder = {"Velg Fylke først"};
+	private String[] steder = stedliste.getStedArray(fylker[0]);
 	//steder inneholder en liste over alle de stedene som har blitt registrert på bestemt fylke.
 	
 	

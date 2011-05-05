@@ -88,6 +88,17 @@ public class StedListe implements Serializable
 			return retur;
 		}
 		
+
+		Iterator<Sted> iterator = stedliste.iterator();
+		TreeSet<String> utenDuplikater = new TreeSet<String>();
+		while(iterator.hasNext())
+		{
+			Sted gjeldende = iterator.next();
+			utenDuplikater.add(gjeldende.getFylke());
+		}
+		return (String[]) utenDuplikater.toArray(new String[0]);
+		
+		/*
 		Iterator<Sted> iterator = stedliste.iterator();
 		int arraysize = stedliste.size();
 		String[] midlertidigarray = new String[arraysize];
@@ -99,35 +110,31 @@ public class StedListe implements Serializable
 		}
 		
 		return fjernDuplikater(midlertidigarray);
+		*/
 	}
 	
 	// returnerere en array som inneholder alle Stedene som er registrert på hvert fylke
 	public String[] getStedArray(String f)
 	{
-		if(tomListe())
-		{	String[]retur={"Ingen Steder opprettet"};
-			return retur;
-		}
-		
-		int arraysize = 0;
 		Iterator<Sted> iterator = stedliste.iterator();
-		while(iterator.hasNext())
-		{
-			iterator.next();
-			arraysize++;
-		}
-		String returnArray[] = new String[arraysize];
-		iterator = stedliste.iterator();
-		int i = 0;
+		LinkedList<String> b = new LinkedList<String>();
 		while(iterator.hasNext())
 		{
 			Sted gjeldende = iterator.next();
-			if(gjeldende.getFylke() == f)
+			if(gjeldende.getFylke().equals(f))
 			{
-				returnArray[i++] = gjeldende.getSted();
+				b.addLast(gjeldende.getSted());
 			}
 		}
-		return returnArray;
+		if (b.size() == 0)
+		{
+			String[]retur={"Ingen Steder opprettet"};
+			return retur;
+		}
+		else
+		{
+			return (String[]) b.toArray(new String[0]);
+		}
 	}
 
 	public boolean tomListe()
