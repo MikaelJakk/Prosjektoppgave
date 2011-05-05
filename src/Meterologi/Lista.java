@@ -31,7 +31,7 @@ public abstract class Lista {
 			input.close();
 		} 
 		catch (Exception ex) 
-		{System.out.println("Feil: ved lesing av fil. kan ikke lukke filstrømmen");}
+		{System.out.println("Feil: ved lesing av fil(filen eksisterer kanskje ikke)");}
 	}
 	
 	public static void lagreLista()

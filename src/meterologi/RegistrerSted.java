@@ -161,6 +161,7 @@ public class RegistrerSted extends Lista implements ActionListener
 					melding("Nytt sted lagt inn i lista");
 				}
 				tømFelter();
+				lesLista();
 			}
 			catch(Exception ex)
 			{
