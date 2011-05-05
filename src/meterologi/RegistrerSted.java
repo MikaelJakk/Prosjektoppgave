@@ -27,7 +27,7 @@ public class RegistrerSted extends Lista implements ActionListener
 	private Sted nyttsted;
 	String[] stedArray = new String[0];
 
-
+	
 	private final String[] fylker = {"Akershus", "Aust-Agder", "Buskerud", "Finnmark",
 										"Hedmark","Hordaland","Møre og Romsdal",
 										"Nordland","Nord-Trøndelag","Oppland","Oslo","Rogaland",
