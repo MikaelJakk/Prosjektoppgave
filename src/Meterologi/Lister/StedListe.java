@@ -6,6 +6,7 @@ package Meterologi.Lister;
 import java.io.*;
 import java.util.*;
 
+
 public class StedListe implements Serializable
 {
 	private static final long serialVersionUID = 1L;	
@@ -50,9 +51,19 @@ public class StedListe implements Serializable
 			if(denne.getFylke().equals(f) && denne.getSted().equals(s))
 				return denne;
 		}
-		return null;
-		
-		
+		return null;	
+	}
+	
+	//Metoden er kanskje unødvendig da det sikkert går ann å implementere denne i "getStedNode" p åen eller annen måte.
+	public void slettStedNode(String f, String s)
+	{
+		Iterator<Sted> iterator = stedliste.iterator();
+		while(iterator.hasNext())
+		{
+			Sted denne = iterator.next();
+			if(denne.getFylke().equals(f) && denne.getSted().equals(s))
+				iterator.remove();
+		}
 	}
 	
 	//Gjennoml�per og skriver ut lista alfabetisk
