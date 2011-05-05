@@ -9,7 +9,6 @@ package Meterologi;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.JPanel;
 import Meterologi.Lister.*;
 
 
@@ -21,7 +20,7 @@ public class RegistrerSted extends Lista implements ActionListener
 	private JTextField stedfelt;
 	private JButton skrivut;
 	private JButton leggtilny;
-
+	
 	private String fylke;
 	private String sted;
 	private Sted nyttsted;
@@ -55,6 +54,9 @@ public class RegistrerSted extends Lista implements ActionListener
 		stedfelt = new JTextField(15);
 		stedfelt.addActionListener(this);
 		stedPanel.add(stedfelt);
+		
+		
+		
 		toppanel.add(stedPanel);
 		//knapper
 			//legg til nytt sted
@@ -115,6 +117,17 @@ public class RegistrerSted extends Lista implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
+		if(e.getSource() == fylkeboks )
+		{
+			if(stedliste.tomListe())
+				utskrift.setText("Ingen steder i systemet!");
+			else
+			{
+				utskrift.setText(stedliste.toString());
+			
+			}
+		}
+		
 		if(e.getSource() == skrivut)
 		{
 			if(stedliste.tomListe())
