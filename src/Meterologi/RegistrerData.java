@@ -134,6 +134,7 @@ public class RegistrerData extends Lista implements ActionListener{
 		
 		//utskriftsvindu
 		utskrift = new JTextArea(20, 50);
+		utskrift.setEditable(false);
 		panelet.add(new JScrollPane(utskrift));
 		panelet.setVisible(true);
 		
@@ -204,6 +205,28 @@ public class RegistrerData extends Lista implements ActionListener{
 			dagarray[i-fra] = i + "";
 		}
 		return dagarray;
+	}
+	
+	public void refreshFylke()
+	{
+		try
+		{
+			fylker = stedliste.getFylkeArray();
+			fylkeboks.setModel(new DefaultComboBoxModel(fylker));
+			System.out.println("Sucsess: Oppdatering av FylkeComboBox!");
+		}
+		catch(Exception ex){System.out.println("feil i oppdateringen av FylkeBox");}	
+	}
+	
+	public void refreshSted()
+	{
+		try
+		{
+			steder = stedliste.getStedArray((String)fylkeboks.getSelectedItem());
+			stedboks.setModel(new DefaultComboBoxModel(steder));
+			System.out.println("Sucsess: Oppdatering av StedComboBox!");
+		}
+		catch(Exception ex){System.out.println("feil i oppdateringen av StedBox");}	
 	}
 	
 
@@ -336,8 +359,10 @@ public class RegistrerData extends Lista implements ActionListener{
 				lagreLista();
 				melding("Stedet er slettet!");
 				System.out.println("Sletting gjennomført!");
-				//Sørge for at combobox blir oppdatert etter sletting mens programmet fortsatt kjører.
-				//Tenker å lage en oppdaterListe metode for dette, for så å kalle den opp her. 
+				refreshFylke();
+				refreshSted();
+				//Fikse oppdatering ved registrering av nyt sted i regnyttsted! 
+				
 			}
 			catch(Exception ex)
 			{
@@ -354,9 +379,21 @@ public class RegistrerData extends Lista implements ActionListener{
 				stedboks.setModel(new DefaultComboBoxModel(steder));
 				System.out.println("Sucsess: Oppdatering av ComboBoxer!");
 			}
-			catch(Exception ex){System.out.println("feil i oppdateringen");}
-			
+			catch(Exception ex){System.out.println("feil i oppdateringen");}	
 		}
+		
+		/*if(fylkeboks == (JComboBox)event.getSource());
+		{	
+			//Dette gjør at når en velger noe i fylkeComboBoxen blir den automatisk oppdatert.
+			//Men det går ikke ann å lytte på JComboBox og samtidig lytte på JButton hvor JButton har tilknytting til JComboBox.
+			try
+			{
+				fylker = stedliste.getFylkeArray();
+				fylkeboks.setModel(new DefaultComboBoxModel(fylker));
+				System.out.println("Sucsess: Oppdatering av FylkeComboBox!");
+			}
+			catch(Exception ex){System.out.println("feil i oppdateringen av FylkeBox");}	
+		}*/
 		
 
 	}//end of actionPerformed()

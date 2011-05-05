@@ -9,6 +9,7 @@ package Meterologi;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
 import Meterologi.Lister.*;
 
 
@@ -25,6 +26,7 @@ public class RegistrerSted extends Lista implements ActionListener
 	private String sted;
 	private Sted nyttsted;
 	String[] stedArray = new String[0];
+	private RegistrerData regdata;
 
 
 	private final String[] fylker = {"Akershus", "Aust-Agder", "Buskerud", "Finnmark",
@@ -75,6 +77,7 @@ public class RegistrerSted extends Lista implements ActionListener
 		utskrift = new JTextArea(20,50);
 		panelet.add(new JScrollPane(utskrift));
 		panelet.setVisible(true);
+		utskrift.setEditable(false);
 
 		return panelet;
 	}//slutt på byggPanel
@@ -162,6 +165,14 @@ public class RegistrerSted extends Lista implements ActionListener
 					lagreLista();
 					melding("Nytt sted lagt inn i lista");
 				}
+				
+				try//skal oppdatere fylkeComboBox i RegnyData.. (Funker ikke)!
+				{
+					regdata.refreshFylke();
+				}
+				catch(Exception ex){melding("Feil ved oppdatering!");}
+				//-----------------------------------------------------------
+				
 				tømFelter();
 				lesLista();
 			}
@@ -169,8 +180,9 @@ public class RegistrerSted extends Lista implements ActionListener
 			{
 				melding("Det oppstod en feil ved registrering av data!");
 			}
-		}
-
+					
+		}//slutt på ActionListener for LeggTilNy
+	
 	}//slutt på ActionPerformed
 
 }//Slutt på RegistrerSted
