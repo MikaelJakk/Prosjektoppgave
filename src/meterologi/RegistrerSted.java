@@ -198,44 +198,25 @@ public class RegistrerSted extends Lista implements ActionListener
 		}//slutt på ActionListener for LeggTilNy
 		if(e.getSource() == slett)
 		{
-			try
-			{
 				//Sjekker at fylke og sted er valgt
-				//funker ikke fordi getSelectedItem ikke returnerer null, 
-				//men en string uansett fordi den allerede er initialisert øverst i klassen'
-				
-				try{
-				if(stedfelt.getText().length() == 0)
-				{
-					melding("Du må skrive inn stedet du vil slette");
+			try{
+				if(!getStedVerdier())
 					return;
-					
-				}
-				}catch(Exception ex){System.out.println("Feil: intet sted er skrevet inn"+ex);}
-			
-				getStedVerdier();
-				
 				int valg = JOptionPane.showConfirmDialog(null, "Sikker på at du vil slette: " + fylke +", "+sted+"?",
 						"Slette sted?", JOptionPane.YES_NO_OPTION);
 				if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)
 				return;
 				
 				
-				if(!getStedVerdier())
-					return;
 				//Bruke metode som sletter nåværende node i lisa
 				stedliste.slettStedNode(fylke,sted);
 				lagreLista();
 				melding("Stedet er slettet!");
 				System.out.println("Slettet sted: "+fylke+", "+sted);
 				regdata.oppdater();
-				//Fikse oppdatering ved registrering av nyt sted i regnyttsted! 
-				
 			}
-			catch(Exception ex)
-			{
-				System.out.println(ex.getStackTrace());
-			}
+			catch(Exception ex){System.out.println("Feil: Ubehandlet unntak ved sletting av sted "+ex);}
+			skrivUt();
 		}//end of slettValgtSted ActionListener
 	
 	}//slutt på ActionPerformed
