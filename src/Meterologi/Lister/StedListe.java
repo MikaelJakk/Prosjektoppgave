@@ -95,7 +95,7 @@ public class StedListe implements Serializable
 	{
 		if(tomListe())
 		{
-			String[] retur= {"Ingen Registrerte Fylker"};
+			String[] retur= {"Ingen registrerte Fylker"};
 			return retur;
 		}
 		
@@ -139,7 +139,7 @@ public class StedListe implements Serializable
 		}
 		if (b.size() == 0)
 		{
-			String[]retur={"Ingen Steder opprettet"};
+			String[]retur={"Ingen steder opprettet"};
 			return retur;
 		}
 		else

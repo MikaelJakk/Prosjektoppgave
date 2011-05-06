@@ -1,5 +1,5 @@
 /*
- * Skrevet av Mikael Jakhelln og endret på av Thomas Nordengen,
+ * Skrevet av Mikael Jakhelln og Thomas Nordengen,
  * Oppdatert: 11.4.2011
  * Denne klassen skal bygge gui, samt metoder og lytter for registrering av nyData 
  * og legges til i Tab.java
@@ -134,6 +134,7 @@ public class RegistrerData extends Lista implements ActionListener{
 		
 		//utskriftsvindu
 		utskrift = new JTextArea(20, 50);
+		utskrift.setEditable(false);
 		panelet.add(new JScrollPane(utskrift));
 		panelet.setVisible(true);
 		
@@ -206,13 +207,24 @@ public class RegistrerData extends Lista implements ActionListener{
 		return dagarray;
 	}
 	
+	public void oppdater()
+	{
+		try
+		{
+			fylker = stedliste.getFylkeArray();
+			fylkeboks.setModel(new DefaultComboBoxModel(fylker));
+			steder = stedliste.getStedArray((String)fylkeboks.getSelectedItem());
+			stedboks.setModel(new DefaultComboBoxModel(steder));
+			System.out.println("Suksess: Oppdatering av sted og fylkeboks!");
+		}
+		catch(Exception ex){System.out.println("feil i oppdateringen av FylkeBox" +ex);}	
+	}
 
 	public void actionPerformed(ActionEvent event) {
 		
 		if(event.getSource() == fylkeboks)
 		{
-			steder = stedliste.getStedArray((String)fylkeboks.getSelectedItem());
-			stedboks.setModel(new DefaultComboBoxModel(steder));
+			oppdater();
 		}
 		
 		//actionevent for dato comboboxer
@@ -312,14 +324,16 @@ public class RegistrerData extends Lista implements ActionListener{
 			try
 			{
 				//Sjekker at fylke og sted er valgt
+				//funker ikke fordi getSelectedItem ikke returnerer null, 
+				//men en string uansett fordi den allerede er initialisert øverst i klassen
 				try{
-				if(stedboks.getSelectedItem() == null)
+				if(stedboks.getSelectedItem().equals("Ingen steder opprettet"))
 				{
-					melding("Sted har ikke blitt valgt");
+					melding("Sted er ikke valgt!\nOpprett nye steder under 'Registrer et nytt sted'");
 					return;
 					
 				}
-				}catch(Exception ex){System.out.println("ingen flyke valgt (1) "+ex);}
+				}catch(Exception ex){System.out.println("intet fylke valgt (1) "+ex);}
 			
 				try{
 				int valg = JOptionPane.showConfirmDialog(null, "Sikker på at du vil slette: " + stedboks.getSelectedItem()+"?",
@@ -335,9 +349,10 @@ public class RegistrerData extends Lista implements ActionListener{
 				stedliste.slettStedNode(fylke,sted);
 				lagreLista();
 				melding("Stedet er slettet!");
-				System.out.println("Sletting gjennomført!");
-				//Sørge for at combobox blir oppdatert etter sletting mens programmet fortsatt kjører.
-				//Tenker å lage en oppdaterListe metode for dette, for så å kalle den opp her. 
+				System.out.println("Slettet sted: "+fylke+", "+sted);
+				oppdater();
+				//Fikse oppdatering ved registrering av nyt sted i regnyttsted! 
+				
 			}
 			catch(Exception ex)
 			{
@@ -346,18 +361,7 @@ public class RegistrerData extends Lista implements ActionListener{
 		}//end of slettValgtSted ActionListener
 		if(event.getSource() == refresh)
 		{
-			try
-			{
-				fylker = stedliste.getFylkeArray();
-				fylkeboks.setModel(new DefaultComboBoxModel(fylker));
-				steder = stedliste.getStedArray((String)fylkeboks.getSelectedItem());
-				stedboks.setModel(new DefaultComboBoxModel(steder));
-				System.out.println("Sucsess: Oppdatering av ComboBoxer!");
-			}
-			catch(Exception ex){System.out.println("feil i oppdateringen");}
-			
+			oppdater();	
 		}
-		
-
 	}//end of actionPerformed()
 }//End of registrerData
