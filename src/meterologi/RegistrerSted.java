@@ -181,12 +181,6 @@ public class RegistrerSted extends Lista implements ActionListener
 					lagreLista();
 					melding("Nytt sted lagt inn i lista");
 				}
-				
-				try//skal oppdatere fylkeComboBox i RegnyData.. (Funker ikke)!
-				{
-					regdata.oppdater();
-				}
-				catch(Exception ex){melding("Feil ved oppdatering!");}
 				tømFelter();
 				lesLista();
 			}

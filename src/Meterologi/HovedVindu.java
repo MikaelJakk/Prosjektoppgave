@@ -9,6 +9,9 @@ package Meterologi;
 ////////////////////////////////////////
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import java.awt.*;
 
 public class HovedVindu extends JFrame
@@ -36,6 +39,17 @@ public class HovedVindu extends JFrame
 		tabs.addTab("Registrer ny Data",null,p2);
 	    tabs.addTab("Vis Data",null,p3);
 	    tabs.addTab("Statistikk",null,p4);
+	    
+	    //oppdaterer comboboxer i RegistrerData
+	    tabs.addChangeListener(new ChangeListener(){
+	    								public void stateChanged(ChangeEvent evt){
+	    									try{
+	    									regdata.oppdater();
+	    									}catch(Exception ex){System.out.println("Feil: ved " +
+	    											"oppdatering av comboboxer"+ex);}
+	    									
+	    								}
+	    							});
 
 
 		setLayout(new FlowLayout());

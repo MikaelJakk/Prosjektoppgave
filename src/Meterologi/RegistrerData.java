@@ -30,7 +30,6 @@ public class RegistrerData extends Lista implements ActionListener{
 	private JButton skrivut;
 	private JButton leggtilny;
 	private JButton slett;
-	private JButton refresh;
 	
 	private int dag;
 	private int måned;
@@ -45,14 +44,6 @@ public class RegistrerData extends Lista implements ActionListener{
 	
 	//array over registrerte fylker og steder. samt pekere til valgt fylke og sted
 	private String fylke;
-	
-	/*
-	private final String[] fylker = {"Akershus", "Aust-Agder", "Buskerud", "Finnmark",
-									"Hedmark","Hordaland","Møre og Romsdal",
-									"Nordland","Nord-Trøndelag","Oppland","Oslo","Rogaland",
-									"Sogn og Fjordane","Sør-Trøndelag","Telemark",
-									"Troms","Vest-Agder","Vestfold","Østfold"};
-	*/
 	private String[] fylker = stedliste.getFylkeArray();
 	private String sted;
 	private String[] steder = stedliste.getStedArray(fylker[0]);
@@ -73,12 +64,7 @@ public class RegistrerData extends Lista implements ActionListener{
 		toppanel.setLayout(new GridLayout(4,0));
 		//dropdown for valg av fylke og sted
 		JPanel stedpanel = new JPanel();
-		//new!!---------------------------------------
-		stedpanel.add(new JLabel ("Refresh:"));
-		refresh = new JButton("Oppdater:");
-		refresh.addActionListener(this);
-		stedpanel.add(refresh);
-		//new!!---------------------------------------
+
 		stedpanel.add(new JLabel("Fylke:"));
 		fylkeboks = new JComboBox(fylker);
 		fylkeboks.addActionListener(this);
@@ -87,13 +73,9 @@ public class RegistrerData extends Lista implements ActionListener{
 		stedboks = new JComboBox(steder);
 		stedboks.addActionListener(this);
 		stedpanel.add(stedboks);
-		//new!!---------------------------------------
-		stedpanel.add(new JLabel("Slett sted:"));
-		slett = new JButton("Slett valgt sted");
-		slett.addActionListener(this);
-		stedpanel.add(slett);
+		//legger til stedpanel øverst
 		toppanel.add(stedpanel);
-		//new!!!--------------------------------------
+		
 		//innputfeltet for dato
 		JPanel datopanel = new JPanel();
 		datopanel.add(new JLabel("År"));
@@ -128,6 +110,10 @@ public class RegistrerData extends Lista implements ActionListener{
 		skrivut = new JButton("skriv ut");
 		skrivut.addActionListener(this);
 		knappepanel.add(skrivut);
+		//må lage metoder for sletting av data
+		slett = new JButton("Slett data");
+		slett.addActionListener(this);
+		knappepanel.add(slett);
 		toppanel.add(knappepanel);
 		//legger til toppanelet
 		panelet.add(toppanel);
@@ -207,7 +193,7 @@ public class RegistrerData extends Lista implements ActionListener{
 		return dagarray;
 	}
 	
-	public void oppdater()
+	public void oppdater()//oppdaterer Jcomboboxene stedboks og fylkeboks
 	{
 		try
 		{
@@ -215,17 +201,29 @@ public class RegistrerData extends Lista implements ActionListener{
 			fylkeboks.setModel(new DefaultComboBoxModel(fylker));
 			steder = stedliste.getStedArray((String)fylkeboks.getSelectedItem());
 			stedboks.setModel(new DefaultComboBoxModel(steder));
-			System.out.println("Suksess: Oppdatering av sted og fylkeboks!");
 		}
-		catch(Exception ex){System.out.println("feil i oppdateringen av FylkeBox" +ex);}	
+		catch(Exception ex){System.out.println("Feil: i oppdateringen av FylkeBox" +ex);}	
+	}
+	
+	public void skrivUt()//skriver ut lista i utskriftsfeltet
+	{
+		if( stedliste.tomListe() )
+			utskrift.setText("ingen data i systemet!");
+		else if(getStedVerdier())
+		{	if(stedliste.getStedNode(fylke, sted) == null)
+				return;
+			else 
+			{
+				valgtSted = stedliste.getStedNode(fylke, sted);
+				utskrift.setText(valgtSted.dataliste.skrivUtListe());
+			}
+		}
 	}
 
 	public void actionPerformed(ActionEvent event) {
 		
 		if(event.getSource() == fylkeboks)
-		{
-			oppdater();
-		}
+		{oppdater();}
 		
 		//actionevent for dato comboboxer
 		if(event.getSource() == årboks || event.getSource() == månedboks)
@@ -250,18 +248,9 @@ public class RegistrerData extends Lista implements ActionListener{
 		
 		if(event.getSource() == skrivut)
 		{
-			if( stedliste.tomListe() )
-				utskrift.setText("ingen data i systemet!");
-			else if(getStedVerdier())
-			{	if(stedliste.getStedNode(fylke, sted) == null)
-					return;
-				else 
-				{
-					valgtSted = stedliste.getStedNode(fylke, sted);
-					utskrift.setText(valgtSted.dataliste.skrivUtListe());
-				}
-			}
-		}//end of ActionListener for skrivut
+			skrivUt();
+		}
+		
 		if(event.getSource() == leggtilny)
 		{	
 			try{
@@ -317,12 +306,7 @@ public class RegistrerData extends Lista implements ActionListener{
 					}
 				}
 			}
-			catch(Exception ex){System.out.println(ex);melding("Feil: ved innsetting av data (main)");};
+			catch(Exception ex){System.out.println(ex);melding("Feil: ved innsetting av data (main)" +ex);};
 		}//end of ActionsListener for LeggTilNyKnapp
-		
-		if(event.getSource() == refresh)
-		{
-			oppdater();	
-		}
 	}//end of actionPerformed()
 }//End of registrerData
