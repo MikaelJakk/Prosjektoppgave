@@ -319,46 +319,7 @@ public class RegistrerData extends Lista implements ActionListener{
 			}
 			catch(Exception ex){System.out.println(ex);melding("Feil: ved innsetting av data (main)");};
 		}//end of ActionsListener for LeggTilNyKnapp
-		if(event.getSource() == slett)
-		{
-			try
-			{
-				//Sjekker at fylke og sted er valgt
-				//funker ikke fordi getSelectedItem ikke returnerer null, 
-				//men en string uansett fordi den allerede er initialisert øverst i klassen
-				try{
-				if(stedboks.getSelectedItem().equals("Ingen steder opprettet"))
-				{
-					melding("Sted er ikke valgt!\nOpprett nye steder under 'Registrer et nytt sted'");
-					return;
-					
-				}
-				}catch(Exception ex){System.out.println("intet fylke valgt (1) "+ex);}
-			
-				try{
-				int valg = JOptionPane.showConfirmDialog(null, "Sikker på at du vil slette: " + stedboks.getSelectedItem()+"?",
-						"Slette sted?", JOptionPane.YES_NO_OPTION);
-				if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)
-				return;
-				}
-				catch(Exception ex){System.out.println("Feil: ved innsetting av data (2) "+ex);}
-				
-				if(!getStedVerdier())
-					return;
-				//Bruke metode som sletter nåværende node i lisa
-				stedliste.slettStedNode(fylke,sted);
-				lagreLista();
-				melding("Stedet er slettet!");
-				System.out.println("Slettet sted: "+fylke+", "+sted);
-				oppdater();
-				//Fikse oppdatering ved registrering av nyt sted i regnyttsted! 
-				
-			}
-			catch(Exception ex)
-			{
-				melding("Det oppstod en feil under sletting av valgt sted!");
-			}
-		}//end of slettValgtSted ActionListener
+		
 		if(event.getSource() == refresh)
 		{
 			oppdater();	

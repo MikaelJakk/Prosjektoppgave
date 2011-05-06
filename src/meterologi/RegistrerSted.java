@@ -21,6 +21,7 @@ public class RegistrerSted extends Lista implements ActionListener
 	private JTextField stedfelt;
 	private JButton skrivut;
 	private JButton leggtilny;
+	private JButton slett;
 	
 	private String fylke;
 	private String sted;
@@ -68,6 +69,10 @@ public class RegistrerSted extends Lista implements ActionListener
 		skrivut = new JButton("Skriv ut");
 		skrivut.addActionListener(this);
 		knappepanel.add(skrivut);
+			//slett innskrevet sted
+		slett = new JButton("Slett");
+		slett.addActionListener(this);
+		knappepanel.add(slett);
 		toppanel.add(knappepanel);
 		//legg til toppanelet
 		panelet.add(toppanel);
@@ -114,6 +119,14 @@ public class RegistrerSted extends Lista implements ActionListener
 	{
 		stedfelt.setText("");
 	}
+	
+	public void skrivUt()
+	{
+		if(stedliste.tomListe())
+			utskrift.setText("Ingen steder i systemet!");
+		else
+		{utskrift.setText(stedliste.toString());}
+	}
 
 
 	public void actionPerformed(ActionEvent e)
@@ -131,13 +144,7 @@ public class RegistrerSted extends Lista implements ActionListener
 		
 		if(e.getSource() == skrivut)
 		{
-			if(stedliste.tomListe())
-				utskrift.setText("Ingen steder i systemet!");
-			else
-			{
-				utskrift.setText(stedliste.toString());
-			
-			}
+			skrivUt();
 		}
 		if(e.getSource() == leggtilny)
 		{
@@ -180,8 +187,6 @@ public class RegistrerSted extends Lista implements ActionListener
 					regdata.oppdater();
 				}
 				catch(Exception ex){melding("Feil ved oppdatering!");}
-				//-----------------------------------------------------------
-				
 				tømFelter();
 				lesLista();
 			}
@@ -189,8 +194,49 @@ public class RegistrerSted extends Lista implements ActionListener
 			{
 				melding("Det oppstod en feil ved registrering av data!");
 			}
-					
+			skrivUt();	
 		}//slutt på ActionListener for LeggTilNy
+		if(e.getSource() == slett)
+		{
+			try
+			{
+				//Sjekker at fylke og sted er valgt
+				//funker ikke fordi getSelectedItem ikke returnerer null, 
+				//men en string uansett fordi den allerede er initialisert øverst i klassen'
+				
+				try{
+				if(stedfelt.getText().length() == 0)
+				{
+					melding("Du må skrive inn stedet du vil slette");
+					return;
+					
+				}
+				}catch(Exception ex){System.out.println("Feil: intet sted er skrevet inn"+ex);}
+			
+				getStedVerdier();
+				
+				int valg = JOptionPane.showConfirmDialog(null, "Sikker på at du vil slette: " + fylke +", "+sted+"?",
+						"Slette sted?", JOptionPane.YES_NO_OPTION);
+				if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)
+				return;
+				
+				
+				if(!getStedVerdier())
+					return;
+				//Bruke metode som sletter nåværende node i lisa
+				stedliste.slettStedNode(fylke,sted);
+				lagreLista();
+				melding("Stedet er slettet!");
+				System.out.println("Slettet sted: "+fylke+", "+sted);
+				regdata.oppdater();
+				//Fikse oppdatering ved registrering av nyt sted i regnyttsted! 
+				
+			}
+			catch(Exception ex)
+			{
+				System.out.println(ex.getStackTrace());
+			}
+		}//end of slettValgtSted ActionListener
 	
 	}//slutt på ActionPerformed
 
