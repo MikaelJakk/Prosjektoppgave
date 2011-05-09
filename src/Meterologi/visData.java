@@ -189,9 +189,7 @@ public class VisData extends Lista implements ActionListener{
 			if(år%4 == 0 && år%100 != 0 && år%400 == 0 )
 				return 29;
 			return 28;
-		}
-			
-			
+		}	
 		return 30;
 	}
 	public String regnUtDag()
@@ -206,8 +204,7 @@ public class VisData extends Lista implements ActionListener{
 		for(int i = 0; i < telldager();i++)  //telldager() er en metode som skjekker hvilke mnd vi er og hvor mange dager den har.
 		{
 			dagløp++;
-			
-			
+
 			Calendar dato = Calendar.getInstance();
 			dato.setTimeInMillis(0);
 			dato.set(år,mnd-1,dagløp);

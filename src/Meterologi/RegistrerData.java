@@ -308,6 +308,7 @@ public class RegistrerData extends Lista implements ActionListener{
 				}
 			}
 			catch(Exception ex){System.out.println(ex);melding("Feil: ved innsetting av data (main)" +ex);};
+			skrivUt();
 		}//end of ActionsListener for LeggTilNyKnapp
 		
 		if(event.getSource() == slett)//slett noden(på valgt dato) fra datalisten til valgt sted
