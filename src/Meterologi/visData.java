@@ -17,6 +17,7 @@ import javax.swing.*;
 import Meterologi.Lister.Data;
 import Meterologi.Lister.DataListe;
 import Meterologi.Lister.Sted;
+import Meterologi.Lister.StedListe;
 import Meterologi.*;
 
 
@@ -39,6 +40,7 @@ public class VisData extends Lista implements ActionListener{
 	private int dag;
 	private int mnd;
 	private int år;
+	
 
 	//lager pekere til dataliste og data, og valgt sted.
 	private DataListe dataliste;
@@ -49,17 +51,10 @@ public class VisData extends Lista implements ActionListener{
 	
 	//array over registrerte fylker og steder. samt pekere til valgt fylke og sted
 	private String fylke;
-	private final String[] fylker = {"Akershus", "Aust-Agder", "Buskerud", "Finnmark",
-									"Hedmark","Hordaland","Møre og Romsdal",
-									"Nordland","Nord-Trøndelag","Oppland","Oslo","Rogaland",
-									"Sogn og Fjordane","Sør-Trøndelag","Telemark",
-									"Troms","Vest-Agder","Vestfold","Østfold"};
-	private String sted;
-	private final String[] steder = {"Sted 1","Sted 2","Sted 3"};
-	private final String[] dager = {"1","2","3","4","5","6","7","8","9","10",
-									"11","12","13","14","15","16","17","18","19",
-									"20","21","22","23","24","25","26","27","28","29","30","31"};
-	private final String[] måneder= {"1","2","3","4","5","6","7","8","9","10","11","12"};
+	 String[] fylker =   stedliste.getFylkeArray();
+	 String sted;
+	 String[] steder = stedliste.getStedArray(fylker[0]);
+	
 	//skal egentlig bruke stedsliste.getRegistrerteSteder() og stedsliste.getRegistrerteFylker()
 	//som skal returnere en String[] med registrerte fylker, og en annen med steder
 
@@ -134,6 +129,17 @@ public class VisData extends Lista implements ActionListener{
 		{melding("det oppstod en feil med valg av fylke og sted");return false;}
 		return true;
 	}
+	public void oppdater()//oppdaterer Jcomboboxene stedboks og fylkeboks
+	{
+		try
+		{
+			fylker = stedliste.getFylkeArray();
+			fylkeboks.setModel(new DefaultComboBoxModel(fylker));
+			steder = stedliste.getStedArray((String)fylkeboks.getSelectedItem());
+			stedboks.setModel(new DefaultComboBoxModel(steder));
+		}
+		catch(Exception ex){System.out.println("Feil: i oppdateringen av FylkeBox" +ex);}	
+	}
 	
 	public boolean getDatoVerdier()
 	{
@@ -189,7 +195,10 @@ public class VisData extends Lista implements ActionListener{
 	public String regnUtDag()
 	{
 		getDatoVerdier();
+		getStedVerdier();
+		
 		int dagløp = 0;
+		valgtSted = stedliste.getStedNode(fylke, sted);
 		
 		String tekst = "";
 		for(int i = 0; i < telldager();i++)  //telldager() er en metode som skjekker hvilke mnd vi er og hvor mange dager den har.
@@ -200,21 +209,24 @@ public class VisData extends Lista implements ActionListener{
 			dato.setTimeInMillis(0);
 			dato.set(år,mnd-1,dagløp);
 			nydata = new Data(dato, 0, 0, 0);
-				if(dataliste.datoEksisterer(nydata))
-					if(dataliste.getData(nydata).toString() != null)
-						tekst += dataliste.getData(nydata).toString() + "\n";		
+			
+				if(valgtSted.dataliste.datoEksisterer(nydata))
+					if(valgtSted.dataliste.getData(nydata).toString() != null)
+						tekst += valgtSted.dataliste.getData(nydata).toString() + "\n";		
 		}
 		
 		return tekst;
 	}
 	public String regnUtÅr()
 	{
+		getStedVerdier();
+			
+		
 		getDatoVerdier();
 		String tekst = "";
 		int mnder = 0;
 		int dager = 0;
-		int  tekst1 = 0;
-		
+		valgtSted = stedliste.getStedNode(fylke, sted);
 			for(int i = 0;i<13;i++) // i<13 for 12 måneder.
 			{
 				mnder++;
@@ -225,9 +237,9 @@ public class VisData extends Lista implements ActionListener{
 					dato.setTimeInMillis(0);
 					dato.set(år,mnder-1,dager);
 					nydata = new Data(dato, 1, 2, 3);
-						if(dataliste.datoEksisterer(nydata))
-							if(dataliste.getData(nydata).toString() != null)
-								tekst += dataliste.getData(nydata).toString() + "\n";
+						if(valgtSted.dataliste.datoEksisterer(nydata))
+							if(valgtSted.dataliste.getData(nydata).toString() != null)
+								tekst += valgtSted.dataliste.getData(nydata).toString() + "\n";
 						if(mnder-1 == 13)
 							return tekst;
 				}
@@ -240,19 +252,24 @@ public class VisData extends Lista implements ActionListener{
 			
 		if(event.getSource() == visData)
 		{
-			if( dataliste.tomListe() )
+			
+			if( stedliste.tomListe() )
 				utskrift.setText("ingen data i systemet!");
 			else
 			{
+				if(!getStedVerdier())
+					return;
+				
 				getDatoVerdier();
 				//lagrer dato som calendar objekt
 				Calendar dato = Calendar.getInstance();
 				dato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
 				dato.set(år,mnd-1,dag);/*måned-1 fordi Calendar.set() er teit*/
 				nydata = new Data(dato, 0, 0, 0);
-				if(dataliste.datoEksisterer(nydata))
-					if(dataliste.getData(nydata).toString() != null)
-						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + dataliste.getData(nydata).toString());
+				valgtSted = stedliste.getStedNode(fylke, sted);
+				if(valgtSted.dataliste.datoEksisterer(nydata))
+					if(valgtSted.dataliste.getData(nydata).toString() != null)
+						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + valgtSted.dataliste.getData(nydata).toString());
 					else
 						utskrift.setText("toStringen returnerer 0 ");
 				else
@@ -261,6 +278,12 @@ public class VisData extends Lista implements ActionListener{
 		}
 		else if(event.getSource() == visMnd)
 		{
+		
+			
+			if(!getStedVerdier())
+				return;
+			valgtSted = stedliste.getStedNode(fylke, sted); //skjekker om stede ikke er null og henter
+			
 			if(regnUtDag() == "")
 				utskrift.setText("Fant ingen data for denne måned");
 			else
@@ -268,13 +291,17 @@ public class VisData extends Lista implements ActionListener{
 		}		
 		else if(event.getSource() == visÅr)
 		{
+			if(!getStedVerdier())
+				return;
+			valgtSted = stedliste.getStedNode(fylke, sted); // samma her som visMnd
+			
 				String nyttår = "";
 				getDatoVerdier();
 				Calendar dato1 = Calendar.getInstance(); dato1.setTimeInMillis(0); dato1.set(år, 11, 31);
 					nydata = new Data(dato1,0,0,0);
-			if(dataliste.datoEksisterer(nydata))
+			if(valgtSted.dataliste.datoEksisterer(nydata))
 			{
-					nyttår = dataliste.getData(nydata).toString();
+					nyttår = valgtSted.dataliste.getData(nydata).toString();
 					utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + regnUtÅr() + nyttår + "\n\n\n Dette er alle dataene for valgt for året." );
 			}
 						

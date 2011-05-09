@@ -67,9 +67,12 @@ public class StedListe implements Serializable
 		}
 		return output;
 	}
+
+
 	
 	// returnerer en array som inneholder alle fylkene som er registerert i systemet
 	public String[] getFylkeArray()
+
 	{
 		if(tomListe())
 		{
@@ -77,6 +80,9 @@ public class StedListe implements Serializable
 			return retur;
 		}
 		
+
+	
+
 
 		Iterator<Sted> iterator = stedliste.iterator();
 		TreeSet<String> utenDuplikater = new TreeSet<String>();
