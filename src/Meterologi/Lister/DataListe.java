@@ -114,13 +114,34 @@ public class DataListe implements Serializable{
 		return retur;
 	}
 	
+	public boolean slettData(Data d)
+	{
+		if(første == null)
+			return false;
+		if(første.getDato().equals(d.getDato()))
+		{
+			første = første.neste;
+			return true;
+		}
+		else
+		{
+			Data a = første;
+			 while ( a.neste!= null)
+		      {  if(a.neste.getDato().equals( d.getDato() ))
+		         {
+		           a.neste = a.neste.neste;
+		           return true;
+		         }
+		      	a = a.neste;
+		      }
+			return false;
+		}
+	}
+	
 	public boolean tomListe()
 	{
 		if(første == null)
 			return true;
 		return false;
 	}
-	
-	
-	
 }

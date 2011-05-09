@@ -9,7 +9,7 @@ package Meterologi;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.JPanel;
+
 import Meterologi.Lister.*;
 
 
@@ -21,13 +21,15 @@ public class RegistrerSted extends Lista implements ActionListener
 	private JTextField stedfelt;
 	private JButton skrivut;
 	private JButton leggtilny;
-
+	private JButton slett;
+	
 	private String fylke;
 	private String sted;
-	
 	private Sted nyttsted;
+	String[] stedArray = new String[0];
+	private RegistrerData regdata;
 
-
+	
 	private final String[] fylker = {"Akershus", "Aust-Agder", "Buskerud", "Finnmark",
 										"Hedmark","Hordaland","Møre og Romsdal",
 										"Nordland","Nord-Trøndelag","Oppland","Oslo","Rogaland",
@@ -55,6 +57,7 @@ public class RegistrerSted extends Lista implements ActionListener
 		stedfelt = new JTextField(15);
 		stedfelt.addActionListener(this);
 		stedPanel.add(stedfelt);
+		
 		toppanel.add(stedPanel);
 		//knapper
 			//legg til nytt sted
@@ -66,6 +69,10 @@ public class RegistrerSted extends Lista implements ActionListener
 		skrivut = new JButton("Skriv ut");
 		skrivut.addActionListener(this);
 		knappepanel.add(skrivut);
+			//slett innskrevet sted
+		slett = new JButton("Slett");
+		slett.addActionListener(this);
+		knappepanel.add(slett);
 		toppanel.add(knappepanel);
 		//legg til toppanelet
 		panelet.add(toppanel);
@@ -73,6 +80,7 @@ public class RegistrerSted extends Lista implements ActionListener
 		utskrift = new JTextArea(20,50);
 		panelet.add(new JScrollPane(utskrift));
 		panelet.setVisible(true);
+		utskrift.setEditable(false);
 
 		return panelet;
 	}//slutt på byggPanel
@@ -83,12 +91,15 @@ public class RegistrerSted extends Lista implements ActionListener
 		JOptionPane.showMessageDialog(null,melding, "OBS!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	
 	public boolean getStedVerdier()
 	{
+		
 		try
 		{
 			fylke = (String) fylkeboks.getSelectedItem();
 			sted = stedfelt.getText();
+			
 		}
 		catch(Exception e)
 		{
@@ -103,15 +114,24 @@ public class RegistrerSted extends Lista implements ActionListener
 		return true;
 	}
 	
+	
 	public void tømFelter()
 	{
 		stedfelt.setText("");
+	}
+	
+	public void skrivUt()
+	{
+		if(stedliste.tomListe())
+			utskrift.setText("Ingen steder i systemet!");
+		else
+		{utskrift.setText(stedliste.toString());}
 	}
 
 
 	public void actionPerformed(ActionEvent e)
 	{
-		if(e.getSource() == skrivut)
+		if(e.getSource() == fylkeboks )
 		{
 			if(stedliste.tomListe())
 				utskrift.setText("Ingen steder i systemet!");
@@ -120,6 +140,11 @@ public class RegistrerSted extends Lista implements ActionListener
 				utskrift.setText(stedliste.toString());
 			
 			}
+		}
+		
+		if(e.getSource() == skrivut)
+		{
+			skrivUt();
 		}
 		if(e.getSource() == leggtilny)
 		{
@@ -157,13 +182,37 @@ public class RegistrerSted extends Lista implements ActionListener
 					melding("Nytt sted lagt inn i lista");
 				}
 				tømFelter();
+				lesLista();
 			}
 			catch(Exception ex)
 			{
 				melding("Det oppstod en feil ved registrering av data!");
 			}
-		}
-
+			skrivUt();	
+		}//slutt på ActionListener for LeggTilNy
+		if(e.getSource() == slett)
+		{
+				//Sjekker at fylke og sted er valgt
+			try{
+				if(!getStedVerdier())
+					return;
+				int valg = JOptionPane.showConfirmDialog(null, "Sikker på at du vil slette: " + fylke +", "+sted+"?",
+						"Slette sted?", JOptionPane.YES_NO_OPTION);
+				if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)
+				return;
+				
+				
+				//Bruke metode som sletter nåværende node i lisa
+				stedliste.slettStedNode(fylke,sted);
+				lagreLista();
+				melding("Stedet er slettet!");
+				System.out.println("Slettet sted: "+fylke+", "+sted);
+				regdata.oppdater();
+			}
+			catch(Exception ex){System.out.println("Feil: Ubehandlet unntak ved sletting av sted "+ex);}
+			skrivUt();
+		}//end of slettValgtSted ActionListener
+	
 	}//slutt på ActionPerformed
 
 }//Slutt på RegistrerSted
