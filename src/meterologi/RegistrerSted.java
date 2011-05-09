@@ -201,7 +201,6 @@ public class RegistrerSted extends Lista implements ActionListener
 				if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)
 				return;
 				
-				
 				//Bruke metode som sletter nåværende node i lisa
 				stedliste.slettStedNode(fylke,sted);
 				lagreLista();
