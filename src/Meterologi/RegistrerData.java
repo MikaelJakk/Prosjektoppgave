@@ -47,12 +47,8 @@ public class RegistrerData extends Lista implements ActionListener{
 	private String[] fylker = stedliste.getFylkeArray();
 	private String sted;
 	private String[] steder = stedliste.getStedArray(fylker[0]);
-	//steder inneholder en liste over alle de stedene som har blitt registrert på bestemt fylke.
-	
 	
 	private final int fraår = 1970;
-	//skal egentlig bruke stedsliste.getRegistrerteSteder() og stedsliste.getRegistrerteFylker()
-	//som skal returnere en String[] med registrerte fylker, og en annen med steder
 
 	public JPanel ByggPanel()
 	{	//bygger GUI på parameter panelet

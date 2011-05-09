@@ -28,6 +28,7 @@ public class RegistrerSted extends Lista implements ActionListener
 	private Sted nyttsted;
 	String[] stedArray = new String[0];
 	private RegistrerData regdata;
+	private VisData visdata;
 
 	
 	private final String[] fylker = {"Akershus", "Aust-Agder", "Buskerud", "Finnmark",
@@ -206,8 +207,6 @@ public class RegistrerSted extends Lista implements ActionListener
 				lagreLista();
 				melding("Stedet er slettet!");
 				System.out.println("Slettet sted: "+fylke+", "+sted);
-				regdata.oppdater();
-				visdata.oppdater();
 			}
 			catch(Exception ex){System.out.println("Feil: Ubehandlet unntak ved sletting av sted "+ex);}
 			skrivUt();

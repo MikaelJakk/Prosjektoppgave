@@ -9,16 +9,12 @@
 package Meterologi;
 
 import java.awt.*;
-import java.awt.List;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
 	
 import Meterologi.Lister.Data;
-import Meterologi.Lister.DataListe;
 import Meterologi.Lister.Sted;
-import Meterologi.Lister.StedListe;
-import Meterologi.*;
 
 
 public class VisData extends Lista implements ActionListener{
@@ -52,8 +48,7 @@ public class VisData extends Lista implements ActionListener{
 	private int år;
 	
 
-	//lager pekere til dataliste og data, og valgt sted.
-	private DataListe dataliste;
+	//lager data og valgtsted
 	private Data nydata;
 	private Sted valgtSted; 
 	//valgtSted skal peke på stedet man velger i comboboksene.
@@ -61,12 +56,9 @@ public class VisData extends Lista implements ActionListener{
 	
 	//array over registrerte fylker og steder. samt pekere til valgt fylke og sted
 	private String fylke;
-	 String[] fylker =   stedliste.getFylkeArray();
-	 String sted;
-	 String[] steder = stedliste.getStedArray(fylker[0]);
-	
-	//skal egentlig bruke stedsliste.getRegistrerteSteder() og stedsliste.getRegistrerteFylker()
-	//som skal returnere en String[] med registrerte fylker, og en annen med steder
+	private String[] fylker =   stedliste.getFylkeArray();
+	private String sted;
+	private String[] steder = stedliste.getStedArray(fylker[0]);
 	
 	 
 	public JPanel ByggPanel()
@@ -148,9 +140,6 @@ public class VisData extends Lista implements ActionListener{
 		panelet.add(new JScrollPane(utskrift));
 		
 		panelet.setVisible(true);
-		
-		//Initialiserer listen med steder og data  (forøvring bare datalisten)
-		dataliste = new DataListe();
 		
 		return panelet;
 	}//end of byggPanel()
@@ -320,9 +309,6 @@ public class VisData extends Lista implements ActionListener{
 		}
 		else if(event.getSource() == visMnd)
 		{	
-		
-			
-			
 			if(!getStedVerdier())
 				return;
 			valgtSted = stedliste.getStedNode(fylke, sted); //skjekker om stede ikke er null og henter

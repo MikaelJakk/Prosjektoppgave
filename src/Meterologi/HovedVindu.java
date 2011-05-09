@@ -45,6 +45,7 @@ public class HovedVindu extends JFrame
 	    								public void stateChanged(ChangeEvent evt){
 	    									try{
 	    									regdata.oppdater();
+	    									visdata.oppdater();
 	    									}catch(Exception ex){System.out.println("Feil: ved " +
 	    											"oppdatering av comboboxer"+ex);}
 	    									
