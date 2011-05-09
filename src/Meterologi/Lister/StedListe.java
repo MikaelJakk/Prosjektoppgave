@@ -11,6 +11,7 @@ public class StedListe implements Serializable
 {
 	private static final long serialVersionUID = 1L;	
 	private TreeSet<Sted> stedliste = new TreeSet<Sted>();
+	private Sted sted;
 
 	//Setter inn sted bakerst i listen
 	public void settInnFylke(Sted obj)
@@ -67,8 +68,6 @@ public class StedListe implements Serializable
 		}
 		return output;
 	}
-
-
 	
 	// returnerer en array som inneholder alle fylkene som er registerert i systemet
 	public String[] getFylkeArray()
@@ -80,10 +79,6 @@ public class StedListe implements Serializable
 			return retur;
 		}
 		
-
-	
-
-
 		Iterator<Sted> iterator = stedliste.iterator();
 		TreeSet<String> utenDuplikater = new TreeSet<String>();
 		while(iterator.hasNext())
@@ -116,7 +111,43 @@ public class StedListe implements Serializable
 			return (String[]) b.toArray(new String[0]);
 		}
 	}
+	
+	//-------------------------------Statistikk Metoder-------------------------------------
+	public String getStedMedMinsteTemp(Calendar fra, Calendar til)
+	{
+		String retur;
+		Sted gjeldene = null;
+		Data dataMinstTempGammel;
+		dataMinstTempGammel = sted.dataliste.getFørste();
+		Data midlertidig = null;
+		Iterator<Sted> iterator = stedliste.iterator();
+		while(iterator.hasNext())
+		{
+			if(dataMinstTempGammel != null && midlertidig == null)
+			{
+				midlertidig = dataMinstTempGammel;
+			}
+			else
+			{
+				if(gjeldene == null)
+					gjeldene = iterator.next();
+				Data dataMinsteTemp;
+				dataMinsteTemp = sted.dataliste.getDenMedMinsteTemp(fra, til);	
+				
+				if(dataMinsteTemp.getMinTemp() > midlertidig.getMinTemp())
+				{
+					midlertidig = dataMinsteTemp;
+				}	
+			}
+		}
+		retur = gjeldene.getSted() + midlertidig.getMinTemp() + ", " + dataMinstTempGammel.getDato();
+		return retur;
 
+		//<går igjennom stedliste og kaller getDenMedMinsteTemp(fra,til) 
+		//for alle og returnerer sted, mintemp og dato for den med minst temperatur>
+	}
+	//--------------------------------Statistikk Metoder-------------------------------------------
+	
 	public boolean tomListe()
 	{
 		Iterator<Sted> iter = stedliste.iterator();

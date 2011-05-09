@@ -5,7 +5,7 @@
 package Meterologi.Lister;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.Calendar;
 
 public class DataListe implements Serializable{
@@ -51,6 +51,11 @@ public class DataListe implements Serializable{
 	{
 		n.neste = første;
 		første = n;
+	}
+	
+	public Data getFørste()
+	{
+		return første;
 	}
 	
 	public boolean datoEksisterer(Data n)
