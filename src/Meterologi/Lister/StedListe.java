@@ -67,13 +67,12 @@ public class StedListe implements Serializable
 		}
 		return output;
 	}
-<<<<<<< HEAD
-	public void test()
-=======
+
+
 	
 	// returnerer en array som inneholder alle fylkene som er registerert i systemet
 	public String[] getFylkeArray()
->>>>>>> 0170185c11b4d42dfce2ccc8cbbf27263a6b738c
+
 	{
 		if(tomListe())
 		{
@@ -81,10 +80,9 @@ public class StedListe implements Serializable
 			return retur;
 		}
 		
-<<<<<<< HEAD
-	}
-=======
->>>>>>> 0170185c11b4d42dfce2ccc8cbbf27263a6b738c
+
+	
+
 
 		Iterator<Sted> iterator = stedliste.iterator();
 		TreeSet<String> utenDuplikater = new TreeSet<String>();
