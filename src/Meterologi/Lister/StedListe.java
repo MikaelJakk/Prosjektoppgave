@@ -79,12 +79,10 @@ public class StedListe implements Serializable
 		}
 		return output;
 	}
-<<<<<<< HEAD
 	public void test()
 	{
 		
 	}
-=======
 
 	// returnerere en array som inneholder alle Stedene som er registrert på hvert fylke
 	public String[] getStedArray(String f)
@@ -136,7 +134,6 @@ public class StedListe implements Serializable
 		return returnArray;
 	}
 
->>>>>>> f0360eb0304e947c49a6798787c8ed3a5f00295b
 	public boolean tomListe()
 	{
 		Iterator<Sted> iter = stedliste.iterator();

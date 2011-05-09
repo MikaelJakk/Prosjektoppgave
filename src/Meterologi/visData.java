@@ -17,6 +17,7 @@ import javax.swing.*;
 import Meterologi.Lister.Data;
 import Meterologi.Lister.DataListe;
 import Meterologi.Lister.Sted;
+import Meterologi.Lister.StedListe;
 import Meterologi.*;
 
 
@@ -43,7 +44,7 @@ public class VisData extends Lista implements ActionListener{
 	//lager pekere til dataliste og data, og valgt sted.
 	private DataListe dataliste;
 	private Data nydata;
-	private Sted valgtSted; 
+	private StedListe valgtSted; 
 	//valgtSted skal peke på stedet man velger i comboboksene.
 	//det er dette stedet man skal lagre ny data på sted.nyData.(Data d);
 	
