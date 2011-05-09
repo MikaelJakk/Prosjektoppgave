@@ -222,6 +222,7 @@ public class RegistrerData extends Lista implements ActionListener{
 
 	public void actionPerformed(ActionEvent event) {
 		
+		//oppdaterer stedlista ved trykk på fylkesboks så de rette stedene kan velges
 		if(event.getSource() == fylkeboks)
 		{oppdater();}
 		
@@ -308,5 +309,58 @@ public class RegistrerData extends Lista implements ActionListener{
 			}
 			catch(Exception ex){System.out.println(ex);melding("Feil: ved innsetting av data (main)" +ex);};
 		}//end of ActionsListener for LeggTilNyKnapp
+		
+		if(event.getSource() == slett)//slett noden(på valgt dato) fra datalisten til valgt sted
+		{
+			if(stedliste.tomListe())
+			{
+				melding("du må registrere steder å lagre data på før du kan slette data");
+				return;
+			}
+			if(!getStedVerdier())
+				return;
+			//henter dato input
+			getDatoVerdier();
+			//lagrer dato som calendar objekt
+			Calendar dato = Calendar.getInstance();
+			dato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
+			dato.set(år,måned-1,dag);/*måned-1 fordi Calendar.set() er teit*/
+			Calendar nå = Calendar.getInstance();
+			if(nå.before(dato))
+			{melding("innskrevet dato har ikke intruffet, og kan ikke ha blitt lagret i systemet");
+			return;}
+			Data sdata = new Data(dato, 0, 0, 0);
+			if(!stedliste.finsStedNode(fylke, sted))
+			{	melding("stedet finnes ikke");
+				return;
+			}
+			else
+			{
+				try{
+					valgtSted = stedliste.getStedNode(fylke, sted);
+					}catch(Exception ex){System.out.println("Feil: ved innsetting av data (1)");}
+				if(valgtSted == null)return;
+				else
+				{
+					int valg = JOptionPane.showConfirmDialog(null, 
+							"Slette data oppført under: "+"\nFylke: "+fylke +"\nSted: "+sted +"\nDato: "+sdata.getDatoString(),
+							"Slette data?", JOptionPane.YES_NO_OPTION);
+					if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)
+					return;
+					
+					boolean vellykket = valgtSted.dataliste.slettData(sdata);
+					if(vellykket)
+					{
+						melding("Slettet data under:"
+								+"\nFylke: "+fylke +"\nSted: "+sted +"\nDato: "+sdata.getDatoString());
+						lagreLista();
+					}
+					else
+						melding("Fant ingen data under:\n"
+								+"\nFylke: "+fylke +"\nSted: "+sted +"\nDato: "+sdata.getDatoString());
+				}
+				skrivUt();
+			}
+		}//end of slettknappen sin actionlistener
 	}//end of actionPerformed()
 }//End of registrerData

@@ -52,4 +52,9 @@ public class Data implements Serializable{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 		return sdf.format(dato.getTime())+"\t"+mintemp+"\t"+maxtemp+"\t"+nedbør;
 	}
+	public String getDatoString()
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		return sdf.format(dato.getTime())+"";
+	}
 }
