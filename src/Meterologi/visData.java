@@ -34,8 +34,18 @@ public class VisData extends Lista implements ActionListener{
 	private JComboBox årfelt;
 	private JButton visData;
 	
+	//ekstra fra knapper
+	private JComboBox Får;
+	private JComboBox Fdag;
+	private JComboBox Fmnd;
+	//til knapper
+	private JComboBox Tår;
+	private JComboBox Tdag;
+	private JComboBox Tmnd;
+	
 	private JButton visMnd;
 	private JButton visÅr;
+	private JButton visAlle;
 	
 	private int dag;
 	private int mnd;
@@ -57,7 +67,8 @@ public class VisData extends Lista implements ActionListener{
 	
 	//skal egentlig bruke stedsliste.getRegistrerteSteder() og stedsliste.getRegistrerteFylker()
 	//som skal returnere en String[] med registrerte fylker, og en annen med steder
-
+	
+	 
 	public JPanel ByggPanel()
 	{	//bygger GUI på parameter panelet
 		JPanel panelet = new JPanel();
@@ -65,7 +76,7 @@ public class VisData extends Lista implements ActionListener{
 		
 		//panel for alt utenom utksiftsfelt
 		JPanel toppanel = new JPanel();
-		toppanel.setLayout(new GridLayout(3,0));
+		toppanel.setLayout(new GridLayout(4,0));
 		//dropdown for valg av fylke og sted
 		JPanel stedpanel = new JPanel();
 		stedpanel.add(new JLabel("Fylke:"));
@@ -101,12 +112,41 @@ public class VisData extends Lista implements ActionListener{
 		knappepanel.add(visMnd);
 		knappepanel.add(visÅr);
 		toppanel.add(knappepanel);
+		
+		JPanel diffpanel = new JPanel();
+		diffpanel.add(new JLabel("Fra : "));
+		Fdag = new JComboBox(makearray(1, 31));
+		diffpanel.add(Fdag);
+		Fmnd = new JComboBox(makearray(1, 12));
+		diffpanel.add(Fmnd);		
+		Får = new JComboBox(makeyeararray());
+		diffpanel.add(Får);
+
+		diffpanel.add(new JLabel(" Til : "));
+		Tdag = new JComboBox(makearray(1, 31));
+		diffpanel.add(Tdag);
+		Tmnd = new JComboBox(makearray(1, 12));
+		diffpanel.add(Tmnd);		
+		Tår = new JComboBox(makeyeararray());
+		diffpanel.add(Tår);
+		
+		visAlle = new JButton("Vis dataene mellom datoene");
+		visAlle.addActionListener(this);
+		diffpanel.add(visAlle);
+		
+		toppanel.add(diffpanel);
+		
+
+		
+		
 		//legger til toppanelet
 		panelet.add(toppanel);
+
 		
 		//utskriftsvindu
 		utskrift = new JTextArea(20, 50);
 		panelet.add(new JScrollPane(utskrift));
+		
 		panelet.setVisible(true);
 		
 		//Initialiserer listen med steder og data  (forøvring bare datalisten)
@@ -249,7 +289,9 @@ public class VisData extends Lista implements ActionListener{
 
 	public void actionPerformed(ActionEvent event) {
 		
-			
+		if(event.getSource() == fylkeboks)
+		{oppdater();}
+		
 		if(event.getSource() == visData)
 		{
 			
@@ -277,8 +319,9 @@ public class VisData extends Lista implements ActionListener{
 			}
 		}
 		else if(event.getSource() == visMnd)
-		{
+		{	
 		
+			
 			
 			if(!getStedVerdier())
 				return;
