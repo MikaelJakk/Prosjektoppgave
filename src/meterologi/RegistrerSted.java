@@ -207,6 +207,7 @@ public class RegistrerSted extends Lista implements ActionListener
 				melding("Stedet er slettet!");
 				System.out.println("Slettet sted: "+fylke+", "+sted);
 				regdata.oppdater();
+				visdata.oppdater();
 			}
 			catch(Exception ex){System.out.println("Feil: Ubehandlet unntak ved sletting av sted "+ex);}
 			skrivUt();
