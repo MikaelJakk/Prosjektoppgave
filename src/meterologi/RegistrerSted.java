@@ -201,13 +201,13 @@ public class RegistrerSted extends Lista implements ActionListener
 				if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)
 				return;
 				
-				
 				//Bruke metode som sletter nåværende node i lisa
 				stedliste.slettStedNode(fylke,sted);
 				lagreLista();
 				melding("Stedet er slettet!");
 				System.out.println("Slettet sted: "+fylke+", "+sted);
 				regdata.oppdater();
+				visdata.oppdater();
 			}
 			catch(Exception ex){System.out.println("Feil: Ubehandlet unntak ved sletting av sted "+ex);}
 			skrivUt();

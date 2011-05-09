@@ -5,6 +5,8 @@
 package Meterologi.Lister;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class DataListe implements Serializable{
 	
@@ -143,5 +145,131 @@ public class DataListe implements Serializable{
 		if(første == null)
 			return true;
 		return false;
+	}
+	
+	public Data getDenMedMinsteTemp(Calendar fra, Calendar til)
+	{/*<returner den noden(Data) med minst temp i lista som også har dato.after(fra) && dato.before(til)>*/
+		Data a = første;
+		Data retur = a;
+		while(a.neste != null)
+		{
+			if(retur == null || a.getMinTemp()<retur.getMinTemp())
+			{
+				retur = a;
+			}
+			a=a.neste;
+		}
+		return retur;
+	}
+	
+	public Data getDenMedHøyesteTemp(Calendar fra, Calendar til)
+	{/*<returner den noden(Data) med høyestmakstemp i lista som også har dato.after(fra) && dato.before(til)*/
+		Data a = første;
+		Data retur = a;
+		while(a.neste != null)
+		{
+			if(retur == null || a.getMaxTemp()<retur.getMaxTemp())
+			{
+				retur = a;
+			}
+			a=a.neste;
+		}
+		return retur;
+	}
+	
+	public Data getDenMedMestNedbør(Calendar fra, Calendar til)
+	{/*<returnerer den noden som har mest nedbør der dato.after(fra) && dato.before(til)>*/
+		Data a = første;
+		Data retur = a;
+		while(a.neste != null)
+		{
+			if( retur == null || a.getNedbør()>retur.getNedbør() )
+			{
+				retur = a;
+			}
+			a=a.neste;
+		}
+		return retur;
+	}
+	
+	public Data getDenMedMinstNedbør(Calendar fra, Calendar til)
+	{/*<returnerer noden med minst nedbør fra dato til dato>*/
+		Data a = første;
+		Data retur = a;
+		while(a.neste != null)
+		{
+			if( retur == null || a.getNedbør()<retur.getNedbør() )
+			{
+				retur = a;
+			}
+			a=a.neste;
+		}
+		return retur;
+	}
+	
+	public String visData(Calendar fra,Calendar til)
+	{/*<returnerer en tostring med dataen fra nodene der dato.after(fra) && dato.before(til)>*/
+		String returstreng = "";
+		
+		Data a = første;
+		while(a.neste != null)
+		{
+			if(a.getDato().after(fra)&& a.getDato().before(til))
+			{
+				returstreng += a.toString();
+			}
+			a = a.neste;
+		}
+		return returstreng;
+	}
+	
+	public int summerNedbør(Calendar fra, Calendar til)
+	{/*<returnerer summen av alle nodene.getNedbør() der dato.after(fra) && dato.before(til)>*/
+		int retur = 0;
+		Data a = første;
+		
+		while(a.neste != null)
+		{
+			if(a.getDato().after(fra) && a.getDato().before(til))
+			{
+				retur += a.getNedbør();
+			}
+			a=a.neste;
+		}
+		return retur;
+	}
+	
+	public double getGjennomsnittsMinTemp(Calendar fra, Calendar til)
+	{/*<returnerer gjennomsnittsmimimumstemperaturen for noder mellom fra og til>*/
+		double sum = 0.0;
+		int antall = 0;
+		Data a = første;
+		while(a.neste != null)
+		{
+			if(a.getDato().after(fra) && a.getDato().before(til))
+			{
+				sum += a.getMinTemp();
+				antall++;
+			}
+			a=a.neste;
+		}
+		return sum/antall;
+	}
+	
+	public double getGjennomsnittsMaksTemp(Calendar fra, Calendar til)
+	{/*<returnerer gjennomsnittsmaksimumstemperaturen for noder mellom fra og til>*/
+		double sum = 0.0;
+		int antall = 0;
+		Data a = første;
+		while(a.neste != null)
+		{
+			if(a.getDato().after(fra) && a.getDato().before(til))
+			{
+				sum += a.getMaxTemp();
+				antall++;
+			}
+			a=a.neste;
+		}
+		return sum/antall;
 	}
 }
