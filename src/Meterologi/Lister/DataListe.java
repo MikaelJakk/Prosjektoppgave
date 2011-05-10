@@ -5,7 +5,6 @@
 package Meterologi.Lister;
 
 import java.io.Serializable;
-import java.text.*;
 import java.util.Calendar;
 
 public class DataListe implements Serializable{
@@ -51,11 +50,6 @@ public class DataListe implements Serializable{
 	{
 		n.neste = første;
 		første = n;
-	}
-	
-	public Data getFørste()
-	{
-		return første;
 	}
 	
 	public boolean datoEksisterer(Data n)
@@ -158,7 +152,7 @@ public class DataListe implements Serializable{
 		Data retur = a;
 		while(a.neste != null)
 		{
-			if(retur == null || a.getMinTemp()<retur.getMinTemp())
+			if(retur == null || a.getMinTemp()<retur.getMinTemp() )
 			{
 				retur = a;
 			}
@@ -171,9 +165,12 @@ public class DataListe implements Serializable{
 	{/*<returner den noden(Data) med høyestmakstemp i lista som også har dato.after(fra) && dato.before(til)*/
 		Data a = første;
 		Data retur = a;
-		while(a.neste != null)
+		while(a != null)
 		{
-			if(retur == null || a.getMaxTemp()<retur.getMaxTemp())
+			if(retur == null || a.getMaxTemp()<retur.getMaxTemp() &&
+					(a.getDato().compareTo(fra) == 0 
+					|| a.getDato().after(fra)&& a.getDato().before(til) 
+					|| a.getDato().compareTo(til) == 0))
 			{
 				retur = a;
 			}
@@ -214,14 +211,16 @@ public class DataListe implements Serializable{
 	
 	public String visData(Calendar fra,Calendar til)
 	{/*<returnerer en tostring med dataen fra nodene der dato.after(fra) && dato.before(til)>*/
-		String returstreng = "";
+		String returstreng = "Dato\tMinTemp\tMaxTemp\tNedbør(mm)";
 		
 		Data a = første;
-		while(a.neste != null)
+		while(a != null)
 		{
-			if(a.getDato().after(fra)&& a.getDato().before(til))
+			if(a.getDato().compareTo(fra) == 0 
+					|| a.getDato().after(fra)&& a.getDato().before(til) 
+					|| a.getDato().compareTo(til) == 0)
 			{
-				returstreng += a.toString();
+				returstreng += "\n" +a.toString();
 			}
 			a = a.neste;
 		}

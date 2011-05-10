@@ -11,7 +11,6 @@ public class StedListe implements Serializable
 {
 	private static final long serialVersionUID = 1L;	
 	private TreeSet<Sted> stedliste = new TreeSet<Sted>();
-	private Sted sted;
 
 	//Setter inn sted bakerst i listen
 	public void settInnFylke(Sted obj)
@@ -112,13 +111,94 @@ public class StedListe implements Serializable
 		}
 	}
 	
+	public String getStedMedMinsteTemp(Calendar fra, Calendar til)
+	{
+		if(stedliste.size() == 0)
+			return "Ingen steder registrert";
+		
+		Sted gjeldende = null;
+		Data denmedminstetemp = null;
+		String returfylke ="";
+		String retursted = "";
+		
+		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			if(denmedminstetemp == null)
+			{
+			denmedminstetemp = gjeldende.dataliste.getDenMedMinsteTemp(fra,til);
+			returfylke = gjeldende.getFylke();
+			retursted = gjeldende.getSted();
+			}
+			else
+			{
+				gjeldende = iter.next();
+				if(denmedminstetemp.getMinTemp() > gjeldende.dataliste.getDenMedMinsteTemp(fra, til).getMinTemp())
+				{
+					denmedminstetemp = gjeldende.dataliste.getDenMedMinsteTemp(fra, til);
+					returfylke = gjeldende.getFylke();
+					retursted = gjeldende.getSted();
+				}
+			}
+		}
+		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp() +"\t" + denmedminstetemp.getDatoString();
+	}
+	
+	//----------------Uferdig-------------------
+	/*public String getMaksTempSted(Calendar fra, Calendar til)
+	if(stedliste.size() == 0)
+		return "Ingen steder registrert";
+	
+	Sted gjeldende = null;
+	Data denmedminstetemp = null;
+	String returfylke ="";
+	String retursted = "";
+	
+	Iterator<Sted> iter = stedliste.iterator();
+	while(iter.hasNext())
+	{
+		gjeldende = iter.next();
+		if(denmedminstetemp == null)
+		{
+		denmedminstetemp = gjeldende.dataliste.getDenMedMinsteTemp(fra,til);
+		returfylke = gjeldende.getFylke();
+		retursted = gjeldende.getSted();
+		}
+		else
+		{
+			gjeldende = iter.next();
+			if(denmedminstetemp.getMinTemp() > gjeldende.dataliste.getDenMedMinsteTemp(fra, til).getMinTemp())
+			{
+				denmedminstetemp = gjeldende.dataliste.getDenMedMinsteTemp(fra, til);
+				returfylke = gjeldende.getFylke();
+				retursted = gjeldende.getSted();
+			}
+		}
+	}
+	return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp() +"\t" + denmedminstetemp.getDatoString();	
+	//<går igjennom stedliste og kaller getDenMedHøyesteTemp(fra,til) for alle og returnerer sted, maxtemp og dato for den med høyest temperatur>
+}
+
+	/*
+	public String getStedetMedMinstNedbør(Calendar fra, Calendar til)
+	{<går igjennom stedliste og kaller getDenMedMinstNedbør for alle stedene og returnerer en streng med fylke, sted, nedbørsverdi og dato>}
+
+	public String getStedetMedMestNedbør(Calendar fra, Calendar til)
+	{<går igjennom stedliste og kaller getDenMedMestNedbør(fra,til) og returnerer en streng med fylke, sted, nedbørsverdi og dato>}
+	*/
+	
+	/*
 	//-------------------------------Statistikk Metoder-------------------------------------
 	public String getStedMedMinsteTemp(Calendar fra, Calendar til)
 	{
-		String retur;
-		Sted gjeldene = null;
+		String retur ="";
+		Sted gjeldenested = null;
 		Data dataMinstTempGammel;
-		dataMinstTempGammel = sted.dataliste.getFørste();
+		Calendar nullsec = Calendar.getInstance();
+		nullsec.setTimeInMillis(0);
+		dataMinstTempGammel = new Data(nullsec,0,0,0);
+		//dataMinstTempGammel = sted.dataliste.getFørste();
 		Data midlertidig = null;
 		Iterator<Sted> iterator = stedliste.iterator();
 		while(iterator.hasNext())
@@ -129,8 +209,8 @@ public class StedListe implements Serializable
 			}
 			else
 			{
-				if(gjeldene == null)
-					gjeldene = iterator.next();
+				if(gjeldenested == null)
+					gjeldenested = iterator.next();
 				Data dataMinsteTemp;
 				dataMinsteTemp = sted.dataliste.getDenMedMinsteTemp(fra, til);	
 				
@@ -140,14 +220,14 @@ public class StedListe implements Serializable
 				}	
 			}
 		}
-		retur = gjeldene.getSted() + midlertidig.getMinTemp() + ", " + dataMinstTempGammel.getDato();
+		retur = gjeldenested.getFylke() +"\t" +gjeldenested.getSted() +"\t" +midlertidig.getMinTemp() + ", " + dataMinstTempGammel.getDato();
 		return retur;
 
 		//<går igjennom stedliste og kaller getDenMedMinsteTemp(fra,til) 
 		//for alle og returnerer sted, mintemp og dato for den med minst temperatur>
 	}
 	//--------------------------------Statistikk Metoder-------------------------------------------
-	
+	*/
 	public boolean tomListe()
 	{
 		Iterator<Sted> iter = stedliste.iterator();
@@ -159,11 +239,7 @@ public class StedListe implements Serializable
 
 	public String toString()
 	{
-		String result = "";
-
-		result += "Registrerete Fylker:" + "\n" + skrivUt() + "\n";
-
-		return result;
+		return "Registrerte Fylker:" + "\n" + skrivUt() + "\n";
 	}
 	
 	public boolean fylkeStedEksisterer(Sted n)

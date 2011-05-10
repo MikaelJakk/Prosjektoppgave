@@ -20,36 +20,38 @@ import Meterologi.Lister.Sted;
 public class VisData extends Lista implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
-	private final int fraår = 1970;
+	private final int STARTÅR = 1970;
 	private JTextArea utskrift;
-	
+	//valgt fylke bokser
 	private JComboBox fylkeboks;
 	private JComboBox stedboks;
-	private JComboBox dagboks;
-	private JComboBox månedboks;
-	private JComboBox årfelt;
+	
+	//fra og til dato bokser
+	private JComboBox fradagboks;
+	private JComboBox framånedboks;
+	private JComboBox fraårboks;
+	private JComboBox tilårboks;
+	private JComboBox tildagboks;
+	private JComboBox tilmånedboks;
+	
+	//knapper
 	private JButton visData;
+	private JButton visMaxTemp;
+	private JButton visMinTemp;
+	private JButton visMaxNedbør;
+	private JButton visTotalNedbør;
+	private JButton visGjennomsnittNedbør;
 	
-	//ekstra fra knapper
-	private JComboBox Får;
-	private JComboBox Fdag;
-	private JComboBox Fmnd;
-	//til knapper
-	private JComboBox Tår;
-	private JComboBox Tdag;
-	private JComboBox Tmnd;
-	
-	private JButton visMnd;
-	private JButton visÅr;
-	private JButton visAlle;
-	
-	private int dag;
-	private int mnd;
-	private int år;
+	//mellomlagring av dag mnd og år
+	private int fradag;
+	private int framnd;
+	private int fraår;
+	private int tildag;
+	private int tilmnd;
+	private int tilår;
 	
 
-	//lager data og valgtsted
-	private Data nydata;
+	//peker til valgtsted
 	private Sted valgtSted; 
 	//valgtSted skal peke på stedet man velger i comboboksene.
 	//det er dette stedet man skal lagre ny data på sted.nyData.(Data d);
@@ -82,63 +84,56 @@ public class VisData extends Lista implements ActionListener{
 		toppanel.add(stedpanel);
 		//innputfeltet for dato
 		JPanel datopanel = new JPanel();
-		datopanel.add(new JLabel("År"));
-		årfelt = new JComboBox(makeyeararray());
-		datopanel.add(årfelt);
+		//fra dato bokser
+		datopanel.add(new JLabel("Fra år:"));
+		fraårboks = new JComboBox(makeyeararray());
+		fraårboks.addActionListener(this);
+		datopanel.add(fraårboks);
 		datopanel.add(new JLabel("Måned"));
-		månedboks = new JComboBox(makearray(1, 12));
-		datopanel.add(månedboks);
+		framånedboks = new JComboBox(makearray(1, 12));
+		framånedboks.addActionListener(this);
+		datopanel.add(framånedboks);
 		datopanel.add(new JLabel("Dag"));
-		dagboks = new JComboBox(makearray(1, 31));
-		datopanel.add(dagboks);				
+		fradagboks = new JComboBox(makearray(1, 31));
+		fradagboks.addActionListener(this);
+		datopanel.add(fradagboks);	
+		//til dato bokser
+		datopanel.add(new JLabel("Til år:"));
+		tilårboks = new JComboBox(makeyeararray());
+		tilårboks.addActionListener(this);
+		datopanel.add(tilårboks);
+		datopanel.add(new JLabel("Måned"));
+		tilmånedboks = new JComboBox(makearray(1, 12));
+		tilmånedboks.addActionListener(this);
+		datopanel.add(tilmånedboks);
+		tildagboks = new JComboBox(makearray(1, 31));
+		tildagboks.addActionListener(this);
+		datopanel.add(tildagboks);		
 		toppanel.add(datopanel);
 		//knapper
 		JPanel knappepanel = new JPanel();
 		visData = new JButton("Vis Data");
 		visData.addActionListener(this);
-		visMnd = new JButton("Data for måned");
-		visMnd.addActionListener(this);
-		visÅr = new JButton("Data for år");
-		visÅr.addActionListener(this);
+		visMaxTemp = new JButton("Max Temp");
+		visMinTemp = new JButton("Min Temp");
+		visMaxNedbør = new JButton("Max Nedbør");
+		visTotalNedbør = new JButton("Total Nedbør");
+		visGjennomsnittNedbør = new JButton("Gjennomsnitt Nedbør");
 		knappepanel.add(visData);
-		knappepanel.add(visMnd);
-		knappepanel.add(visÅr);
+		knappepanel.add(visMaxTemp);
+		knappepanel.add(visMinTemp);
+		knappepanel.add(visMaxNedbør);
+		knappepanel.add(visTotalNedbør);
+		knappepanel.add(visGjennomsnittNedbør);
 		toppanel.add(knappepanel);
-		
-		JPanel diffpanel = new JPanel();
-		diffpanel.add(new JLabel("Fra : "));
-		Fdag = new JComboBox(makearray(1, 31));
-		diffpanel.add(Fdag);
-		Fmnd = new JComboBox(makearray(1, 12));
-		diffpanel.add(Fmnd);		
-		Får = new JComboBox(makeyeararray());
-		diffpanel.add(Får);
-
-		diffpanel.add(new JLabel(" Til : "));
-		Tdag = new JComboBox(makearray(1, 31));
-		diffpanel.add(Tdag);
-		Tmnd = new JComboBox(makearray(1, 12));
-		diffpanel.add(Tmnd);		
-		Tår = new JComboBox(makeyeararray());
-		diffpanel.add(Tår);
-		
-		visAlle = new JButton("Vis dataene mellom datoene");
-		visAlle.addActionListener(this);
-		diffpanel.add(visAlle);
-		
-		toppanel.add(diffpanel);
-		
-
-		
 		
 		//legger til toppanelet
 		panelet.add(toppanel);
-
 		
 		//utskriftsvindu
 		utskrift = new JTextArea(20, 50);
+		utskrift.setEditable(false);
 		panelet.add(new JScrollPane(utskrift));
-		
 		panelet.setVisible(true);
 		
 		return panelet;
@@ -172,34 +167,21 @@ public class VisData extends Lista implements ActionListener{
 	
 	public boolean getDatoVerdier()
 	{
-		dag = Integer.parseInt((String) dagboks.getSelectedItem());
-		mnd =Integer.parseInt((String) månedboks.getSelectedItem());
-		år = Integer.parseInt((String)årfelt.getSelectedItem());
-		if(dag <= 0 || dag > 31)
-		{	melding("ugyldig dag");
-			return false; 
-		}
-		if(mnd == 0 || mnd >12 || mnd < 1)
-		{	melding("ugyldig måned");
-			return false;
-		}
-		if(år < 1970)
-		{	melding("ugyldig årstall");
-			return false;
-		}
-		if(år > 3000)
-		{	melding("Morsom eller.\nÅr "+år+" :P");
-			return false;
-		}
+		fradag = Integer.parseInt((String) fradagboks.getSelectedItem());
+		framnd = Integer.parseInt((String) framånedboks.getSelectedItem());
+		fraår = Integer.parseInt((String)fraårboks.getSelectedItem());
+		tilår = Integer.parseInt((String)tilårboks.getSelectedItem());
+		tilmnd = Integer.parseInt((String)tilmånedboks.getSelectedItem());
+		tildag = Integer.parseInt((String)tildagboks.getSelectedItem());
 		//må lage test på registrering av datoer som ikke har vært ennå.
 		return true;
 	}//end of getDatoVerdier()
 	
-	public String[] makeyeararray()
+	private String[] makeyeararray()
 	{
-		return makearray(fraår, Calendar.getInstance().get(Calendar.YEAR));
+		return makearray(STARTÅR, Calendar.getInstance().get(Calendar.YEAR));
 	}
-	public String[] makearray(int fra, int til)
+	private String[] makearray(int fra, int til)
 	{
 		String[] dagarray = new String[til-fra+1];
 		for(int i = fra; i <= til; i++)
@@ -208,6 +190,7 @@ public class VisData extends Lista implements ActionListener{
 		}
 		return dagarray;
 	}
+/*
 	public int telldager() // metode for å skjekke hvor mange dager det er i mnden
 	{
 		getDatoVerdier();
@@ -275,12 +258,66 @@ public class VisData extends Lista implements ActionListener{
 			}
 			return tekst;			
 	}
-
+*/
+	private void settDatoVerdierIBokser(JComboBox å, JComboBox m, JComboBox d)
+	{
+		int månednr = 1 + m.getSelectedIndex();
+		int antalldager;
+		if (månednr == 1 || månednr == 3 || månednr == 5 || månednr == 7 ||
+				månednr == 8 || månednr == 10 || månednr == 12) {
+			antalldager = 31;
+		} else if (månednr == 2) {
+			int år = Integer.parseInt((String) å.getSelectedItem());
+			//sjekk skuddår
+			if(år%400 == 0 || (år%4 == 0 && år%100 != 0))
+			{antalldager = 29;}
+			else antalldager = 28;
+		} else {
+			antalldager = 30;
+		}
+		String[] dager = makearray(1, antalldager);
+		d.setModel(new DefaultComboBoxModel(dager));
+	}
 	public void actionPerformed(ActionEvent event) {
 		
 		if(event.getSource() == fylkeboks)
 		{oppdater();}
 		
+		if(event.getSource() == fraårboks || event.getSource() == framånedboks)
+		{//forandrer antall dager i dagboksen så det blir riktig med tanke på skuddår osv.
+			settDatoVerdierIBokser(fraårboks,framånedboks,fradagboks);
+		}
+		if(event.getSource() == tilårboks || event.getSource() == tilmånedboks)
+		{
+			settDatoVerdierIBokser(tilårboks,tilmånedboks,tildagboks);
+		}//end of actionlisteners for datobokser
+		
+		if (event.getSource() == visMaxTemp)
+		{
+			if(stedliste.tomListe())
+				utskrift.setText("ingen data i systemet!");
+			else
+			{
+				if(!getStedVerdier())
+					return;
+				getDatoVerdier();
+				Calendar fradato = Calendar.getInstance();
+				fradato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
+				fradato.set(fraår,framnd-1,fradag);/*måned-1 fordi Calendar.set() er teit*/
+				Calendar tildato = Calendar.getInstance();
+				tildato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
+				tildato.set(tilår,tilmnd-1,tildag);/*måned-1 fordi Calendar.set() er teit*/
+				valgtSted = stedliste.getStedNode(fylke, sted);
+				
+				if(!valgtSted.dataliste.tomListe())
+				{
+					Data maxtemp = valgtSted.dataliste.getDenMedHøyesteTemp(fradato,tildato);
+					utskrift.setText(maxtemp.toString());
+				}
+				else
+					utskrift.setText("Ingen data funnet");
+			}
+		}
 		if(event.getSource() == visData)
 		{
 			
@@ -293,53 +330,20 @@ public class VisData extends Lista implements ActionListener{
 				
 				getDatoVerdier();
 				//lagrer dato som calendar objekt
-				Calendar dato = Calendar.getInstance();
-				dato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
-				dato.set(år,mnd-1,dag);/*måned-1 fordi Calendar.set() er teit*/
-				nydata = new Data(dato, 0, 0, 0);
+				Calendar fradato = Calendar.getInstance();
+				fradato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
+				fradato.set(fraår,framnd-1,fradag);/*måned-1 fordi Calendar.set() er teit*/
+				Calendar tildato = Calendar.getInstance();
+				tildato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
+				tildato.set(tilår,tilmnd-1,tildag);/*måned-1 fordi Calendar.set() er teit*/
+				
 				valgtSted = stedliste.getStedNode(fylke, sted);
-				if(valgtSted.dataliste.datoEksisterer(nydata))
-					if(valgtSted.dataliste.getData(nydata).toString() != null)
-						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + valgtSted.dataliste.getData(nydata).toString());
-					else
-						utskrift.setText("toStringen returnerer 0 ");
+				if(!valgtSted.dataliste.tomListe())
+					
+						utskrift.setText(valgtSted.dataliste.visData(fradato,tildato));
 				else
 					utskrift.setText("Denne datoen er ikke registrert enda");
 			}
 		}
-		else if(event.getSource() == visMnd)
-		{	
-			if(!getStedVerdier())
-				return;
-			valgtSted = stedliste.getStedNode(fylke, sted); //skjekker om stede ikke er null og henter
-			
-			if(regnUtDag() == "")
-				utskrift.setText("Fant ingen data for denne måned");
-			else
-				utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + regnUtDag() + "\n\n\n Dette er alle dataene for valgt måned." );
-		}		
-		else if(event.getSource() == visÅr)
-		{
-			if(!getStedVerdier())
-				return;
-			valgtSted = stedliste.getStedNode(fylke, sted); // samma her som visMnd
-			
-				String nyttår = "";
-				getDatoVerdier();
-				Calendar dato1 = Calendar.getInstance(); dato1.setTimeInMillis(0); dato1.set(år, 11, 31);
-					nydata = new Data(dato1,0,0,0);
-			if(valgtSted.dataliste.datoEksisterer(nydata))
-			{
-					nyttår = valgtSted.dataliste.getData(nydata).toString();
-					utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + regnUtÅr() + nyttår + "\n\n\n Dette er alle dataene for valgt for året." );
-			}
-						
-			else if(regnUtÅr() == "")
-				utskrift.setText("Fant ingen data for dette året.");
-			else
-				utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n\n" + regnUtÅr()  +  "\n\n\n Dette er alle dataene for valgt for året.");
-				
-		}
-		
 	}//end of actionPerformed()
 }//End of registrerData
