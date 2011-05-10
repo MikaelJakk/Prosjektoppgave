@@ -8,5 +8,6 @@ public class RunProgram extends Lista{
 	{
 		lesLista();
 		vindu = new HovedVindu();
+		vindu.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 	}
 }
