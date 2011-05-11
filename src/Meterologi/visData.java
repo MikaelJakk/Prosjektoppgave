@@ -84,6 +84,7 @@ public class VisData extends Lista implements ActionListener{
 		toppanel.add(stedpanel);
 		//innputfeltet for dato
 		JPanel datopanel = new JPanel();
+		JPanel datopanel2 = new JPanel();
 		//fra dato bokser
 		datopanel.add(new JLabel("Fra år:"));
 		fraårboks = new JComboBox(makeyeararray());
@@ -98,18 +99,20 @@ public class VisData extends Lista implements ActionListener{
 		fradagboks.addActionListener(this);
 		datopanel.add(fradagboks);	
 		//til dato bokser
-		datopanel.add(new JLabel("Til år:"));
+		datopanel2.add(new JLabel("Til år: "));
 		tilårboks = new JComboBox(makeyeararray());
 		tilårboks.addActionListener(this);
-		datopanel.add(tilårboks);
-		datopanel.add(new JLabel("Måned"));
+		datopanel2.add(tilårboks);
+		datopanel2.add(new JLabel("Måned"));
 		tilmånedboks = new JComboBox(makearray(1, 12));
 		tilmånedboks.addActionListener(this);
-		datopanel.add(tilmånedboks);
+		datopanel2.add(tilmånedboks);
+		datopanel2.add(new JLabel("Dag"));
 		tildagboks = new JComboBox(makearray(1, 31));
 		tildagboks.addActionListener(this);
-		datopanel.add(tildagboks);		
+		datopanel2.add(tildagboks);		
 		toppanel.add(datopanel);
+		toppanel.add(datopanel2);
 		//knapper
 		JPanel knappepanel = new JPanel();
 		visData = new JButton("Vis Data");
