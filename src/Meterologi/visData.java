@@ -9,6 +9,7 @@
 package Meterologi;
 
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -50,6 +51,9 @@ public class VisData extends Lista implements ActionListener{
 	private int tilmnd;
 	private int tilår;
 	
+	//pekere til fradato og tildato
+	Calendar fradato;
+	Calendar tildato;
 
 	//peker til valgtsted
 	private Sted valgtSted; 
@@ -58,7 +62,7 @@ public class VisData extends Lista implements ActionListener{
 	
 	//array over registrerte fylker og steder. samt pekere til valgt fylke og sted
 	private String fylke;
-	private String[] fylker =   stedliste.getFylkeArray();
+	private String[] fylker = stedliste.getFylkeArray();
 	private String sted;
 	private String[] steder = stedliste.getStedArray(fylker[0]);
 	
@@ -118,10 +122,15 @@ public class VisData extends Lista implements ActionListener{
 		visData = new JButton("Vis Data");
 		visData.addActionListener(this);
 		visMaxTemp = new JButton("Max Temp");
+		visMaxTemp.addActionListener(this);
 		visMinTemp = new JButton("Min Temp");
+		visMinTemp.addActionListener(this);
 		visMaxNedbør = new JButton("Max Nedbør");
+		visMaxNedbør.addActionListener(this);
 		visTotalNedbør = new JButton("Total Nedbør");
+		visTotalNedbør.addActionListener(this);
 		visGjennomsnittNedbør = new JButton("Gjennomsnitt Nedbør");
+		visGjennomsnittNedbør.addActionListener(this);
 		knappepanel.add(visData);
 		knappepanel.add(visMaxTemp);
 		knappepanel.add(visMinTemp);
@@ -281,22 +290,32 @@ public class VisData extends Lista implements ActionListener{
 		String[] dager = makearray(1, antalldager);
 		d.setModel(new DefaultComboBoxModel(dager));
 	}
+	
+	private void makeFraTilDato()
+	{
+		fradato = Calendar.getInstance();
+		fradato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
+		fradato.set(fraår,framnd-1,fradag);/*måned-1 fordi Calendar.set() er teit*/
+		
+		tildato = Calendar.getInstance();
+		tildato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
+		tildato.set(tilår,tilmnd-1,tildag);/*måned-1 fordi Calendar.set() er teit*/
+	}
+	
 	public void actionPerformed(ActionEvent event) {
 		
 		if(event.getSource() == fylkeboks)
 		{oppdater();}
 		
-		if(event.getSource() == fraårboks || event.getSource() == framånedboks)
-		{//forandrer antall dager i dagboksen så det blir riktig med tanke på skuddår osv.
-			settDatoVerdierIBokser(fraårboks,framånedboks,fradagboks);
-		}
-		if(event.getSource() == tilårboks || event.getSource() == tilmånedboks)
-		{
-			settDatoVerdierIBokser(tilårboks,tilmånedboks,tildagboks);
-		}//end of actionlisteners for datobokser
+		if(event.getSource() == fraårboks || event.getSource() == framånedboks){
+			//forandrer antall dager i dagboksen så det blir riktig med tanke på skuddår osv.
+			settDatoVerdierIBokser(fraårboks,framånedboks,fradagboks);}
+		if(event.getSource() == tilårboks || event.getSource() == tilmånedboks){	
+			settDatoVerdierIBokser(tilårboks,tilmånedboks,tildagboks);}
 		
-		if (event.getSource() == visMaxTemp)
+		if(event.getSource() == visMaxTemp)
 		{
+			utskrift.setText("");
 			if(stedliste.tomListe())
 				utskrift.setText("ingen data i systemet!");
 			else
@@ -304,26 +323,109 @@ public class VisData extends Lista implements ActionListener{
 				if(!getStedVerdier())
 					return;
 				getDatoVerdier();
-				Calendar fradato = Calendar.getInstance();
-				fradato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
-				fradato.set(fraår,framnd-1,fradag);/*måned-1 fordi Calendar.set() er teit*/
-				Calendar tildato = Calendar.getInstance();
-				tildato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
-				tildato.set(tilår,tilmnd-1,tildag);/*måned-1 fordi Calendar.set() er teit*/
+				
 				valgtSted = stedliste.getStedNode(fylke, sted);
 				
-				if(!valgtSted.dataliste.tomListe())
-				{
-					Data maxtemp = valgtSted.dataliste.getDenMedHøyesteTemp(fradato,tildato);
-					utskrift.setText(maxtemp.toString());
-				}
+				if(valgtSted.dataliste.tomListe())
+				utskrift.setText("Ingen lagret på valgt sted");
 				else
-					utskrift.setText("Ingen data funnet");
+				{	
+					Data data = valgtSted.dataliste.getDenMedHøyesteTemp(fradato,tildato);
+					if(data == null)
+						utskrift.setText("Ingen lagret på valgt sted");
+					else
+						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør(mm)\n"
+								+data.toString());
+				}
+			}
+		}
+		if(event.getSource() == visMinTemp)
+		{
+			utskrift.setText("");
+			if(stedliste.tomListe())
+				utskrift.setText("ingen data i systemet!");
+			else
+			{
+				if(!getStedVerdier())
+					return;
+				getDatoVerdier();
+				
+				makeFraTilDato();
+				
+				valgtSted = stedliste.getStedNode(fylke, sted);
+				
+				if(valgtSted.dataliste.tomListe())
+				utskrift.setText("Ingen lagret på valgt sted");
+				else
+				{	
+					Data data = valgtSted.dataliste.getDenMedLavesteTemp(fradato,tildato);
+					if(data == null)
+						utskrift.setText("Ingen lagret på valgt sted");
+					else
+						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør(mm)\n"
+								+data.toString());
+				}
+			}
+		}
+		if(event.getSource() == visMaxNedbør)
+		{
+			utskrift.setText("");
+			if(stedliste.tomListe())
+				utskrift.setText("ingen data i systemet!");
+			else
+			{
+				if(!getStedVerdier())
+					return;
+				getDatoVerdier();
+				
+				makeFraTilDato();
+				
+				valgtSted = stedliste.getStedNode(fylke, sted);
+				
+				if(valgtSted.dataliste.tomListe())
+				utskrift.setText("Ingen lagret på valgt sted");
+				else
+				{	
+					Data data = valgtSted.dataliste.getDenMedMestNedbør(fradato,tildato);
+					if(data == null)
+						utskrift.setText("Ingen lagret på valgt sted");
+					else
+						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør(mm)\n"
+								+data.toString());
+				}
+			}
+		}
+		if(event.getSource() == visTotalNedbør)
+		{
+			utskrift.setText("");
+			if(stedliste.tomListe())
+				utskrift.setText("ingen data i systemet!");
+			else
+			{
+				if(!getStedVerdier())
+					return;
+				getDatoVerdier();
+				
+				makeFraTilDato();
+				
+				valgtSted = stedliste.getStedNode(fylke, sted);
+				
+				if(valgtSted.dataliste.tomListe())
+				utskrift.setText("Ingen lagret på valgt sted");
+				else
+				{	
+					SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+					
+					utskrift.setText("Fradato\tTildato\tSum Nedbør(mm)\n"
+									+sdf.format(fradato.getTime())+"\t"
+									+sdf.format(tildato.getTime())+"\t"
+									+valgtSted.dataliste.summerNedbør(fradato,tildato));
+				}
 			}
 		}
 		if(event.getSource() == visData)
 		{
-			
+			utskrift.setText("");
 			if( stedliste.tomListe() )
 				utskrift.setText("ingen data i systemet!");
 			else
@@ -332,13 +434,8 @@ public class VisData extends Lista implements ActionListener{
 					return;
 				
 				getDatoVerdier();
-				//lagrer dato som calendar objekt
-				Calendar fradato = Calendar.getInstance();
-				fradato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
-				fradato.set(fraår,framnd-1,fradag);/*måned-1 fordi Calendar.set() er teit*/
-				Calendar tildato = Calendar.getInstance();
-				tildato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
-				tildato.set(tilår,tilmnd-1,tildag);/*måned-1 fordi Calendar.set() er teit*/
+
+				makeFraTilDato();
 				
 				valgtSted = stedliste.getStedNode(fylke, sted);
 				if(!valgtSted.dataliste.tomListe())

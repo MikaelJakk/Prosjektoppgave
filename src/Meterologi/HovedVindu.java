@@ -35,10 +35,10 @@ public class HovedVindu extends JFrame
 		JPanel p3 = visdata.ByggPanel();
 		JPanel p4 = stat.ByggPanel();
 
-		tabs.addTab("Registrer et nytt sted",null,p1);
-		tabs.addTab("Registrer ny Data",null,p2);
-	    tabs.addTab("Vis Data",null,p3);
-	    tabs.addTab("Statistikk",null,p4);
+		tabs.addTab("Registrer et nytt sted",null,p1,"Registrering av nye steder");
+		tabs.addTab("Registrer ny Data",null,p2,"Registrering av ny meterologisk data");
+	    tabs.addTab("Data For Sted",null,p3,"Visning av data for ett bestemt sted");
+	    tabs.addTab("Data for Alt",null,p4,"Visning av data for alle registrerte steder");
 	    
 	    //oppdaterer comboboxer i RegistrerData
 	    tabs.addChangeListener(new ChangeListener(){

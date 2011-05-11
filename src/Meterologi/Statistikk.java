@@ -30,7 +30,7 @@ public class Statistikk extends JFrame implements ActionListener
 		utskrift4 = new JTextArea(25,45);
 
 		JTabbedPane pane = new JTabbedPane();
-		pane.addTab("Ekstrem Verdier", s1);
+		pane.addTab("Statistikk for alle steder", s1);
 		pane.addTab("Rankingliste", s2);
 		pane.addTab("Statistikk over år", s3);
 		pane.addTab("Statistikk over alle registrerte steder",s4);

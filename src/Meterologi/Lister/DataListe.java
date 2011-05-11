@@ -146,13 +146,17 @@ public class DataListe implements Serializable{
 		return false;
 	}
 	
-	public Data getDenMedMinsteTemp(Calendar fra, Calendar til)
+	public Data getDenMedLavesteTemp(Calendar fra, Calendar til)
 	{/*<returner den noden(Data) med minst temp i lista som også har dato.after(fra) && dato.before(til)>*/
 		Data a = første;
 		Data retur = a;
-		while(a.neste != null)
+		while(a != null)
 		{
-			if(retur == null || a.getMinTemp()<retur.getMinTemp() )
+			
+			if(a.getMinTemp()<retur.getMinTemp() &&
+				(a.getDato().compareTo(fra) == 0 
+				|| a.getDato().after(fra)&& a.getDato().before(til) 
+				|| a.getDato().compareTo(til) == 0))
 			{
 				retur = a;
 			}
@@ -167,10 +171,11 @@ public class DataListe implements Serializable{
 		Data retur = a;
 		while(a != null)
 		{
-			if(retur == null || a.getMaxTemp()<retur.getMaxTemp() &&
-					(a.getDato().compareTo(fra) == 0 
-					|| a.getDato().after(fra)&& a.getDato().before(til) 
-					|| a.getDato().compareTo(til) == 0))
+			
+			if(a.getMaxTemp()>retur.getMaxTemp() &&
+				(a.getDato().compareTo(fra) == 0 
+				|| a.getDato().after(fra)&& a.getDato().before(til) 
+				|| a.getDato().compareTo(til) == 0))
 			{
 				retur = a;
 			}
@@ -183,24 +188,13 @@ public class DataListe implements Serializable{
 	{/*<returnerer den noden som har mest nedbør der dato.after(fra) && dato.before(til)>*/
 		Data a = første;
 		Data retur = a;
-		while(a.neste != null)
+		while(a != null)
 		{
-			if( retur == null || a.getNedbør()>retur.getNedbør() )
-			{
-				retur = a;
-			}
-			a=a.neste;
-		}
-		return retur;
-	}
-	
-	public Data getDenMedMinstNedbør(Calendar fra, Calendar til)
-	{/*<returnerer noden med minst nedbør fra dato til dato>*/
-		Data a = første;
-		Data retur = a;
-		while(a.neste != null)
-		{
-			if( retur == null || a.getNedbør()<retur.getNedbør() )
+			
+			if(a.getNedbør()>retur.getNedbør() &&
+				(a.getDato().compareTo(fra) == 0 
+				|| a.getDato().after(fra)&& a.getDato().before(til) 
+				|| a.getDato().compareTo(til) == 0))
 			{
 				retur = a;
 			}
@@ -232,9 +226,11 @@ public class DataListe implements Serializable{
 		int retur = 0;
 		Data a = første;
 		
-		while(a.neste != null)
+		while(a != null)
 		{
-			if(a.getDato().after(fra) && a.getDato().before(til))
+			if(a.getDato().compareTo(fra) == 0 
+					|| a.getDato().after(fra)&& a.getDato().before(til) 
+					|| a.getDato().compareTo(til) == 0)
 			{
 				retur += a.getNedbør();
 			}
