@@ -5,6 +5,8 @@
 package Meterologi.Lister;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 
 public class DataListe implements Serializable{
@@ -239,37 +241,43 @@ public class DataListe implements Serializable{
 		return retur;
 	}
 	
-	public double getGjennomsnittsMinTemp(Calendar fra, Calendar til)
+	public String getGjennomsnittsMinTemp(Calendar fra, Calendar til)
 	{/*<returnerer gjennomsnittsmimimumstemperaturen for noder mellom fra og til>*/
 		double sum = 0.0;
 		int antall = 0;
 		Data a = første;
-		while(a.neste != null)
+		while(a != null)
 		{
-			if(a.getDato().after(fra) && a.getDato().before(til))
+			if(a.getDato().compareTo(fra) == 0 
+					|| a.getDato().after(fra)&& a.getDato().before(til) 
+					|| a.getDato().compareTo(til) == 0)
 			{
 				sum += a.getMinTemp();
 				antall++;
 			}
 			a=a.neste;
 		}
-		return sum/antall;
+		NumberFormat format = new DecimalFormat("#0.00");
+		return format.format(sum/antall);
 	}
 	
-	public double getGjennomsnittsMaksTemp(Calendar fra, Calendar til)
+	public String getGjennomsnittsMaksTemp(Calendar fra, Calendar til)
 	{/*<returnerer gjennomsnittsmaksimumstemperaturen for noder mellom fra og til>*/
 		double sum = 0.0;
 		int antall = 0;
 		Data a = første;
-		while(a.neste != null)
+		while(a != null)
 		{
-			if(a.getDato().after(fra) && a.getDato().before(til))
+			if(a.getDato().compareTo(fra) == 0 
+					|| a.getDato().after(fra)&& a.getDato().before(til) 
+					|| a.getDato().compareTo(til) == 0)
 			{
 				sum += a.getMaxTemp();
 				antall++;
 			}
 			a=a.neste;
 		}
-		return sum/antall;
+		NumberFormat format = new DecimalFormat("#0.00");
+		return format.format(sum/antall);
 	}
 }

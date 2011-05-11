@@ -41,7 +41,8 @@ public class VisData extends Lista implements ActionListener{
 	private JButton visMinTemp;
 	private JButton visMaxNedbør;
 	private JButton visTotalNedbør;
-	private JButton visGjennomsnittNedbør;
+	private JButton visGjennomsnittMinTemp;
+	private JButton visGjennomsnittMaxTemp;
 	
 	//mellomlagring av dag mnd og år
 	private int fradag;
@@ -129,14 +130,17 @@ public class VisData extends Lista implements ActionListener{
 		visMaxNedbør.addActionListener(this);
 		visTotalNedbør = new JButton("Total Nedbør");
 		visTotalNedbør.addActionListener(this);
-		visGjennomsnittNedbør = new JButton("Gjennomsnitt Nedbør");
-		visGjennomsnittNedbør.addActionListener(this);
+		visGjennomsnittMinTemp= new JButton("Snitt MinTemp");
+		visGjennomsnittMinTemp.addActionListener(this);
+		visGjennomsnittMaxTemp = new JButton("Snitt MaxTemp");
+		visGjennomsnittMaxTemp.addActionListener(this);
 		knappepanel.add(visData);
 		knappepanel.add(visMaxTemp);
 		knappepanel.add(visMinTemp);
 		knappepanel.add(visMaxNedbør);
 		knappepanel.add(visTotalNedbør);
-		knappepanel.add(visGjennomsnittNedbør);
+		knappepanel.add(visGjennomsnittMinTemp);
+		knappepanel.add(visGjennomsnittMaxTemp);
 		toppanel.add(knappepanel);
 		
 		//legger til toppanelet
@@ -420,6 +424,62 @@ public class VisData extends Lista implements ActionListener{
 									+sdf.format(fradato.getTime())+"\t"
 									+sdf.format(tildato.getTime())+"\t"
 									+valgtSted.dataliste.summerNedbør(fradato,tildato));
+				}
+			}
+		}
+		if(event.getSource() == visGjennomsnittMinTemp)
+		{
+			utskrift.setText("");
+			if(stedliste.tomListe())
+				utskrift.setText("ingen data i systemet!");
+			else
+			{
+				if(!getStedVerdier())
+					return;
+				getDatoVerdier();
+				
+				makeFraTilDato();
+				
+				valgtSted = stedliste.getStedNode(fylke, sted);
+				
+				if(valgtSted.dataliste.tomListe())
+				utskrift.setText("Ingen lagret på valgt sted");
+				else
+				{	
+					SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+					
+					utskrift.setText("Fradato\tTildato\tSnitt Minimumstemperatur\n"
+									+sdf.format(fradato.getTime())+"\t"
+									+sdf.format(tildato.getTime())+"\t"
+									+valgtSted.dataliste.getGjennomsnittsMinTemp(fradato,tildato));
+				}
+			}
+		}
+		if(event.getSource() == visGjennomsnittMaxTemp)
+		{
+			utskrift.setText("");
+			if(stedliste.tomListe())
+				utskrift.setText("ingen data i systemet!");
+			else
+			{
+				if(!getStedVerdier())
+					return;
+				getDatoVerdier();
+				
+				makeFraTilDato();
+				
+				valgtSted = stedliste.getStedNode(fylke, sted);
+				
+				if(valgtSted.dataliste.tomListe())
+				utskrift.setText("Ingen lagret på valgt sted");
+				else
+				{	
+					SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+					
+					utskrift.setText("Fradato\tTildato\tSnitt Maksimumstemperatur\n"
+									+sdf.format(fradato.getTime())+"\t"
+									+sdf.format(tildato.getTime())+"\t"
+									+valgtSted.dataliste.getGjennomsnittsMaksTemp(fradato,tildato));
 				}
 			}
 		}
