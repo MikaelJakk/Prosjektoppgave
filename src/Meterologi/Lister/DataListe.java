@@ -207,7 +207,7 @@ public class DataListe implements Serializable{
 	
 	public String visData(Calendar fra,Calendar til)
 	{/*<returnerer en tostring med dataen fra nodene der dato.after(fra) && dato.before(til)>*/
-		String returstreng = "Dato\tMinTemp\tMaxTemp\tNedbør(mm)";
+		String returstreng = "Dato\tMinTemp\tMaxTemp\tNedbør";
 		
 		Data a = første;
 		while(a != null)

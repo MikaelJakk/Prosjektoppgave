@@ -135,8 +135,8 @@ public class VisData extends Lista implements ActionListener{
 		visGjennomsnittMaxTemp = new JButton("Snitt MaxTemp");
 		visGjennomsnittMaxTemp.addActionListener(this);
 		knappepanel.add(visData);
-		knappepanel.add(visMaxTemp);
 		knappepanel.add(visMinTemp);
+		knappepanel.add(visMaxTemp);
 		knappepanel.add(visMaxNedbør);
 		knappepanel.add(visTotalNedbør);
 		knappepanel.add(visGjennomsnittMinTemp);
@@ -338,7 +338,7 @@ public class VisData extends Lista implements ActionListener{
 					if(data == null)
 						utskrift.setText("Ingen lagret på valgt sted");
 					else
-						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør(mm)\n"
+						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n"
 								+data.toString());
 				}
 			}
@@ -366,7 +366,7 @@ public class VisData extends Lista implements ActionListener{
 					if(data == null)
 						utskrift.setText("Ingen lagret på valgt sted");
 					else
-						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør(mm)\n"
+						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n"
 								+data.toString());
 				}
 			}
@@ -394,7 +394,7 @@ public class VisData extends Lista implements ActionListener{
 					if(data == null)
 						utskrift.setText("Ingen lagret på valgt sted");
 					else
-						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør(mm)\n"
+						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n"
 								+data.toString());
 				}
 			}
@@ -420,10 +420,10 @@ public class VisData extends Lista implements ActionListener{
 				{	
 					SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 					
-					utskrift.setText("Fradato\tTildato\tSum Nedbør(mm)\n"
+					utskrift.setText("Fradato\tTildato\tSum Nedbør\n"
 									+sdf.format(fradato.getTime())+"\t"
 									+sdf.format(tildato.getTime())+"\t"
-									+valgtSted.dataliste.summerNedbør(fradato,tildato));
+									+valgtSted.dataliste.summerNedbør(fradato,tildato)+" mm");
 				}
 			}
 		}
