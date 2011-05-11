@@ -10,13 +10,13 @@ import java.awt.event.*;
 import java.awt.*;
 
 
-public class tab4 extends JFrame implements ActionListener
+public class Statistikk extends JFrame implements ActionListener
 {
 	JButton RegNySted; //knapper bør init. uten for metode for at actionevent skal bli returnet
 	JTextArea utskrift,utskrift2,utskrift3,utskrift4;
 	JTextField innFylke,innSted;
 
-	public JPanel tab4() //utseende
+	public JPanel ByggPanel() //utseende
 	{
 		JPanel p4 = new JPanel();
 		JPanel s1 = new JPanel();
@@ -30,10 +30,10 @@ public class tab4 extends JFrame implements ActionListener
 		utskrift4 = new JTextArea(25,45);
 
 		JTabbedPane pane = new JTabbedPane();
-		pane.addTab("Statistikk for år", s1);
-		pane.addTab("Statistikk for måned", s2);
-		pane.addTab("Statistikk for dag", s3);
-		pane.addTab("Ekstreme verdier",s4);
+		pane.addTab("Ekstrem Verdier", s1);
+		pane.addTab("Rankingliste", s2);
+		pane.addTab("Statistikk over år", s3);
+		pane.addTab("Statistikk over alle registrerte steder",s4);
 
 		RegNySted = new JButton("trykk meg");
 		RegNySted.addActionListener(this);
