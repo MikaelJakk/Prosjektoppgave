@@ -50,7 +50,7 @@ public class Data implements Serializable{
 	public String toString()
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-		return sdf.format(dato.getTime())+"\t"+mintemp+"\t"+maxtemp+"\t"+nedbør;
+		return sdf.format(dato.getTime())+"\t"+mintemp+"ºC"+"\t"+maxtemp+"ºC"+"\t"+nedbør+" mm";
 	}
 	public String getDatoString()
 	{

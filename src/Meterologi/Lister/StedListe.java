@@ -127,16 +127,16 @@ public class StedListe implements Serializable
 			gjeldende = iter.next();
 			if(denmedminstetemp == null)
 			{
-			denmedminstetemp = gjeldende.dataliste.getDenMedMinsteTemp(fra,til);
+			denmedminstetemp = gjeldende.dataliste.getDenMedLavesteTemp(fra,til);
 			returfylke = gjeldende.getFylke();
 			retursted = gjeldende.getSted();
 			}
 			else
 			{
 				gjeldende = iter.next();
-				if(denmedminstetemp.getMinTemp() > gjeldende.dataliste.getDenMedMinsteTemp(fra, til).getMinTemp())
+				if(denmedminstetemp.getMinTemp() > gjeldende.dataliste.getDenMedLavesteTemp(fra, til).getMinTemp())
 				{
-					denmedminstetemp = gjeldende.dataliste.getDenMedMinsteTemp(fra, til);
+					denmedminstetemp = gjeldende.dataliste.getDenMedLavesteTemp(fra, til);
 					returfylke = gjeldende.getFylke();
 					retursted = gjeldende.getSted();
 				}

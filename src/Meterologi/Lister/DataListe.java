@@ -258,7 +258,7 @@ public class DataListe implements Serializable{
 			a=a.neste;
 		}
 		NumberFormat format = new DecimalFormat("#0.00");
-		return format.format(sum/antall);
+		return format.format(sum/antall)+"ºC";
 	}
 	
 	public String getGjennomsnittsMaksTemp(Calendar fra, Calendar til)
@@ -278,6 +278,6 @@ public class DataListe implements Serializable{
 			a=a.neste;
 		}
 		NumberFormat format = new DecimalFormat("#0.00");
-		return format.format(sum/antall);
+		return format.format(sum/antall)+"ºC";
 	}
 }
