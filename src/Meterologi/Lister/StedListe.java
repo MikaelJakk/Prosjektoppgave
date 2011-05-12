@@ -144,6 +144,33 @@ public class StedListe implements Serializable
 		}
 		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp() +"\t" + denmedminstetemp.getDatoString();
 	}
+	public Data getDataforStedMedMinsteTemp(Calendar fra, Calendar til)
+	{
+		if(stedliste.size() == 0)
+			return null;
+		
+		Sted gjeldende = null;
+		Data denmedminstetemp = null;
+		
+		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			if(denmedminstetemp == null)
+			{
+			denmedminstetemp = gjeldende.dataliste.getDenMedLavesteTemp(fra,til);
+			}
+			else
+			{
+				gjeldende = iter.next();
+				if(denmedminstetemp.getMinTemp() > gjeldende.dataliste.getDenMedLavesteTemp(fra, til).getMinTemp())
+				{
+					denmedminstetemp = gjeldende.dataliste.getDenMedLavesteTemp(fra, til);
+				}
+			}
+		}
+		return denmedminstetemp;
+	}
 	
 	//----------------Uferdig-------------------
 	/*public String getMaksTempSted(Calendar fra, Calendar til)
