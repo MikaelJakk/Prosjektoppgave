@@ -1,6 +1,6 @@
 package Meterologi.StatistikkTabs;
 
-<<<<<<< HEAD
+
 import java.awt.FlowLayout;
 
 import javax.swing.*;
@@ -22,8 +22,7 @@ public class MånedligeRekorder
 		
 		return panel;
 	}
-	
-=======
+
 import java.util.Calendar;
 import java.util.*;
 
@@ -45,7 +44,6 @@ public class MånedligeRekorder {
 	*/
 		/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.
 		 */
->>>>>>> e4be78906ed2d2e7650b37234da55f4eb47d3766
 
 		Calendar nå = Calendar.getInstance();
 		int sluttår = nå.get(Calendar.YEAR);
