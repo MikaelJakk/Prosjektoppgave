@@ -250,31 +250,29 @@ public class VisData extends Lista implements ActionListener{
 	public String regnUt≈r()
 	{
 		getStedVerdier();
-			
-		
 		getDatoVerdier();
 		String tekst = "";
 		int mnder = 0;
 		int dager = 0;
 		valgtSted = stedliste.getStedNode(fylke, sted);
-			for(int i = 0;i<13;i++) // i<13 for 12 mÂneder.
+		for(int i = 0;i<13;i++) // i<13 for 12 mÂneder.
+		{
+			mnder++;
+			for(int j = 0;j<366;j++)// j < 366 for ant dager i Âret.
 			{
-				mnder++;
-				for(int j = 0;j<366;j++)// j < 366 for ant dager i Âret.
-				{
-					dager++;
-					Calendar dato = Calendar.getInstance();
-					dato.setTimeInMillis(0);
-					dato.set(Âr,mnder-1,dager);
-					nydata = new Data(dato, 1, 2, 3);
-						if(valgtSted.dataliste.datoEksisterer(nydata))
-							if(valgtSted.dataliste.getData(nydata).toString() != null)
-								tekst += valgtSted.dataliste.getData(nydata).toString() + "\n";
-						if(mnder-1 == 13)
-							return tekst;
-				}
+				dager++;
+				Calendar dato = Calendar.getInstance();
+				dato.setTimeInMillis(0);
+				dato.set(Âr,mnder-1,dager);
+				nydata = new Data(dato, 1, 2, 3);
+					if(valgtSted.dataliste.datoEksisterer(nydata))
+						if(valgtSted.dataliste.getData(nydata).toString() != null)
+							tekst += valgtSted.dataliste.getData(nydata).toString() + "\n";
+					if(mnder-1 == 13)
+						return tekst;
 			}
-			return tekst;			
+		}
+		return tekst;			
 	}
 */
 	private void settDatoVerdierIBokser(JComboBox Â, JComboBox m, JComboBox d)
