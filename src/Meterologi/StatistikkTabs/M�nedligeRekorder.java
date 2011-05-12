@@ -1,15 +1,23 @@
 package Meterologi.StatistikkTabs;
 
-<<<<<<< HEAD
 import java.awt.FlowLayout;
 
 import javax.swing.*;
+import java.util.Calendar;
+import java.util.*;
 
 public class MånedligeRekorder 
 
 {
 	private JTextArea utskrift;
 	private JComboBox velgår;
+	
+	final int startår = 1970;
+	int sluttår;
+	int fraår;
+	int framnd, fradag;
+	int tilår;
+	int tilmnd, tildag;
 	
 	public JPanel ByggPanel() //utseende
 	{
@@ -22,19 +30,6 @@ public class MånedligeRekorder
 		
 		return panel;
 	}
-	
-=======
-import java.util.Calendar;
-import java.util.*;
-
-public class MånedligeRekorder {
-	
-	final int startår = 1970;
-	int sluttår;
-	int fraår;
-	int framnd, fradag;
-	int tilår;
-	int tilmnd, tildag;
 
 	public String getMinTempRekorder()
 	{/*Månedlige rekorder, det vil si tabeller som for hver måned i året viser høyeste 
@@ -45,7 +40,6 @@ public class MånedligeRekorder {
 	*/
 		/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.
 		 */
->>>>>>> e4be78906ed2d2e7650b37234da55f4eb47d3766
 
 		Calendar nå = Calendar.getInstance();
 		int sluttår = nå.get(Calendar.YEAR);
