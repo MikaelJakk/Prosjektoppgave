@@ -148,7 +148,7 @@ public class DataListe implements Serializable{
 		return false;
 	}
 	
-	public Data getDenMedLavesteTemp(Calendar fra, Calendar til)
+	public Data getDenMedLavestTemp(Calendar fra, Calendar til)
 	{/*<returner den noden(Data) med minst temp i lista som også har dato.after(fra) && dato.before(til)>*/
 		Data a = første;
 		Data retur = a;
@@ -159,6 +159,21 @@ public class DataListe implements Serializable{
 				(a.getDato().compareTo(fra) == 0 
 				|| a.getDato().after(fra)&& a.getDato().before(til) 
 				|| a.getDato().compareTo(til) == 0))
+			{
+				retur = a;
+			}
+			a=a.neste;
+		}
+		return retur;
+	}
+	public Data getDenMedLavestTempIValgtMåned(int måned)
+	{/*<returner den noden(Data) med minst temp i lista som også har dato.after(fra) && dato.before(til)>*/
+		Data a = første;
+		Data retur = a;
+		while(a != null)
+		{
+			
+			if(a.getMinTemp()<retur.getMinTemp() && a.getDato().get(Calendar.MONTH) == måned)
 			{
 				retur = a;
 			}

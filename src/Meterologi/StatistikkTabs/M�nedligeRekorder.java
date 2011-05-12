@@ -1,13 +1,13 @@
 package Meterologi.StatistikkTabs;
-import java.util.Calendar;
 import java.util.*;
 import java.awt.FlowLayout;
 
 import javax.swing.*;
-import java.util.Calendar;
-import java.util.*;
 
-public class MånedligeRekorder
+import Meterologi.Lista;
+import Meterologi.*;
+
+public class MånedligeRekorder extends Lista
 
 {
 	
@@ -30,7 +30,7 @@ public class MånedligeRekorder
 	{
 		JPanel panel = new JPanel();
 		panel.setLayout(new FlowLayout());
-		utskrift = new JTextArea(25,50);
+		utskrift = new JTextArea(25,60);
 		
 		panel.add(utskrift);
 		
@@ -41,7 +41,7 @@ public class MånedligeRekorder
 
 
 
-	public String getMinTempRekorder()
+	public void getMinTempRekorder()
 	{/*Månedlige rekorder, det vil si tabeller som for hver måned i året viser høyeste 
 	registrerte maksimumstemperatur (i løpet av alle år det er målinger for), verdien for denne, 
 	stedet der den er målt (inklusive fylke), samt dato og årstall. 
@@ -50,19 +50,23 @@ public class MånedligeRekorder
 	*/
 		/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.
 		 */
+		String retur = "";
 
-		Calendar nå = Calendar.getInstance();
-		int sluttår = nå.get(Calendar.YEAR);
-		
-		for(int i=startår; i<sluttår ;i++)
-		{
-			Calendar månedstart = Calendar.getInstance();
-			månedstart.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
-			månedstart.set(fraår,framnd-1,fradag);/*måned-1 fordi Calendar.set() er teit*/
-			Calendar månedslutt = Calendar.getInstance();
-			månedslutt.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
-			månedslutt.set(fraår,framnd-1,fradag);/*måned-1 fordi Calendar.set() er teit*/
-		}
-		return null;
+		try{
+			retur += "\nJanuar:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.JANUARY);
+			retur += "\nFebruar:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.FEBRUARY);
+			retur += "\nMars:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.MARCH);
+			retur += "\nApril:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.APRIL);
+			retur += "\nMars:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.MARCH);
+			retur += "\nMai:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.MAY);
+			retur += "\nJuni:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.JUNE);
+			retur += "\nJuli:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.JULY);
+			retur += "\nAugust:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.AUGUST);
+			retur += "\nSeptember:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.SEPTEMBER);
+			retur += "\nOktober:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.OCTOBER);
+			retur += "\nNovember:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.NOVEMBER);
+			retur += "\nDesember:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.DECEMBER);
+		}catch(Exception ex){ex.printStackTrace();}
+		utskrift.setText(retur);
 	}
 }

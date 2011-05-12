@@ -127,16 +127,16 @@ public class StedListe implements Serializable
 			gjeldende = iter.next();
 			if(denmedminstetemp == null)
 			{
-			denmedminstetemp = gjeldende.dataliste.getDenMedLavesteTemp(fra,til);
+			denmedminstetemp = gjeldende.dataliste.getDenMedLavestTemp(fra,til);
 			returfylke = gjeldende.getFylke();
 			retursted = gjeldende.getSted();
 			}
 			else
 			{
 				gjeldende = iter.next();
-				if(denmedminstetemp.getMinTemp() > gjeldende.dataliste.getDenMedLavesteTemp(fra, til).getMinTemp())
+				if(denmedminstetemp.getMinTemp() > gjeldende.dataliste.getDenMedLavestTemp(fra, til).getMinTemp())
 				{
-					denmedminstetemp = gjeldende.dataliste.getDenMedLavesteTemp(fra, til);
+					denmedminstetemp = gjeldende.dataliste.getDenMedLavestTemp(fra, til);
 					returfylke = gjeldende.getFylke();
 					retursted = gjeldende.getSted();
 				}
@@ -144,13 +144,16 @@ public class StedListe implements Serializable
 		}
 		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp() +"\t" + denmedminstetemp.getDatoString();
 	}
-	public Data getDataforStedMedMinsteTemp(Calendar fra, Calendar til)
-	{
+	
+	public String getDataogStedMedMinsteTemp(int måned)
+	{	
 		if(stedliste.size() == 0)
 			return null;
 		
 		Sted gjeldende = null;
 		Data denmedminstetemp = null;
+		String returfylke = "";
+		String retursted = "";
 		
 		Iterator<Sted> iter = stedliste.iterator();
 		while(iter.hasNext())
@@ -158,18 +161,22 @@ public class StedListe implements Serializable
 			gjeldende = iter.next();
 			if(denmedminstetemp == null)
 			{
-			denmedminstetemp = gjeldende.dataliste.getDenMedLavesteTemp(fra,til);
+			denmedminstetemp = gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned);
+			returfylke = gjeldende.getFylke();
+			retursted = gjeldende.getSted();
 			}
 			else
 			{
 				gjeldende = iter.next();
-				if(denmedminstetemp.getMinTemp() > gjeldende.dataliste.getDenMedLavesteTemp(fra, til).getMinTemp())
+				if(denmedminstetemp.getMinTemp() > gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned).getMinTemp())
 				{
-					denmedminstetemp = gjeldende.dataliste.getDenMedLavesteTemp(fra, til);
+					denmedminstetemp = gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned);
+					returfylke = gjeldende.getFylke();
+					retursted = gjeldende.getSted();
 				}
 			}
 		}
-		return denmedminstetemp;
+		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp() +"\t" + denmedminstetemp.getDatoString();
 	}
 	
 	//----------------Uferdig-------------------

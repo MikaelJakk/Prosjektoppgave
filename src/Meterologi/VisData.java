@@ -381,7 +381,7 @@ public class VisData extends Lista implements ActionListener{
 				utskrift.setText("Ingen lagret på valgt sted");
 				else
 				{	
-					Data data = valgtSted.dataliste.getDenMedLavesteTemp(fradato,tildato);
+					Data data = valgtSted.dataliste.getDenMedLavestTemp(fradato,tildato);
 					if(data == null)
 						utskrift.setText("Ingen lagret på valgt sted");
 					else

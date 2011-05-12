@@ -5,6 +5,8 @@ package Meterologi;
 ////////////////////////////////////////
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.awt.event.*;
 import java.awt.*;
@@ -37,13 +39,24 @@ public class Statistikk extends JFrame implements ActionListener
 		pane.addTab("Månedlige Rekorder", p1);
 		pane.addTab("Snitts Tempratur",p3);
 		pane.addTab("Regn Data",p5);
-
-	
-
 		
+		//Oppdaterer utskrift i statistikkvinduene ved bytte av tabs
+		pane.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent evt){
+				try{
+				månedrec.getMinTempRekorder();
+				}catch(Exception ex){System.out.println("Feil: ved " +
+						"oppdatering av comboboxer"+ex);}
+				
+			}
+		});
 		
 		panelet.add(pane);
 		return panelet;
+	}
+
+	public void actionPerformed(ActionEvent arg0) {
+		
 	}
 
 
