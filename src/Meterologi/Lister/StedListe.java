@@ -111,7 +111,7 @@ public class StedListe implements Serializable
 		}
 	}
 	
-	public String getStedMedMinsteTemp(Calendar fra, Calendar til)
+	public String getMinTempSted(Calendar fra, Calendar til)
 	{
 		if(stedliste.size() == 0)
 			return "Ingen steder registrert";
@@ -145,11 +145,8 @@ public class StedListe implements Serializable
 		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp() +"\t" + denmedminstetemp.getDatoString();
 	}
 	
-	public String getDataogStedMedMinsteTemp(int måned)
+	public String getMinTempData(int måned)
 	{	
-		if(stedliste.size() == 0)
-			return null;
-		
 		Sted gjeldende = null;
 		Data denmedminstetemp = null;
 		String returfylke = "";
@@ -159,24 +156,35 @@ public class StedListe implements Serializable
 		while(iter.hasNext())
 		{
 			gjeldende = iter.next();
+			
 			if(denmedminstetemp == null)
 			{
-			denmedminstetemp = gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned);
-			returfylke = gjeldende.getFylke();
-			retursted = gjeldende.getSted();
+				denmedminstetemp = gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned);
+				returfylke = gjeldende.getFylke();
+				retursted = gjeldende.getSted();
 			}
 			else
 			{
-				gjeldende = iter.next();
-				if(denmedminstetemp.getMinTemp() > gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned).getMinTemp())
+				Data neste = gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned);
+				if(neste == null)
+				{}
+
+				if(denmedminstetemp.getMinTemp() > neste.getMinTemp())
 				{
-					denmedminstetemp = gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned);
+					denmedminstetemp = neste;
 					returfylke = gjeldende.getFylke();
 					retursted = gjeldende.getSted();
 				}
 			}
 		}
-		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp() +"\t" + denmedminstetemp.getDatoString();
+		
+		if(denmedminstetemp == null || denmedminstetemp.getDato().get(Calendar.MONTH) != måned )
+		{return "Ingen data registrert på "+måned;}
+		else
+		{
+			return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp()
+					+"\t" + denmedminstetemp.getDatoString();
+		}
 	}
 	
 	//----------------Uferdig-------------------

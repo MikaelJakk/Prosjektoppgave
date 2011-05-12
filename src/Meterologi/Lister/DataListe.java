@@ -179,6 +179,8 @@ public class DataListe implements Serializable{
 			}
 			a=a.neste;
 		}
+		if(retur.getDato().get(Calendar.MONTH) != måned)
+			return null;
 		return retur;
 	}
 	

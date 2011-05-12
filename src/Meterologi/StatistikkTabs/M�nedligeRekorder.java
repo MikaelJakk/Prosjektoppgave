@@ -23,8 +23,6 @@ public class MånedligeRekorder extends Lista
 
 	private JTextArea utskrift;
 	private JComboBox velgår;
-	
-
 
 	public JPanel ByggPanel() //utseende
 	{
@@ -50,22 +48,27 @@ public class MånedligeRekorder extends Lista
 	*/
 		/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.
 		 */
-		String retur = "";
+		if(stedliste.tomListe())
+		{
+			utskrift.setText("ingen steder er registrert");
+			return;
+		}
+		String retur = "Måned\tFylke\tSted\tMinTemp\tDato";
 
 		try{
-			retur += "\nJanuar:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.JANUARY);
-			retur += "\nFebruar:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.FEBRUARY);
-			retur += "\nMars:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.MARCH);
-			retur += "\nApril:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.APRIL);
-			retur += "\nMars:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.MARCH);
-			retur += "\nMai:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.MAY);
-			retur += "\nJuni:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.JUNE);
-			retur += "\nJuli:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.JULY);
-			retur += "\nAugust:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.AUGUST);
-			retur += "\nSeptember:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.SEPTEMBER);
-			retur += "\nOktober:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.OCTOBER);
-			retur += "\nNovember:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.NOVEMBER);
-			retur += "\nDesember:\t"+stedliste.getDataogStedMedMinsteTemp(Calendar.DECEMBER);
+			retur += "\nJanuar:\t"+stedliste.getMinTempData(Calendar.JANUARY);
+			retur += "\nFebruar:\t"+stedliste.getMinTempData(Calendar.FEBRUARY);
+			retur += "\nMars:\t"+stedliste.getMinTempData(Calendar.MARCH);
+			retur += "\nApril:\t"+stedliste.getMinTempData(Calendar.APRIL);
+			retur += "\nMars:\t"+stedliste.getMinTempData(Calendar.MARCH);
+			retur += "\nMai:\t"+stedliste.getMinTempData(Calendar.MAY);
+			retur += "\nJuni:\t"+stedliste.getMinTempData(Calendar.JUNE);
+			retur += "\nJuli:\t"+stedliste.getMinTempData(Calendar.JULY);
+			retur += "\nAugust:\t"+stedliste.getMinTempData(Calendar.AUGUST);
+			retur += "\nSeptember:\t"+stedliste.getMinTempData(Calendar.SEPTEMBER);
+			retur += "\nOktober:\t"+stedliste.getMinTempData(Calendar.OCTOBER);
+			retur += "\nNovember:\t"+stedliste.getMinTempData(Calendar.NOVEMBER);
+			retur += "\nDesember:\t"+stedliste.getMinTempData(Calendar.DECEMBER);
 		}catch(Exception ex){ex.printStackTrace();}
 		utskrift.setText(retur);
 	}

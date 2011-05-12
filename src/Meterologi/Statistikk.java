@@ -21,8 +21,6 @@ public class Statistikk extends JFrame implements ActionListener
 	
 	public JPanel ByggPanel() //utseende
 	{
-		
-		
 		JPanel panelet = new JPanel();
 		panelet.setLayout(new FlowLayout());
 
@@ -31,7 +29,6 @@ public class Statistikk extends JFrame implements ActionListener
 		JPanel p3 = snitttemp.ByggPanel();
 		JPanel p4 = årligeks.ByggPanel();
 		JPanel p5 = regndata.ByggPanel();
-			
 
 		JTabbedPane pane = new JTabbedPane();
 		pane.addTab("Rankingliste", p2);
@@ -44,7 +41,7 @@ public class Statistikk extends JFrame implements ActionListener
 		pane.addChangeListener(new ChangeListener(){
 			public void stateChanged(ChangeEvent evt){
 				try{
-				månedrec.getMinTempRekorder();
+				oppdater();
 				}catch(Exception ex){System.out.println("Feil: ved " +
 						"oppdatering av comboboxer"+ex);}
 				
@@ -54,10 +51,13 @@ public class Statistikk extends JFrame implements ActionListener
 		panelet.add(pane);
 		return panelet;
 	}
+	
+	public void oppdater()
+	{
+		månedrec.getMinTempRekorder();
+	}
 
 	public void actionPerformed(ActionEvent arg0) {
 		
 	}
-
-
 }
