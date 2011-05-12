@@ -50,11 +50,11 @@ public class RankingListe extends Lista implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if(e.getSource() == enradioknapp)
+		if(e.getSource() == enradioknapp);
 		{//gjør dette
 		}
 		
-		if(e.getSource() == toradioknapp)
+		if(e.getSource() == toradioknapp);
 		{
 			//gjør noe annet
 		}
