@@ -8,58 +8,52 @@ import javax.swing.*;
 
 import java.awt.event.*;
 import java.awt.*;
-
-
-public class Statistikk extends JFrame implements ActionListener
+import Meterologi.StatistikkTabs.*;
+public class Statistikk extends JFrame
 {
-	JButton RegNySted; //knapper bør init. uten for metode for at actionevent skal bli returnet
-	JTextArea utskrift,utskrift2,utskrift3,utskrift4;
-	JTextField innFylke,innSted;
-
+	
+	
+	
+	
 	public JPanel ByggPanel() //utseende
 	{
-		JPanel p4 = new JPanel();
-		JPanel s1 = new JPanel();
-		JPanel s2 = new JPanel();
-		JPanel s3 = new JPanel();
-		JPanel s4 = new JPanel();
+		MånedligeRekorder månedrec = new MånedligeRekorder();
+		RankingListe ranking = new RankingListe();
+		SnittTemp  snitttemp = new SnittTemp();
+		ÅrligeEkstremer årligeks = new ÅrligeEkstremer();
+		RegnData regndata = new RegnData();
+		
+		JPanel panelet = new JPanel();
+		panelet.setLayout(new FlowLayout());
 
-		utskrift = new JTextArea(25,45);
-		utskrift2 = new JTextArea(25,45);
-		utskrift3 = new JTextArea(25,45);
-		utskrift4 = new JTextArea(25,45);
+		JPanel p1 = månedrec.ByggPanel();
+		JPanel p2 = ranking.ByggPanel();
+		JPanel p3 = snitttemp.ByggPanel();
+		JPanel p4 = årligeks.ByggPanel();
+		JPanel p5 = regndata.ByggPanel();
+			
 
 		JTabbedPane pane = new JTabbedPane();
-		pane.addTab("Rankingliste", s1);
-		pane.addTab("Årlige Ekstremer", s2);
-		pane.addTab("Månedlige Rekorder", s3);
-		pane.addTab("lafdlpofsfaonhfas",s4);
+		pane.addTab("Rankingliste", p2);
+		pane.addTab("Årlige Ekstremer", p4);
+		pane.addTab("Månedlige Rekorder", p1);
+		pane.addTab("Snitts Tempratur",p3);
+		pane.addTab("Regn Data",p5);
 
-		RegNySted = new JButton("trykk meg");
-		RegNySted.addActionListener(this);
+	
 
-		s1.add(utskrift);
-		s2.add(utskrift2);
-		s3.add(utskrift3);
-		s4.add(utskrift4);
-		p4.add(pane);
-		p4.add(RegNySted);
-		return p4;
+		
+		
+		panelet.add(pane);
+		return panelet;
 	}
 
 	void RegNySted() //utføres etter knappe RegNySted er trykket på
 	{
-		utskrift.setText("Registerert");
-		utskrift2.setText("Registerert");
-		utskrift3.setText("Registerert");
-		utskrift4.setText("Registerert");
+	
 	}
 
-	public void actionPerformed(ActionEvent action)
-	{
-		if(action.getSource() == RegNySted)
-			RegNySted();
-	}
+
 
 
 }

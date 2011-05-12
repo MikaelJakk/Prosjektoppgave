@@ -2,12 +2,14 @@ package Meterologi.StatistikkTabs;
 
 import java.awt.FlowLayout;
 
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
-public class SnittTemp 
+public class RegnData 
+
 {
 	private JTextArea utskrift;
+	private JComboBox velgår;
+	
 	public JPanel ByggPanel() //utseende
 	{
 		JPanel panel = new JPanel();
@@ -21,4 +23,5 @@ public class SnittTemp
 		return panel;
 	}
 	
+
 }
