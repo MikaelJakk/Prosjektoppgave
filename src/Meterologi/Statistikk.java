@@ -9,19 +9,17 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import Meterologi.StatistikkTabs.*;
-public class Statistikk extends JFrame
+public class Statistikk extends JFrame implements ActionListener
 {
-	
-	
-	
+	MånedligeRekorder månedrec = new MånedligeRekorder();
+	RankingListe ranking = new RankingListe();
+	SnittTemp  snitttemp = new SnittTemp();
+	ÅrligeEkstremer årligeks = new ÅrligeEkstremer();
+	RegnData regndata = new RegnData();
 	
 	public JPanel ByggPanel() //utseende
 	{
-		MånedligeRekorder månedrec = new MånedligeRekorder();
-		RankingListe ranking = new RankingListe();
-		SnittTemp  snitttemp = new SnittTemp();
-		ÅrligeEkstremer årligeks = new ÅrligeEkstremer();
-		RegnData regndata = new RegnData();
+		
 		
 		JPanel panelet = new JPanel();
 		panelet.setLayout(new FlowLayout());
@@ -47,13 +45,6 @@ public class Statistikk extends JFrame
 		panelet.add(pane);
 		return panelet;
 	}
-
-	void RegNySted() //utføres etter knappe RegNySted er trykket på
-	{
-	
-	}
-
-
 
 
 }
