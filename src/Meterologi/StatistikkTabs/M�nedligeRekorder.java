@@ -1,28 +1,31 @@
 package Meterologi.StatistikkTabs;
-
-<<<<<<< HEAD
-
-=======
->>>>>>> c1f04fea7f3aec57164afaf87408ec6e150bc600
+import java.util.Calendar;
+import java.util.*;
 import java.awt.FlowLayout;
 
 import javax.swing.*;
 import java.util.Calendar;
 import java.util.*;
 
-public class MånedligeRekorder 
+public class MånedligeRekorder
 
 {
-	private JTextArea utskrift;
-	private JComboBox velgår;
 	
 	final int startår = 1970;
 	int sluttår;
 	int fraår;
-	int framnd, fradag;
+	int framnd; 
+	int fradag;
 	int tilår;
-	int tilmnd, tildag;
+	int tilmnd;
+	int tildag;
+
+
+	private JTextArea utskrift;
+	private JComboBox velgår;
 	
+
+
 	public JPanel ByggPanel() //utseende
 	{
 		JPanel panel = new JPanel();
@@ -34,21 +37,9 @@ public class MånedligeRekorder
 		
 		return panel;
 	}
-<<<<<<< HEAD
 
-import java.util.Calendar;
-import java.util.*;
 
-public class MånedligeRekorder {
-	
-	final int startår = 1970;
-	int sluttår;
-	int fraår;
-	int framnd, fradag;
-	int tilår;
-	int tilmnd, tildag;
-=======
->>>>>>> c1f04fea7f3aec57164afaf87408ec6e150bc600
+
 
 	public String getMinTempRekorder()
 	{/*Månedlige rekorder, det vil si tabeller som for hver måned i året viser høyeste 
@@ -72,5 +63,6 @@ public class MånedligeRekorder {
 			månedslutt.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
 			månedslutt.set(fraår,framnd-1,fradag);/*måned-1 fordi Calendar.set() er teit*/
 		}
+		return null;
 	}
 }
