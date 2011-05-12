@@ -153,70 +153,44 @@ public class StedListe implements Serializable
 			return "ingen registrerte steder";
 		
 		Sted gjeldende = null;
-		Data denmedminstetemp = null;
-		Data denne = null;
-		String returfylke = "";
+		
+		Data minsttemp = null;
+		String minststed = "";
+		String minstfylke ="";
+		
+		Data returdata = null;
 		String retursted = "";
+		String returfylke = "";
 		
 		Iterator<Sted> iter = stedliste.iterator();
 		while(iter.hasNext())
 		{
 			gjeldende = iter.next();
-			
-			denne = gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned);
-			returfylke = gjeldende.getFylke();
-			retursted = gjeldende.getSted();
-			
-			if(denmedminstetemp == null)
-				denmedminstetemp = denne;
-			if(denmedminstetemp == null)
+			if(gjeldende.dataliste.finnesLavestTempMåned(måned))
 			{
-				continue;
-			}
-			else if(denne.getMinTemp() < denmedminstetemp.getMinTemp())
-			{
-				denmedminstetemp = denne;
-			}
-		}
-		
-		if(denmedminstetemp == null)
-			return "ingen dato på måned: " +måned;
-		
-		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp()
-			+"\t" + denmedminstetemp.getDatoString();
-		/*
-		while(iter.hasNext())
-		{
-			gjeldende = iter.next();
-			
-			if(denmedminstetemp == null)
-			{
-				denmedminstetemp = gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned);
-				returfylke = gjeldende.getFylke();
-				retursted = gjeldende.getSted();
-			}
-			else
-			{
-				Data neste = gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned);
-				if(neste == null)
-					neste = new Data(Calendar.getInstance(),9999,9999,9999);
-				if(denmedminstetemp.getMinTemp() > neste.getMinTemp())
+				minsttemp = gjeldende.dataliste.getLavestTempMåned(måned);
+				minststed = gjeldende.getSted();
+				minstfylke = gjeldende.getFylke();
+				
+				if(returdata == null)
 				{
-					denmedminstetemp = neste;
-					returfylke = gjeldende.getFylke();
-					retursted = gjeldende.getSted();
+					returdata = minsttemp;
+					retursted = minststed;
+					returfylke = minstfylke;
+				}
+				else if(minsttemp != null && returdata.getMinTemp() > minsttemp.getMinTemp())
+				{
+					returdata = minsttemp;
+					retursted = minststed;
+					returfylke = minstfylke;
 				}
 			}
 		}
 		
-		if(denmedminstetemp == null || denmedminstetemp.getDato().get(Calendar.MONTH) != måned )
-		{return "Ingen data registrert på "+måned;}
-		else
-		{
-			return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp()
-					+"\t" + denmedminstetemp.getDatoString();
-		}
-		*/
+		if (returdata != null)
+			return returfylke +"\t" +retursted +"\t" +returdata.getMinTemp()
+			+"\t" + returdata.getDatoString();
+		else return "Fant ingen data";
 	}
 	
 	public String[] getMaxTempRanking(Calendar fra, Calendar til)

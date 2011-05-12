@@ -181,14 +181,13 @@ public class DataListe implements Serializable{
 		return false;	
 	}
 	
-	public Data getDenMedLavestTempIValgtMåned(int måned)
+	public Data getLavestTempMåned(int måned)
 	{/*returnerer den noden i valgt måned som har lavest temperatur
 	 	fins det ingen noder på valgt måned returnerer den null*/
 		Data a = første;
 		Data retur = a;
 		while(a != null)
 		{
-			
 			if(a.getMinTemp()<retur.getMinTemp() && a.getDato().get(Calendar.MONTH) == måned)
 			{
 				retur = a;
