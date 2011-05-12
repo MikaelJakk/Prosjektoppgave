@@ -145,14 +145,46 @@ public class StedListe implements Serializable
 		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp() +"\t" + denmedminstetemp.getDatoString();
 	}
 	
-	public String getMinTempData(int måned)
-	{	
+	public String getMinTempForMåned(int måned)
+	{	/*skal returnere en tekststreng som inneholder
+		 måned,sted,fylke,mintemp og dato for alle årets måneder*/
+		
+		if(tomListe())
+			return "ingen registrerte steder";
+		
 		Sted gjeldende = null;
 		Data denmedminstetemp = null;
+		Data denne = null;
 		String returfylke = "";
 		String retursted = "";
 		
 		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			
+			denne = gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned);
+			returfylke = gjeldende.getFylke();
+			retursted = gjeldende.getSted();
+			
+			if(denmedminstetemp == null)
+				denmedminstetemp = denne;
+			if(denmedminstetemp == null)
+			{
+				continue;
+			}
+			else if(denne.getMinTemp() < denmedminstetemp.getMinTemp())
+			{
+				denmedminstetemp = denne;
+			}
+		}
+		
+		if(denmedminstetemp == null)
+			return "ingen dato på måned: " +måned;
+		
+		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp()
+			+"\t" + denmedminstetemp.getDatoString();
+		/*
 		while(iter.hasNext())
 		{
 			gjeldende = iter.next();
@@ -167,8 +199,7 @@ public class StedListe implements Serializable
 			{
 				Data neste = gjeldende.dataliste.getDenMedLavestTempIValgtMåned(måned);
 				if(neste == null)
-				{}
-
+					neste = new Data(Calendar.getInstance(),9999,9999,9999);
 				if(denmedminstetemp.getMinTemp() > neste.getMinTemp())
 				{
 					denmedminstetemp = neste;
@@ -185,6 +216,39 @@ public class StedListe implements Serializable
 			return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp()
 					+"\t" + denmedminstetemp.getDatoString();
 		}
+		*/
+	}
+	
+	public String[] getMaxTempRanking(Calendar fra, Calendar til)
+	{
+		Sted gjeldende = null;
+		Data d = null;
+		String returfylke ="";
+		String retursted = "";
+		
+		Iterator<Sted> iter = stedliste.iterator();
+		
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			if(d == null)
+			{
+			d = gjeldende.dataliste.getDenMedHøyesteTemp(fra,til);
+			returfylke = gjeldende.getFylke();
+			retursted = gjeldende.getSted();
+			}
+			else
+			{
+				gjeldende = iter.next();
+				if(d.getMaxTemp() > gjeldende.dataliste.getDenMedHøyesteTemp(fra, til).getMaxTemp())
+				{
+					d = gjeldende.dataliste.getDenMedHøyesteTemp(fra, til);
+					returfylke = gjeldende.getFylke();
+					retursted = gjeldende.getSted();
+				}
+			}
+		}
+		return null;
 	}
 	
 	//----------------Uferdig-------------------

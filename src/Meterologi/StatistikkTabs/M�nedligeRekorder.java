@@ -56,19 +56,19 @@ public class MånedligeRekorder extends Lista
 		String retur = "Måned\tFylke\tSted\tMinTemp\tDato";
 
 		try{
-			retur += "\nJanuar:\t"+stedliste.getMinTempData(Calendar.JANUARY);
-			retur += "\nFebruar:\t"+stedliste.getMinTempData(Calendar.FEBRUARY);
-			retur += "\nMars:\t"+stedliste.getMinTempData(Calendar.MARCH);
-			retur += "\nApril:\t"+stedliste.getMinTempData(Calendar.APRIL);
-			retur += "\nMars:\t"+stedliste.getMinTempData(Calendar.MARCH);
-			retur += "\nMai:\t"+stedliste.getMinTempData(Calendar.MAY);
-			retur += "\nJuni:\t"+stedliste.getMinTempData(Calendar.JUNE);
-			retur += "\nJuli:\t"+stedliste.getMinTempData(Calendar.JULY);
-			retur += "\nAugust:\t"+stedliste.getMinTempData(Calendar.AUGUST);
-			retur += "\nSeptember:\t"+stedliste.getMinTempData(Calendar.SEPTEMBER);
-			retur += "\nOktober:\t"+stedliste.getMinTempData(Calendar.OCTOBER);
-			retur += "\nNovember:\t"+stedliste.getMinTempData(Calendar.NOVEMBER);
-			retur += "\nDesember:\t"+stedliste.getMinTempData(Calendar.DECEMBER);
+			retur += "\nJanuar:\t"+stedliste.getMinTempForMåned(Calendar.JANUARY);
+			retur += "\nFebruar:\t"+stedliste.getMinTempForMåned(Calendar.FEBRUARY);
+			retur += "\nMars:\t"+stedliste.getMinTempForMåned(Calendar.MARCH);
+			retur += "\nApril:\t"+stedliste.getMinTempForMåned(Calendar.APRIL);
+			retur += "\nMars:\t"+stedliste.getMinTempForMåned(Calendar.MARCH);
+			retur += "\nMai:\t"+stedliste.getMinTempForMåned(Calendar.MAY);
+			retur += "\nJuni:\t"+stedliste.getMinTempForMåned(Calendar.JUNE);
+			retur += "\nJuli:\t"+stedliste.getMinTempForMåned(Calendar.JULY);
+			retur += "\nAugust:\t"+stedliste.getMinTempForMåned(Calendar.AUGUST);
+			retur += "\nSeptember:\t"+stedliste.getMinTempForMåned(Calendar.SEPTEMBER);
+			retur += "\nOktober:\t"+stedliste.getMinTempForMåned(Calendar.OCTOBER);
+			retur += "\nNovember:\t"+stedliste.getMinTempForMåned(Calendar.NOVEMBER);
+			retur += "\nDesember:\t"+stedliste.getMinTempForMåned(Calendar.DECEMBER);
 		}catch(Exception ex){ex.printStackTrace();}
 		utskrift.setText(retur);
 	}
