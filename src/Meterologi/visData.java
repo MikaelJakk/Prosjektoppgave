@@ -66,6 +66,8 @@ public class VisData extends Lista implements ActionListener{
 	private String[] fylker = stedliste.getFylkeArray();
 	private String sted;
 	private String[] steder = stedliste.getStedArray(fylker[0]);
+	//til å skrive ut datoer
+	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 	
 	 
 	public JPanel ByggPanel()
@@ -147,7 +149,7 @@ public class VisData extends Lista implements ActionListener{
 		panelet.add(toppanel);
 		
 		//utskriftsvindu
-		utskrift = new JTextArea(20, 50);
+		utskrift = new JTextArea(20, 60);
 		utskrift.setEditable(false);
 		panelet.add(new JScrollPane(utskrift));
 		panelet.setVisible(true);
@@ -295,8 +297,10 @@ public class VisData extends Lista implements ActionListener{
 		d.setModel(new DefaultComboBoxModel(dager));
 	}
 	
-	private void makeFraTilDato()
+	private boolean makeFraTilDato()
 	{
+		getDatoVerdier();
+		
 		fradato = Calendar.getInstance();
 		fradato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
 		fradato.set(fraår,framnd-1,fradag);/*måned-1 fordi Calendar.set() er teit*/
@@ -304,6 +308,11 @@ public class VisData extends Lista implements ActionListener{
 		tildato = Calendar.getInstance();
 		tildato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
 		tildato.set(tilår,tilmnd-1,tildag);/*måned-1 fordi Calendar.set() er teit*/
+		
+		if(fradato.after(tildato))
+			return false;
+		else return true;
+		
 	}
 	
 	public void actionPerformed(ActionEvent event) {
@@ -326,7 +335,12 @@ public class VisData extends Lista implements ActionListener{
 			{
 				if(!getStedVerdier())
 					return;
-				getDatoVerdier();
+				
+				if(!makeFraTilDato())
+				{
+					melding("fradato er etter startdato, velg riktig dato");
+					return;
+				}
 				
 				valgtSted = stedliste.getStedNode(fylke, sted);
 				
@@ -338,8 +352,12 @@ public class VisData extends Lista implements ActionListener{
 					if(data == null)
 						utskrift.setText("Ingen lagret på valgt sted");
 					else
-						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n"
-								+data.toString());
+						utskrift.setText("Viser høyeste tempteratur "
+										+"registrert på "+fylke+", "+sted +" mellom " 
+										+sdf.format(fradato.getTime())+" og "
+										+sdf.format(tildato.getTime())+"\n"
+										+"Dato\tMinTemp\tMaxTemp\tNedbør\n"
+										+data.toString());
 				}
 			}
 		}
@@ -352,9 +370,12 @@ public class VisData extends Lista implements ActionListener{
 			{
 				if(!getStedVerdier())
 					return;
-				getDatoVerdier();
-				
-				makeFraTilDato();
+
+				if(!makeFraTilDato())
+				{
+					melding("fradato er etter startdato, velg riktig dato");
+					return;
+				}
 				
 				valgtSted = stedliste.getStedNode(fylke, sted);
 				
@@ -366,7 +387,11 @@ public class VisData extends Lista implements ActionListener{
 					if(data == null)
 						utskrift.setText("Ingen lagret på valgt sted");
 					else
-						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n"
+						utskrift.setText("Viser laveste tempteratur "
+								+"registrert på "+fylke+", "+sted +" mellom " 
+								+sdf.format(fradato.getTime())+" og "
+								+sdf.format(tildato.getTime())+"\n"
+								+"Dato\tMinTemp\tMaxTemp\tNedbør\n"
 								+data.toString());
 				}
 			}
@@ -380,9 +405,12 @@ public class VisData extends Lista implements ActionListener{
 			{
 				if(!getStedVerdier())
 					return;
-				getDatoVerdier();
-				
-				makeFraTilDato();
+
+				if(!makeFraTilDato())
+				{
+					melding("fradato er etter startdato, velg riktig dato");
+					return;
+				}
 				
 				valgtSted = stedliste.getStedNode(fylke, sted);
 				
@@ -394,7 +422,11 @@ public class VisData extends Lista implements ActionListener{
 					if(data == null)
 						utskrift.setText("Ingen lagret på valgt sted");
 					else
-						utskrift.setText("Dato\tMinTemp\tMaxTemp\tNedbør\n"
+						utskrift.setText("Viser dagen med mest nedbør"
+								+"registrert på "+fylke+", "+sted +" mellom " 
+								+sdf.format(fradato.getTime())+" og "
+								+sdf.format(tildato.getTime())+"\n"
+								+"Dato\tMinTemp\tMaxTemp\tNedbør\n"
 								+data.toString());
 				}
 			}
@@ -408,9 +440,12 @@ public class VisData extends Lista implements ActionListener{
 			{
 				if(!getStedVerdier())
 					return;
-				getDatoVerdier();
-				
-				makeFraTilDato();
+
+				if(!makeFraTilDato())
+				{
+					melding("fradato er etter startdato, velg riktig dato");
+					return;
+				}
 				
 				valgtSted = stedliste.getStedNode(fylke, sted);
 				
@@ -420,7 +455,11 @@ public class VisData extends Lista implements ActionListener{
 				{	
 					SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 					
-					utskrift.setText("Fradato\tTildato\tSum Nedbør\n"
+					utskrift.setText("Viser total nedbør "
+									+"registrert på "+fylke+", "+sted +" mellom " 
+									+sdf.format(fradato.getTime())+" og "
+									+sdf.format(tildato.getTime())+"\n"
+									+"Fradato\tTildato\tSum Nedbør\n"
 									+sdf.format(fradato.getTime())+"\t"
 									+sdf.format(tildato.getTime())+"\t"
 									+valgtSted.dataliste.summerNedbør(fradato,tildato)+" mm");
@@ -436,9 +475,12 @@ public class VisData extends Lista implements ActionListener{
 			{
 				if(!getStedVerdier())
 					return;
-				getDatoVerdier();
-				
-				makeFraTilDato();
+
+				if(!makeFraTilDato())
+				{
+					melding("fradato er etter startdato, velg riktig dato");
+					return;
+				}
 				
 				valgtSted = stedliste.getStedNode(fylke, sted);
 				
@@ -448,7 +490,11 @@ public class VisData extends Lista implements ActionListener{
 				{	
 					SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 					
-					utskrift.setText("Fradato\tTildato\tSnitt Minimumstemperatur\n"
+					utskrift.setText("Viser gjennomsnitts mintemperatur "
+									+"registrert på "+fylke+", "+sted +" mellom " 
+									+sdf.format(fradato.getTime())+" og "
+									+sdf.format(tildato.getTime())+"\n"
+									+"Fradato\tTildato\tSnitt Minimumstemperatur\n"
 									+sdf.format(fradato.getTime())+"\t"
 									+sdf.format(tildato.getTime())+"\t"
 									+valgtSted.dataliste.getGjennomsnittsMinTemp(fradato,tildato));
@@ -464,9 +510,12 @@ public class VisData extends Lista implements ActionListener{
 			{
 				if(!getStedVerdier())
 					return;
-				getDatoVerdier();
-				
-				makeFraTilDato();
+
+				if(!makeFraTilDato())
+				{
+					melding("fradato er etter startdato, velg riktig dato");
+					return;
+				}
 				
 				valgtSted = stedliste.getStedNode(fylke, sted);
 				
@@ -474,9 +523,11 @@ public class VisData extends Lista implements ActionListener{
 				utskrift.setText("Ingen lagret på valgt sted");
 				else
 				{	
-					SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-					
-					utskrift.setText("Fradato\tTildato\tSnitt Maksimumstemperatur\n"
+					utskrift.setText("Viser gjennomsnitts makstemperatur "
+									+"registrert på "+fylke+", "+sted +" mellom " 
+									+sdf.format(fradato.getTime())+" og "
+									+sdf.format(tildato.getTime())+"\n"
+									+"Fradato\tTildato\tSnitt Maksimumstemperatur\n"
 									+sdf.format(fradato.getTime())+"\t"
 									+sdf.format(tildato.getTime())+"\t"
 									+valgtSted.dataliste.getGjennomsnittsMaksTemp(fradato,tildato));
@@ -493,14 +544,20 @@ public class VisData extends Lista implements ActionListener{
 				if(!getStedVerdier())
 					return;
 				
-				getDatoVerdier();
-
-				makeFraTilDato();
-				
 				valgtSted = stedliste.getStedNode(fylke, sted);
+				
+				if(!makeFraTilDato())
+				{
+					melding("fradato er etter startdato, velg riktig dato");
+					return;
+				}
+				
 				if(!valgtSted.dataliste.tomListe())
 					
-						utskrift.setText(valgtSted.dataliste.visData(fradato,tildato));
+						utskrift.setText("Viser all data registrert på "+fylke+", "+sted +" mellom " 
+								+sdf.format(fradato.getTime())+" og "
+								+sdf.format(tildato.getTime())+"\n"
+								+valgtSted.dataliste.visData(fradato,tildato));
 				else
 					utskrift.setText("Denne datoen er ikke registrert enda");
 			}
