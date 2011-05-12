@@ -1,15 +1,27 @@
 package Meterologi.StatistikkTabs;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c1f04fea7f3aec57164afaf87408ec6e150bc600
 import java.awt.FlowLayout;
 
 import javax.swing.*;
+import java.util.Calendar;
+import java.util.*;
 
 public class MånedligeRekorder 
 
 {
 	private JTextArea utskrift;
 	private JComboBox velgår;
+	
+	final int startår = 1970;
+	int sluttår;
+	int fraår;
+	int framnd, fradag;
+	int tilår;
+	int tilmnd, tildag;
 	
 	public JPanel ByggPanel() //utseende
 	{
@@ -22,6 +34,7 @@ public class MånedligeRekorder
 		
 		return panel;
 	}
+<<<<<<< HEAD
 
 import java.util.Calendar;
 import java.util.*;
@@ -34,6 +47,8 @@ public class MånedligeRekorder {
 	int framnd, fradag;
 	int tilår;
 	int tilmnd, tildag;
+=======
+>>>>>>> c1f04fea7f3aec57164afaf87408ec6e150bc600
 
 	public String getMinTempRekorder()
 	{/*Månedlige rekorder, det vil si tabeller som for hver måned i året viser høyeste 
