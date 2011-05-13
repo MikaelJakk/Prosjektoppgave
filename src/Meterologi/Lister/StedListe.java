@@ -184,7 +184,7 @@ public class StedListe implements Serializable
 					retursted = minststed;
 					returfylke = minstfylke;
 				}
-			}
+			} 
 		}
 		
 		if (returdata != null)
@@ -319,7 +319,7 @@ public class StedListe implements Serializable
 
 	public String toString()
 	{
-		return "Registrerte Fylker:" + "\n" + skrivUt() + "\n";
+		return "Registrerte Fylker:\tRegistrerte Steder" + "\n" + skrivUt() + "\n";
 	}
 	
 	public boolean fylkeStedEksisterer(Sted n)

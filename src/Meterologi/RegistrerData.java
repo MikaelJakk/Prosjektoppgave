@@ -220,7 +220,13 @@ public class RegistrerData extends Lista implements ActionListener{
 		
 		//oppdaterer stedlista ved trykk på fylkesboks så de rette stedene kan velges
 		if(event.getSource() == fylkeboks)
-		{oppdater();}
+		{
+			steder = stedliste.getStedArray((String)fylkeboks.getSelectedItem());
+			stedboks.setModel(new DefaultComboBoxModel(steder));
+			skrivUt();
+		}
+		if(event.getSource() == stedboks)
+		{skrivUt();}
 		
 		//actionevent for dato comboboxer
 		if(event.getSource() == årboks || event.getSource() == månedboks)

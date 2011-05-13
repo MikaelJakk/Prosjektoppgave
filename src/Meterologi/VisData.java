@@ -316,7 +316,10 @@ public class VisData extends Lista implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		
 		if(event.getSource() == fylkeboks)
-		{oppdater();}
+		{
+			steder = stedliste.getStedArray((String)fylkeboks.getSelectedItem());
+			stedboks.setModel(new DefaultComboBoxModel(steder));
+		}
 		
 		if(event.getSource() == fraårboks || event.getSource() == framånedboks){
 			//forandrer antall dager i dagboksen så det blir riktig med tanke på skuddår osv.
@@ -420,7 +423,7 @@ public class VisData extends Lista implements ActionListener{
 					if(data == null)
 						utskrift.setText("Ingen lagret på valgt sted");
 					else
-						utskrift.setText("Viser dagen med mest nedbør"
+						utskrift.setText("Viser dagen med mest nedbør "
 								+"registrert på "+fylke+", "+sted +" mellom " 
 								+sdf.format(fradato.getTime())+" og "
 								+sdf.format(tildato.getTime())+"\n"

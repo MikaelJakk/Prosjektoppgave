@@ -27,9 +27,11 @@ public class RankingListe extends Lista implements ActionListener {
 	Calendar fradato;
 	Calendar tildato;
 	
-	private JRadioButton enradioknapp;
-	private JRadioButton toradioknapp;
-	private ButtonGroup enknappegruppe;
+	private JRadioButton snittmintemp;
+	private JRadioButton snittmaxtemp;
+	private JRadioButton minstnedbør;
+	private JRadioButton mestnedbør;
+	private ButtonGroup utvalggruppe;
 	
 	public JPanel ByggPanel() //utseende
 	{
@@ -39,14 +41,21 @@ public class RankingListe extends Lista implements ActionListener {
 		
 		årvalg = new JComboBox( makeYearArray());
 		
-		enradioknapp = new JRadioButton("løk");
-		enradioknapp.addActionListener(this);
-		toradioknapp = new JRadioButton("ost");
-		toradioknapp.addActionListener(this);
+		snittmintemp = new JRadioButton("Snitt MinTemp");
+		snittmintemp.addActionListener(this);
+		snittmaxtemp = new JRadioButton("Snitt MaksTemp");
+		snittmaxtemp.addActionListener(this);
+		minstnedbør = new JRadioButton("Minst Nedbør");
+		minstnedbør.addActionListener(this);
+		mestnedbør = new JRadioButton("Mest Nedbør");
+		mestnedbør.addActionListener(this);
 		
-		enknappegruppe = new ButtonGroup();
-		enknappegruppe.add(enradioknapp);
-		enknappegruppe.add(toradioknapp);
+		
+		utvalggruppe = new ButtonGroup();
+		utvalggruppe.add(snittmintemp);
+		utvalggruppe.add(snittmaxtemp);
+		utvalggruppe.add(minstnedbør);
+		utvalggruppe.add(mestnedbør);
 		
 		JPanel utvalg = new JPanel();
 		utvalg.setLayout(new GridLayout(0,1));
@@ -57,8 +66,10 @@ public class RankingListe extends Lista implements ActionListener {
 		årutvalg.add(årvalg);
 		
 		utvalg.add(årutvalg);
-		utvalg.add(enradioknapp);
-		utvalg.add(toradioknapp);
+		utvalg.add(snittmintemp);
+		utvalg.add(snittmaxtemp);
+		utvalg.add(minstnedbør);
+		utvalg.add(mestnedbør);
 		
 		panel.add(utvalg);
 		panel.add(utskrift);
@@ -99,13 +110,24 @@ public class RankingListe extends Lista implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e) {
 		
-		if(e.getSource() == enradioknapp)
-		{visMaxTempRanking();}
+		if(e.getSource() == snittmintemp)
+		{
+			//gjør noe kult
+		}
 		
-		if(e.getSource() == toradioknapp)
+		else if(e.getSource() == snittmaxtemp)
 		{
 			//gjør noe annet
 		}
-		
+
+		else if(e.getSource() == minstnedbør)
+		{
+			//gjør noe annet
+		}
+
+		else if(e.getSource() == mestnedbør)
+		{
+			//gjør noe annet
+		}
 	}
 }
