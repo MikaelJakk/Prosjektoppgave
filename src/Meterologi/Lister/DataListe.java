@@ -257,6 +257,24 @@ public class DataListe implements Serializable{
 		NumberFormat format = new DecimalFormat("#0.00");
 		return format.format(sum/antall)+"ºC";
 	}
+	public double getGjennomsnittsMinTempVerdi(Calendar fra, Calendar til)
+	{/*<returnerer gjennomsnittsmimimumstemperaturen for noder mellom fra og til>*/
+		double sum = 0.0;
+		int antall = 0;
+		Data a = første;
+		while(a != null)
+		{
+			if(a.getDato().compareTo(fra) == 0 
+					|| a.getDato().after(fra)&& a.getDato().before(til) 
+					|| a.getDato().compareTo(til) == 0)
+			{
+				sum += a.getMinTemp();
+				antall++;
+			}
+			a=a.neste;
+		}
+		return sum/antall;
+	}
 	
 	public String getGjennomsnittsMaksTemp(Calendar fra, Calendar til)
 	{/*<returnerer gjennomsnittsmaksimumstemperaturen for noder mellom fra og til>*/
@@ -278,8 +296,8 @@ public class DataListe implements Serializable{
 		return format.format(sum/antall)+"ºC";
 	}
 	
-	public boolean finnesLavestTempMåned(int måned)
-	{/*sjekker igjennom lista og sjekker om det finnes data på valgt måned med lavest temp
+	public boolean finnesMåned(int måned)
+	{/*sjekker igjennom lista og sjekker om det finnes data på valgt måned
 	 	returnerer true hvis det finnes en med lavest temp, false hvis det ikke gjør det(tom liste)*/
 		Data a = første;
 		while(a != null)
@@ -294,7 +312,7 @@ public class DataListe implements Serializable{
 		return false;	
 	}
 	
-	public Data getLavestTempMåned(int måned)
+	public Data getLavestTempIMåned(int måned)
 	{/*returnerer den noden i valgt måned som har lavest temperatur
 	 	fins det ingen noder på valgt måned returnerer den null*/
 		Data a = første;
@@ -313,22 +331,7 @@ public class DataListe implements Serializable{
 		return retur;
 	}
 	
-	public boolean finnesHøyestTempMåned(int måned)
-	{/*sjekker igjennom lista og sjekker om det finnes data på valgt måned med lavest temp
-	 	returnerer true hvis det finnes en med lavest temp, false hvis det ikke gjør det(tom liste)*/
-		Data a = første;
-		while(a != null)
-		{
-			if(a.getDato().get(Calendar.MONTH) == måned)
-			{
-				return true;
-			}
-			a=a.neste;
-		}
-		return false;	
-	}
-	
-	public Data getHøyestTempMåned(int måned)
+	public Data getHøyestTempIMåned(int måned)
 	{/*returnerer den noden i valgt måned som har lavest temperatur
 	 	fins det ingen noder på valgt måned returnerer den null*/
 		Data a = første;
@@ -340,6 +343,25 @@ public class DataListe implements Serializable{
 			else if(a.getDato().get(Calendar.MONTH) == måned && retur != null)
 			{
 				if(retur.getMaxTemp() < a.getMaxTemp())
+					retur =a;
+			}
+			a = a.neste;
+		}
+		return retur;
+	}
+	
+	public Data getMestNedbørIMåned(int måned)
+	{/*returnerer den noden i valgt måned som har lavest temperatur
+	 	fins det ingen noder på valgt måned returnerer den null*/
+		Data a = første;
+		Data retur = null;
+		while(a!=null)
+		{
+			if(a.getDato().get(Calendar.MONTH) == måned && retur == null)
+				retur = a;
+			else if(a.getDato().get(Calendar.MONTH) == måned && retur != null)
+			{
+				if(retur.getNedbør() < a.getNedbør())
 					retur =a;
 			}
 			a = a.neste;

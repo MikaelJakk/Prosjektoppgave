@@ -128,6 +128,33 @@ public class MånedligeRekorder extends Lista implements ActionListener
 		}catch(Exception ex){System.out.println("Feil: ved utregning av månedlige ekstremer " +ex);}
 		utskrift.setText(retur);
 	}
+	
+	public void getNedbørRekorder()
+	{
+		if(stedliste.tomListe())
+		{
+			utskrift.setText("ingen steder er registrert");
+			return;
+		}
+		String retur = "Måned\tFylke\tSted\tNedbør\tDato";
+
+		try{
+			retur += "\nJanuar:\t"+stedliste.getMestNedbørForMåned(Calendar.JANUARY);
+			retur += "\nFebruar:\t"+stedliste.getMestNedbørForMåned(Calendar.FEBRUARY);
+			retur += "\nMars:\t"+stedliste.getMestNedbørForMåned(Calendar.MARCH);
+			retur += "\nApril:\t"+stedliste.getMestNedbørForMåned(Calendar.APRIL);
+			retur += "\nMars:\t"+stedliste.getMestNedbørForMåned(Calendar.MARCH);
+			retur += "\nMai:\t"+stedliste.getMestNedbørForMåned(Calendar.MAY);
+			retur += "\nJuni:\t"+stedliste.getMestNedbørForMåned(Calendar.JUNE);
+			retur += "\nJuli:\t"+stedliste.getMestNedbørForMåned(Calendar.JULY);
+			retur += "\nAugust:\t"+stedliste.getMestNedbørForMåned(Calendar.AUGUST);
+			retur += "\nSeptember:\t"+stedliste.getMestNedbørForMåned(Calendar.SEPTEMBER);
+			retur += "\nOktober:\t"+stedliste.getMestNedbørForMåned(Calendar.OCTOBER);
+			retur += "\nNovember:\t"+stedliste.getMestNedbørForMåned(Calendar.NOVEMBER);
+			retur += "\nDesember:\t"+stedliste.getMestNedbørForMåned(Calendar.DECEMBER);
+		}catch(Exception ex){System.out.println("Feil: ved utregning av månedlige ekstremer " +ex);}
+		utskrift.setText(retur);
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == makstemp )
@@ -142,7 +169,7 @@ public class MånedligeRekorder extends Lista implements ActionListener
 		
 		if(e.getSource() == nedbør)
 		{
-			//skriv ut data for valt år
+			getNedbørRekorder();
 		}
 		
 	}

@@ -4,6 +4,8 @@
 package Meterologi.Lister;
 
 import java.io.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 
@@ -154,9 +156,9 @@ public class StedListe implements Serializable
 		
 		Sted gjeldende;
 		
-		Data gjeldendeminsttemp;
-		String gjeldendeminststed;
-		String gjeldendeminstfylke;
+		Data gjeldendedata;
+		String gjeldendested;
+		String gjeldendefylke;
 		
 		Data returdata = null;
 		String retursted = "";
@@ -166,26 +168,25 @@ public class StedListe implements Serializable
 		while(iter.hasNext())
 		{
 			gjeldende = iter.next();
-			if(gjeldende.dataliste.finnesLavestTempMåned(måned))
+			if(gjeldende.dataliste.finnesMåned(måned))
 			{
-				gjeldendeminsttemp = gjeldende.dataliste.getLavestTempMåned(måned);
-				gjeldendeminststed = gjeldende.getSted();
-				gjeldendeminstfylke = gjeldende.getFylke();
+				gjeldendedata = gjeldende.dataliste.getLavestTempIMåned(måned);
+				gjeldendested = gjeldende.getSted();
+				gjeldendefylke = gjeldende.getFylke();
 
 				if(returdata == null)
 				{
-					returdata = gjeldendeminsttemp;
-					retursted = gjeldendeminststed;
-					returfylke = gjeldendeminstfylke;
+					returdata = gjeldendedata;
+					retursted = gjeldendested;
+					returfylke = gjeldendefylke;
 				}
-				else if(gjeldendeminsttemp != null)
+				else if(gjeldendedata != null)
 				{
-					if(returdata.getMinTemp() > gjeldendeminsttemp.getMinTemp())
+					if(returdata.getMinTemp() > gjeldendedata.getMinTemp())
 					{
-						returdata = gjeldendeminsttemp;
-						retursted = gjeldendeminststed;
-						returfylke = gjeldendeminstfylke;
-				
+						returdata = gjeldendedata;
+						retursted = gjeldendested;
+						returfylke = gjeldendefylke;
 					}
 				}
 			} 
@@ -199,14 +200,14 @@ public class StedListe implements Serializable
 	
 	public String getMaxTempForMåned(int måned)
 	{	/*skal returnere en tekststreng som inneholder
-		sted,fylke,mintemp,dato for laveste mintemp i valgt måned*/
+		sted,fylke,maxtemp,dato for høyeste maxtemp i valgt måned*/
 		
 		if(tomListe())
 			return "ingen registrerte steder";
 		
 		Sted gjeldende;
 		
-		Data gjeldendetemp;
+		Data gjeldendedata;
 		String gjeldendested;
 		String gjeldendefylke;
 		
@@ -218,26 +219,25 @@ public class StedListe implements Serializable
 		while(iter.hasNext())
 		{
 			gjeldende = iter.next();
-			if(gjeldende.dataliste.finnesHøyestTempMåned(måned))
+			if(gjeldende.dataliste.finnesMåned(måned))
 			{
-				gjeldendetemp = gjeldende.dataliste.getHøyestTempMåned(måned);
+				gjeldendedata = gjeldende.dataliste.getHøyestTempIMåned(måned);
 				gjeldendested = gjeldende.getSted();
 				gjeldendefylke = gjeldende.getFylke();
 
 				if(returdata == null)
 				{
-					returdata = gjeldendetemp;
+					returdata = gjeldendedata;
 					retursted = gjeldendested;
 					returfylke = gjeldendefylke;
 				}
-				else if(gjeldendetemp != null)
+				else if(gjeldendedata != null)
 				{
-					if(returdata.getMaxTemp() < gjeldendetemp.getMaxTemp())
+					if(returdata.getMaxTemp() < gjeldendedata.getMaxTemp())
 					{
-						returdata = gjeldendetemp;
+						returdata = gjeldendedata;
 						retursted = gjeldendested;
 						returfylke = gjeldendefylke;
-				
 					}
 				}
 			} 
@@ -247,6 +247,74 @@ public class StedListe implements Serializable
 			return returfylke +"\t" +retursted +"\t" +returdata.getMaxTemp()
 			+"\t" + returdata.getDatoString();
 		else return "Fant ingen data";
+	}
+	
+	public String getMestNedbørForMåned(int måned)
+	{	/*skal returnere en tekststreng som inneholder
+		sted,fylke,nedbør,dato for mest nedbør i valgt måned*/
+		
+		if(tomListe())
+			return "ingen registrerte steder";
+		
+		Sted gjeldende;
+		
+		Data gjeldendedata;
+		String gjeldendested;
+		String gjeldendefylke;
+		
+		Data returdata = null;
+		String retursted = "";
+		String returfylke = "";
+		
+		Iterator<Sted> iter = stedliste.iterator(); 
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			if(gjeldende.dataliste.finnesMåned(måned))
+			{
+				gjeldendedata = gjeldende.dataliste.getMestNedbørIMåned(måned);
+				gjeldendested = gjeldende.getSted();
+				gjeldendefylke = gjeldende.getFylke();
+
+				if(returdata == null)
+				{
+					returdata = gjeldendedata;
+					retursted = gjeldendested;
+					returfylke = gjeldendefylke;
+				}
+				else if(gjeldendedata != null)
+				{
+					if(returdata.getNedbør() < gjeldendedata.getNedbør())
+					{
+						returdata = gjeldendedata;
+						retursted = gjeldendested;
+						returfylke = gjeldendefylke;
+					}
+				}
+			} 
+		}
+		
+		if (returdata != null)
+			return returfylke +"\t" +retursted +"\t" +returdata.getNedbør()
+			+"\t" + returdata.getDatoString();
+		else return "Fant ingen data";
+	}
+	
+	public String getGjennomsnittsMinTempForAlleSteder(Calendar fra, Calendar til)
+	{
+		double snittnedbør = 0;
+		int antall = 0;
+		Sted gjeldende = null;
+		
+		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			snittnedbør = gjeldende.dataliste.getGjennomsnittsMinTempVerdi(fra, til);
+			antall++;
+		}
+		NumberFormat format = new DecimalFormat("#0.00");
+		return format.format(snittnedbør/antall)+"ºC";
 	}
 	
 	public Object[] getRangertSnittMinTemp(Calendar fra, Calendar til)
