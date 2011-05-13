@@ -1,39 +1,66 @@
 package Meterologi.StatistikkTabs;
 import java.util.*;
-import java.awt.FlowLayout;
+import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
 
-import Meterologi.Lista;
 import Meterologi.*;
 
-public class MånedligeRekorder extends Lista
+public class MånedligeRekorder extends Lista implements ActionListener
 
 {
 	
 	final int startår = 1970;
-	int sluttår;
-	int fraår;
-	int framnd; 
-	int fradag;
-	int tilår;
-	int tilmnd;
-	int tildag;
+	Calendar nå = Calendar.getInstance();
+	int sluttår = nå.get(Calendar.YEAR);
+	
+	int fraår,framnd,fradag,tilår,tilmnd,tildag;
 
 
+	private JRadioButton makstemp, mintemp, nedbør;
+	private ButtonGroup knappegruppe;
 	private JTextArea utskrift;
 	private JComboBox velgår;
 
 	public JPanel ByggPanel() //utseende
 	{
+		
+		makstemp = new JRadioButton("Høyest Temp");
+		mintemp = new JRadioButton("Lavest Temp");
+		nedbør = new JRadioButton("Mest Nedbør");
+		makstemp.addActionListener(this);
+		mintemp.addActionListener(this);
+		nedbør.addActionListener(this);
+		knappegruppe = new ButtonGroup();
+		knappegruppe.add(makstemp);
+		knappegruppe.add(mintemp);
+		knappegruppe.add(nedbør);
+		
+		JPanel venstre = new JPanel();
+		venstre.setLayout(new GridLayout(0,1));
+		venstre.add(makstemp);
+		venstre.add(mintemp);
+		venstre.add(nedbør);
+		
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout());
+		panel.setLayout(new BorderLayout());
+		panel.add(venstre, BorderLayout.WEST);
 		utskrift = new JTextArea(25,60);
-		
-		panel.add(utskrift);
-		
+		utskrift.setEditable(false);
+		panel.add(utskrift,BorderLayout.CENTER);
 		
 		return panel;
+	}
+	
+	public String[] makeYearArray()
+	{
+		String[] dagarray = new String[sluttår-startår+1];
+		for(int i = startår; i <= sluttår; i++)
+		{
+			dagarray[i-startår] = i + "";
+		}
+		return dagarray;
 	}
 	
 	public void getMinTempRekorder()
@@ -66,7 +93,15 @@ public class MånedligeRekorder extends Lista
 			retur += "\nOktober:\t"+stedliste.getMinTempForMåned(Calendar.OCTOBER);
 			retur += "\nNovember:\t"+stedliste.getMinTempForMåned(Calendar.NOVEMBER);
 			retur += "\nDesember:\t"+stedliste.getMinTempForMåned(Calendar.DECEMBER);
-		}catch(Exception ex){ex.printStackTrace();}
+		}catch(Exception ex){System.out.println("Feil: ved utregning av månedlige ekstremer " +ex);}
 		utskrift.setText(retur);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == velgår)
+		{
+			//skriv ut data for valt år
+		}
+		
 	}
 }

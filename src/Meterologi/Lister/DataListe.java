@@ -298,18 +298,19 @@ public class DataListe implements Serializable{
 	{/*returnerer den noden i valgt måned som har lavest temperatur
 	 	fins det ingen noder på valgt måned returnerer den null*/
 		Data a = første;
-		Data retur = a;
-		
-		while(a != null)
+		Data retur = null;
+		while(a!=null)
 		{
-			if(a.getMinTemp()<retur.getMinTemp() && a.getDato().get(Calendar.MONTH) == måned)
-			{
+			if(a.getDato().get(Calendar.MONTH) == måned && retur == null)
 				retur = a;
+			else if(a.getDato().get(Calendar.MONTH) == måned && retur != null)
+			{
+				if(retur.getMinTemp() > a.getMinTemp())
+					retur =a;
 			}
-			a=a.neste;
+			a = a.neste;
 		}
-		if(retur.getDato().get(Calendar.MONTH) != måned)
-			return null;
+		
 		return retur;
 	}
 }

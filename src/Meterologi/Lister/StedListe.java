@@ -152,17 +152,17 @@ public class StedListe implements Serializable
 		if(tomListe())
 			return "ingen registrerte steder";
 		
-		Sted gjeldende = null;
+		Sted gjeldende;
 		
-		Data gjeldendeminsttemp = null;
-		String gjeldendeminststed = "";
-		String gjeldendeminstfylke ="";
+		Data gjeldendeminsttemp;
+		String gjeldendeminststed;
+		String gjeldendeminstfylke;
 		
 		Data returdata = null;
 		String retursted = "";
 		String returfylke = "";
 		
-		Iterator<Sted> iter = stedliste.iterator();
+		Iterator<Sted> iter = stedliste.iterator(); 
 		while(iter.hasNext())
 		{
 			gjeldende = iter.next();
@@ -171,7 +171,7 @@ public class StedListe implements Serializable
 				gjeldendeminsttemp = gjeldende.dataliste.getLavestTempMåned(måned);
 				gjeldendeminststed = gjeldende.getSted();
 				gjeldendeminstfylke = gjeldende.getFylke();
-				
+
 				if(returdata == null)
 				{
 					returdata = gjeldendeminsttemp;
@@ -196,6 +196,7 @@ public class StedListe implements Serializable
 			+"\t" + returdata.getDatoString();
 		else return "Fant ingen data";
 	}
+	
 	public Object[] getRangertSnittMinTemp(Calendar fra, Calendar til)
 	{
 		Object [] kolonner = new Object[8];

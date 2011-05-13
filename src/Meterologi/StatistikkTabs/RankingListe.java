@@ -57,7 +57,6 @@ public class RankingListe extends Lista implements ActionListener {
 		mestnedbør = new JRadioButton("Mest Nedbør");
 		mestnedbør.addActionListener(this);
 		
-		
 		utvalggruppe = new ButtonGroup();
 		utvalggruppe.add(snittmintemp);
 		utvalggruppe.add(snittmaxtemp);
