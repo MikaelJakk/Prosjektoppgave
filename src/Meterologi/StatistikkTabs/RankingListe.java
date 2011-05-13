@@ -1,17 +1,24 @@
 package Meterologi.StatistikkTabs;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.table.AbstractTableModel;
 
 import Meterologi.Lista;
 
@@ -36,7 +43,7 @@ public class RankingListe extends Lista implements ActionListener {
 	public JPanel ByggPanel() //utseende
 	{
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout());
+		panel.setLayout(new BorderLayout());
 		utskrift = new JTextArea(25,50);
 		
 		årvalg = new JComboBox( makeYearArray());
@@ -71,8 +78,13 @@ public class RankingListe extends Lista implements ActionListener {
 		utvalg.add(minstnedbør);
 		utvalg.add(mestnedbør);
 		
-		panel.add(utvalg);
-		panel.add(utskrift);
+		panel.add(utvalg, BorderLayout.WEST);
+		
+		Tabellmodell modell = new Tabellmodell();
+	      JTable tabell = new JTable( modell );
+	      tabell.setSize(800,600);
+	      
+		panel.add(tabell, BorderLayout.CENTER);
 
 		return panel;
 	}
@@ -100,13 +112,7 @@ public class RankingListe extends Lista implements ActionListener {
 	public void visMaxTempRanking()
 	{
 		settDatoer( Integer.parseInt( (String) årvalg.getSelectedItem() ) );
-		String[] ranking = stedliste.getMaxTempRanking(fradato, tildato);
 		
-		utskrift.setText("Rankingliste for Høyest Temperatur\nPlass\tFylke\tSted\tTemp\tDato\n");
-		for(int i=0; i<ranking.length;i++)
-		{
-			utskrift.append(i+1 +"\t"+ranking[i]+"\n");
-		}
 	}
 	public void actionPerformed(ActionEvent e) {
 		
@@ -128,6 +134,53 @@ public class RankingListe extends Lista implements ActionListener {
 		else if(e.getSource() == mestnedbør)
 		{
 			//gjør noe annet
+		}
+	}
+	
+	//Tabellmodelloppsett
+	class Tabellmodell extends AbstractTableModel
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+		private String[] feltnavn =
+			{"Fylke","Sted","SnittTemp","Dato"};
+
+		private Object[][] celler = 
+		
+		{
+			{"Akershus","Bærum","-15",sdf.format(Calendar.getInstance().getTime())},
+			{"Akershus","Bærum","-30",sdf.format(Calendar.getInstance().getTime())},
+			{"Akershus","Bærum","-15",sdf.format(Calendar.getInstance().getTime())},
+			{"Akershus","Bærum","-15",sdf.format(Calendar.getInstance().getTime())},
+			{"Akershus","Bærum","-15",sdf.format(Calendar.getInstance().getTime())},
+			{"Akershus","Bærum","-15",sdf.format(Calendar.getInstance().getTime())}
+		};
+		
+			
+		public String getColumnName( int kolonne )
+		{
+		  return feltnavn[ kolonne ];
+		}
+
+		//For å informere tabellmodellen om kolonnenes datatyper.
+		public Class getColumnClass( int kolonne )
+		{
+		  return celler[ 0 ][ kolonne ].getClass();
+		}
+
+		public int getColumnCount()
+		{
+		  return celler[ 0 ].length;
+		}
+
+		public int getRowCount()
+		{
+		  return celler.length;
+		}
+
+		public Object getValueAt( int rad, int kolonne )
+		{
+		  return celler[ rad ][ kolonne ];
 		}
 	}
 }

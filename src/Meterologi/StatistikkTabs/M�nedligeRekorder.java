@@ -35,10 +35,7 @@ public class MånedligeRekorder extends Lista
 		
 		return panel;
 	}
-
-
-
-
+	
 	public void getMinTempRekorder()
 	{/*Månedlige rekorder, det vil si tabeller som for hver måned i året viser høyeste 
 	registrerte maksimumstemperatur (i løpet av alle år det er målinger for), verdien for denne, 

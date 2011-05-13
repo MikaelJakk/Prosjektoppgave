@@ -91,9 +91,6 @@ public class DataListe implements Serializable{
 			if(ny.neste == null)
 				return ny;
 		}
-		/*unødvendig kode.. etter while løkka er ny alltid null..
-		 * if(ny.getDato().compareTo(n.getDato())== 0)
-			return ny;*/
 		return null;
 	}
 	
@@ -164,38 +161,6 @@ public class DataListe implements Serializable{
 			}
 			a=a.neste;
 		}
-		return retur;
-	}
-	public boolean finnesLavestTempMåned(int måned)
-	{
-		Data a = første;
-		while(a != null)
-		{
-			
-			if(a.getDato().get(Calendar.MONTH) == måned)
-			{
-				return true;
-			}
-			a=a.neste;
-		}
-		return false;	
-	}
-	
-	public Data getLavestTempMåned(int måned)
-	{/*returnerer den noden i valgt måned som har lavest temperatur
-	 	fins det ingen noder på valgt måned returnerer den null*/
-		Data a = første;
-		Data retur = a;
-		while(a != null)
-		{
-			if(a.getMinTemp()<retur.getMinTemp() && a.getDato().get(Calendar.MONTH) == måned)
-			{
-				retur = a;
-			}
-			a=a.neste;
-		}
-		if(retur.getDato().get(Calendar.MONTH) != måned)
-			return null;
 		return retur;
 	}
 	
@@ -311,5 +276,40 @@ public class DataListe implements Serializable{
 		}
 		NumberFormat format = new DecimalFormat("#0.00");
 		return format.format(sum/antall)+"ºC";
+	}
+	
+	public boolean finnesLavestTempMåned(int måned)
+	{/*sjekker igjennom lista og sjekker om det finnes data på valgt måned med lavest temp
+	 	returnerer true hvis det finnes en med lavest temp, false hvis det ikke gjør det(tom liste)*/
+		Data a = første;
+		while(a != null)
+		{
+			
+			if(a.getDato().get(Calendar.MONTH) == måned)
+			{
+				return true;
+			}
+			a=a.neste;
+		}
+		return false;	
+	}
+	
+	public Data getLavestTempMåned(int måned)
+	{/*returnerer den noden i valgt måned som har lavest temperatur
+	 	fins det ingen noder på valgt måned returnerer den null*/
+		Data a = første;
+		Data retur = a;
+		
+		while(a != null)
+		{
+			if(a.getMinTemp()<retur.getMinTemp() && a.getDato().get(Calendar.MONTH) == måned)
+			{
+				retur = a;
+			}
+			a=a.neste;
+		}
+		if(retur.getDato().get(Calendar.MONTH) != måned)
+			return null;
+		return retur;
 	}
 }
