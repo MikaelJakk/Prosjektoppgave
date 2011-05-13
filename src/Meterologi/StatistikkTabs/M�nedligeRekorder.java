@@ -21,7 +21,6 @@ public class MånedligeRekorder extends Lista implements ActionListener
 	private JRadioButton makstemp, mintemp, nedbør;
 	private ButtonGroup knappegruppe;
 	private JTextArea utskrift;
-	private JComboBox velgår;
 
 	public JPanel ByggPanel() //utseende
 	{
@@ -96,9 +95,52 @@ public class MånedligeRekorder extends Lista implements ActionListener
 		}catch(Exception ex){System.out.println("Feil: ved utregning av månedlige ekstremer " +ex);}
 		utskrift.setText(retur);
 	}
+	public void getMaxTempRekorder()
+	{/*Månedlige rekorder, det vil si tabeller som for hver måned i året viser høyeste 
+	registrerte maksimumstemperatur (i løpet av alle år det er målinger for), verdien for denne, 
+	stedet der den er målt (inklusive fylke), samt dato og årstall. 
+	(Det kan være flere steder og/eller datoer for samme ekstremverdi.) 
+	Tilsvarende tabeller for minimumstemperatur og nedbør i løpet av et døgn.
+	*/
+		/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.
+		 */
+		if(stedliste.tomListe())
+		{
+			utskrift.setText("ingen steder er registrert");
+			return;
+		}
+		String retur = "Måned\tFylke\tSted\tMaxTemp\tDato";
+
+		try{
+			retur += "\nJanuar:\t"+stedliste.getMaxTempForMåned(Calendar.JANUARY);
+			retur += "\nFebruar:\t"+stedliste.getMaxTempForMåned(Calendar.FEBRUARY);
+			retur += "\nMars:\t"+stedliste.getMaxTempForMåned(Calendar.MARCH);
+			retur += "\nApril:\t"+stedliste.getMaxTempForMåned(Calendar.APRIL);
+			retur += "\nMars:\t"+stedliste.getMaxTempForMåned(Calendar.MARCH);
+			retur += "\nMai:\t"+stedliste.getMaxTempForMåned(Calendar.MAY);
+			retur += "\nJuni:\t"+stedliste.getMaxTempForMåned(Calendar.JUNE);
+			retur += "\nJuli:\t"+stedliste.getMaxTempForMåned(Calendar.JULY);
+			retur += "\nAugust:\t"+stedliste.getMaxTempForMåned(Calendar.AUGUST);
+			retur += "\nSeptember:\t"+stedliste.getMaxTempForMåned(Calendar.SEPTEMBER);
+			retur += "\nOktober:\t"+stedliste.getMaxTempForMåned(Calendar.OCTOBER);
+			retur += "\nNovember:\t"+stedliste.getMaxTempForMåned(Calendar.NOVEMBER);
+			retur += "\nDesember:\t"+stedliste.getMaxTempForMåned(Calendar.DECEMBER);
+		}catch(Exception ex){System.out.println("Feil: ved utregning av månedlige ekstremer " +ex);}
+		utskrift.setText(retur);
+	}
 
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == velgår)
+		if(e.getSource() == makstemp )
+		{
+			getMaxTempRekorder();
+		}
+		
+		if(e.getSource() == mintemp )
+		{
+			getMinTempRekorder();
+		}
+		
+		if(e.getSource() == nedbør)
 		{
 			//skriv ut data for valt år
 		}

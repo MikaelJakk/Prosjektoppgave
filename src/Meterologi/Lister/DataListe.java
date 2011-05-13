@@ -310,7 +310,40 @@ public class DataListe implements Serializable{
 			}
 			a = a.neste;
 		}
-		
+		return retur;
+	}
+	
+	public boolean finnesHøyestTempMåned(int måned)
+	{/*sjekker igjennom lista og sjekker om det finnes data på valgt måned med lavest temp
+	 	returnerer true hvis det finnes en med lavest temp, false hvis det ikke gjør det(tom liste)*/
+		Data a = første;
+		while(a != null)
+		{
+			if(a.getDato().get(Calendar.MONTH) == måned)
+			{
+				return true;
+			}
+			a=a.neste;
+		}
+		return false;	
+	}
+	
+	public Data getHøyestTempMåned(int måned)
+	{/*returnerer den noden i valgt måned som har lavest temperatur
+	 	fins det ingen noder på valgt måned returnerer den null*/
+		Data a = første;
+		Data retur = null;
+		while(a!=null)
+		{
+			if(a.getDato().get(Calendar.MONTH) == måned && retur == null)
+				retur = a;
+			else if(a.getDato().get(Calendar.MONTH) == måned && retur != null)
+			{
+				if(retur.getMaxTemp() < a.getMaxTemp())
+					retur =a;
+			}
+			a = a.neste;
+		}
 		return retur;
 	}
 }

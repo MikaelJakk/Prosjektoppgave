@@ -197,6 +197,58 @@ public class StedListe implements Serializable
 		else return "Fant ingen data";
 	}
 	
+	public String getMaxTempForMåned(int måned)
+	{	/*skal returnere en tekststreng som inneholder
+		sted,fylke,mintemp,dato for laveste mintemp i valgt måned*/
+		
+		if(tomListe())
+			return "ingen registrerte steder";
+		
+		Sted gjeldende;
+		
+		Data gjeldendetemp;
+		String gjeldendested;
+		String gjeldendefylke;
+		
+		Data returdata = null;
+		String retursted = "";
+		String returfylke = "";
+		
+		Iterator<Sted> iter = stedliste.iterator(); 
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			if(gjeldende.dataliste.finnesHøyestTempMåned(måned))
+			{
+				gjeldendetemp = gjeldende.dataliste.getHøyestTempMåned(måned);
+				gjeldendested = gjeldende.getSted();
+				gjeldendefylke = gjeldende.getFylke();
+
+				if(returdata == null)
+				{
+					returdata = gjeldendetemp;
+					retursted = gjeldendested;
+					returfylke = gjeldendefylke;
+				}
+				else if(gjeldendetemp != null)
+				{
+					if(returdata.getMaxTemp() < gjeldendetemp.getMaxTemp())
+					{
+						returdata = gjeldendetemp;
+						retursted = gjeldendested;
+						returfylke = gjeldendefylke;
+				
+					}
+				}
+			} 
+		}
+		
+		if (returdata != null)
+			return returfylke +"\t" +retursted +"\t" +returdata.getMaxTemp()
+			+"\t" + returdata.getDatoString();
+		else return "Fant ingen data";
+	}
+	
 	public Object[] getRangertSnittMinTemp(Calendar fra, Calendar til)
 	{
 		Object [] kolonner = new Object[8];
