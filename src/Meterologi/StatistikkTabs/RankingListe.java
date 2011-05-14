@@ -34,10 +34,8 @@ public class RankingListe extends Lista implements ActionListener {
 	Calendar fradato;
 	Calendar tildato;
 	
-	private JRadioButton snittmintemp;
-	private JRadioButton snittmaxtemp;
-	private JRadioButton minstnedbør;
-	private JRadioButton mestnedbør;
+	private JRadioButton snittmintemp,mestnedbør,snittmaxtemp,minstnedbør;
+
 	private ButtonGroup utvalggruppe;
 	
 	public JPanel ByggPanel() //utseende

@@ -339,7 +339,7 @@ public class VisData extends Lista implements ActionListener{
 				
 				if(!makeFraTilDato())
 				{
-					melding("fradato er etter startdato, velg riktig dato");
+					melding("Fradato er etter tildato, velg riktig dato");
 					return;
 				}
 				
@@ -374,7 +374,7 @@ public class VisData extends Lista implements ActionListener{
 
 				if(!makeFraTilDato())
 				{
-					melding("fradato er etter startdato, velg riktig dato");
+					melding("Fradato er etter tildato, velg riktig dato");
 					return;
 				}
 				
@@ -409,7 +409,7 @@ public class VisData extends Lista implements ActionListener{
 
 				if(!makeFraTilDato())
 				{
-					melding("fradato er etter startdato, velg riktig dato");
+					melding("Fradato er etter tildato, velg riktig dato");
 					return;
 				}
 				
@@ -422,13 +422,26 @@ public class VisData extends Lista implements ActionListener{
 					Data data = valgtSted.dataliste.getDenMedMestNedbør(fradato,tildato);
 					if(data == null)
 						utskrift.setText("Ingen lagret på valgt sted");
+					else if(data.getNedbør() == 0)
+					{
+						utskrift.setText("Viser dagen med mest nedbør "
+								+"registrert på "+fylke+", "+sted +" mellom " 
+								+sdf.format(fradato.getTime())+" og "
+								+sdf.format(tildato.getTime())+"\n"
+								+"\n"
+								+"Ingen nedbør registrert mellom "
+								+sdf.format(fradato.getTime())+" og "
+								+sdf.format(tildato.getTime())
+								);
+					}
 					else
 						utskrift.setText("Viser dagen med mest nedbør "
 								+"registrert på "+fylke+", "+sted +" mellom " 
 								+sdf.format(fradato.getTime())+" og "
 								+sdf.format(tildato.getTime())+"\n"
 								+"Dato\tMinTemp\tMaxTemp\tNedbør\n"
-								+data.toString());
+								+data.toString()
+								);
 				}
 			}
 		}
@@ -444,7 +457,7 @@ public class VisData extends Lista implements ActionListener{
 
 				if(!makeFraTilDato())
 				{
-					melding("fradato er etter startdato, velg riktig dato");
+					melding("Fradato er etter tildato, velg riktig dato");
 					return;
 				}
 				
@@ -452,6 +465,17 @@ public class VisData extends Lista implements ActionListener{
 				
 				if(valgtSted.dataliste.tomListe())
 				utskrift.setText("Ingen lagret på valgt sted");
+				else if(valgtSted.dataliste.summerNedbør(fradato,tildato) == 0)
+				{
+					utskrift.setText("Viser total nedbør "
+							+"registrert på "+fylke+", "+sted +" mellom " 
+							+sdf.format(fradato.getTime())+" og "
+							+sdf.format(tildato.getTime())+"\n"
+							+"Ingen nedbør registrert mellom "
+							+sdf.format(fradato.getTime())+" og "
+							+sdf.format(tildato.getTime())
+							);
+				}
 				else
 				{	
 					SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -479,7 +503,7 @@ public class VisData extends Lista implements ActionListener{
 
 				if(!makeFraTilDato())
 				{
-					melding("fradato er etter startdato, velg riktig dato");
+					melding("Fradato er etter tildato, velg riktig dato");
 					return;
 				}
 				
@@ -514,7 +538,7 @@ public class VisData extends Lista implements ActionListener{
 
 				if(!makeFraTilDato())
 				{
-					melding("fradato er etter startdato, velg riktig dato");
+					melding("Fradato er etter tildato, velg riktig dato");
 					return;
 				}
 				
@@ -549,16 +573,18 @@ public class VisData extends Lista implements ActionListener{
 				
 				if(!makeFraTilDato())
 				{
-					melding("fradato er etter startdato, velg riktig dato");
+					melding("Fradato er etter tildato, velg riktig dato");
 					return;
 				}
 				
 				if(!valgtSted.dataliste.tomListe())
-					
+				{
 						utskrift.setText("Viser all data registrert på "+fylke+", "+sted +" mellom " 
 								+sdf.format(fradato.getTime())+" og "
 								+sdf.format(tildato.getTime())+"\n"
-								+valgtSted.dataliste.visData(fradato,tildato));
+								+valgtSted.dataliste.visData(fradato,tildato)
+								);
+				}
 				else
 					utskrift.setText("Denne datoen er ikke registrert enda");
 			}
