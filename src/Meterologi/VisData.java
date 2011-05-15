@@ -470,7 +470,7 @@ public class VisData extends Lista implements ActionListener{
 					utskrift.setText("Viser total nedbør "
 							+"registrert på "+fylke+", "+sted +" mellom " 
 							+sdf.format(fradato.getTime())+" og "
-							+sdf.format(tildato.getTime())+"\n"
+							+sdf.format(tildato.getTime())+"\n\n"
 							+"Ingen nedbør registrert mellom "
 							+sdf.format(fradato.getTime())+" og "
 							+sdf.format(tildato.getTime())
