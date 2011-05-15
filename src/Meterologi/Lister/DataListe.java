@@ -14,6 +14,8 @@ public class DataListe implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Data første;
 	
+	
+	//Metoder for grunnleggende innsetting, sletting og visning av data
 	public boolean nyData(Data n)
 	{	
 		if(første == null)//hvis første er null, blir n ny første
@@ -73,9 +75,9 @@ public class DataListe implements Serializable{
 		return false;
 	}
 
-	public Data getData(Data n)// noe galt her..
+	public Data getData(Data n)
 	{	
-		if(første == null) //hvis første er null så er lista tom..
+		if(første == null)
 			return null;
 		
 		if(første.getDato().compareTo(n.getDato()) == 0)
@@ -144,7 +146,10 @@ public class DataListe implements Serializable{
 			return true;
 		return false;
 	}
+	//end of grunnleggende metoder
 	
+	
+	//Metoder for statistisk visning av data
 	public Data getDenMedLavestTemp(Calendar fra, Calendar til)
 	{/*<returner den noden(Data) med minst temp i lista som også har dato.after(fra) && dato.before(til)>*/
 		Data a = første;
@@ -368,4 +373,5 @@ public class DataListe implements Serializable{
 		}
 		return retur;
 	}
+	//end of metoder for statistisk visning
 }

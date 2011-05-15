@@ -14,9 +14,9 @@ public class StedListe implements Serializable
 	private static final long serialVersionUID = 1L;	
 	private TreeSet<Sted> stedliste = new TreeSet<Sted>();
 
-	//Setter inn sted bakerst i listen
+	//Metoder for grunnleggende innsettning og sletting av data
 	public void settInnFylke(Sted obj)
-	{
+	{//Setter inn sted bakerst i listen
 		stedliste.add(obj);
 	}
 	
@@ -69,11 +69,11 @@ public class StedListe implements Serializable
 		}
 		return output;
 	}
+	//end of grunnleggende metoder
 	
-	// returnerer en array som inneholder alle fylkene som er registerert i systemet
+	
 	public String[] getFylkeArray()
-
-	{
+	{// returnerer en array som inneholder alle fylkene som er registerert i systemet
 		if(tomListe())
 		{
 			String[] retur= {"Ingen registrerte Fylker"};
@@ -91,7 +91,7 @@ public class StedListe implements Serializable
 	}
 		
 	public String[] getStedArray(String f)
-	{
+	{//returnerer en strengarray som inneholder alle stedene registrert på valgt fylke
 		Iterator<Sted> iterator = stedliste.iterator();
 		LinkedList<String> b = new LinkedList<String>();
 		while(iterator.hasNext())
@@ -333,6 +333,7 @@ public class StedListe implements Serializable
 		
 		return kolonner;
 	}
+	
 	public boolean tomListe()
 	{
 		Iterator<Sted> iter = stedliste.iterator();
