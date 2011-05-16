@@ -411,21 +411,134 @@ public class StedListe implements Serializable
 		else return "Fant ingen data";
 	}
 	
-	public String getGjennomsnittsMinTempForAlleSteder(Calendar fra, Calendar til)
+	public String getMestNedbørIÅr(int år)
 	{
-		double snittnedbør = 0;
-		int antall = 0;
-		Sted gjeldende = null;
+		if(tomListe())
+			return "ingen registrerte steder";
 		
-		Iterator<Sted> iter = stedliste.iterator();
+		Sted gjeldende;
+		
+		int gjeldendenedbør = 0;
+		String gjeldendested;
+		String gjeldendefylke;
+
+		int returnedbør = 0;
+		String retursted = "";
+		String returfylke = "";
+		
+		Iterator<Sted> iter = stedliste.iterator(); 
 		while(iter.hasNext())
 		{
 			gjeldende = iter.next();
-			snittnedbør = gjeldende.dataliste.getGjennomsnittsMinTempVerdi(fra, til);
+			if(gjeldende.dataliste.finnesIÅr(år))
+			{
+				gjeldendenedbør = gjeldende.dataliste.getTotalNedbørIÅr(år);
+				gjeldendested = gjeldende.getSted();
+				gjeldendefylke = gjeldende.getFylke();
+
+				if(returnedbør == 0)
+				{
+					returnedbør = gjeldendenedbør;
+					retursted = gjeldendested;
+					returfylke = gjeldendefylke;
+				}
+				else if(gjeldendenedbør != 0)
+				{
+					if(returnedbør < gjeldendenedbør)
+					{
+						returnedbør = gjeldendenedbør;
+						retursted = gjeldendested;
+						returfylke = gjeldendefylke;
+					}
+				}
+			} 
+		}
+	
+		if (returnedbør != 0)
+			return returfylke +"\t" +retursted +"\t" +returnedbør+" mm";
+		else return "Fant ingen data";
+	}
+	
+	public String getMinstNedbørIÅr(int år)
+	{/*antar at stedet med minst nedbør i et år er stedet med minst totalnedbør det året, 
+	og at det har regnet minst 1 mm det året*/
+		if(tomListe())
+			return "ingen registrerte steder";
+		
+		Sted gjeldende;
+		
+		int gjeldendenedbør = 0;
+		String gjeldendested;
+		String gjeldendefylke;
+
+		int returnedbør = 0;
+		String retursted = "";
+		String returfylke = "";
+		
+		Iterator<Sted> iter = stedliste.iterator(); 
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			if(gjeldende.dataliste.finnesIÅr(år))
+			{
+				gjeldendenedbør = gjeldende.dataliste.getTotalNedbørIÅr(år);
+				gjeldendested = gjeldende.getSted();
+				gjeldendefylke = gjeldende.getFylke();
+
+				if(returnedbør == 0)
+				{
+					returnedbør = gjeldendenedbør;
+					retursted = gjeldendested;
+					returfylke = gjeldendefylke;
+				}
+				else if(gjeldendenedbør > 0)
+				{
+					if(returnedbør > gjeldendenedbør)
+					{
+						returnedbør = gjeldendenedbør;
+						retursted = gjeldendested;
+						returfylke = gjeldendefylke;
+					}
+				}
+			} 
+		}
+	
+		if (returnedbør != 0)
+			return returfylke +"\t" +retursted +"\t" +returnedbør+" mm";
+		else return "Fant ingen data";
+	}
+	
+	public String getGjennomsnittMinTempIÅr(int år)
+	{
+		double snittemp = 0;
+		int antall = 0;
+		
+		if(tomListe())
+			return "ingen data";
+		else{
+		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+			snittemp = iter.next().dataliste.getGjennomsnittsMinTempIÅr( år);
 			antall++;
 		}
-		NumberFormat format = new DecimalFormat("#0.00");
-		return format.format(snittnedbør/antall)+"ºC";
+		return snittemp/antall +"ºC";
+	}
+
+	public String getGjennomsnittMaxTempIÅr(int år)
+	{
+		double snittemp = 0;
+		int antall = 0;
+		
+		if(tomListe())
+			return "ingen data";
+		
+		else{
+		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+			snittemp = iter.next().dataliste.getGjennomsnittsMaksTempIÅr( år);
+			antall++;
+		}
+		return snittemp/antall +"ºC";
 	}
 	
 	public Object[] getRangertSnittMinTemp(Calendar fra, Calendar til)

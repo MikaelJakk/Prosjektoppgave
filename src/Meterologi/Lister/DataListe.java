@@ -425,23 +425,54 @@ public class DataListe implements Serializable{
 		return retur;
 	}
 	
-	public Data getMestNedbørIÅr(int år)
+	public int getTotalNedbørIÅr(int år)
 	{/*returnerer den noden i valgt måned som har lavest temperatur
 	 	fins det ingen noder på valgt måned returnerer den null*/
 		Data a = første;
-		Data retur = null;
+		int nedbør=0;
 		while(a!=null)
 		{
-			if(a.getDato().get(Calendar.YEAR) == år && retur == null)
-				retur = a;
-			else if(a.getDato().get(Calendar.YEAR) == år && retur != null)
+			if(a.getDato().get(Calendar.YEAR) == år)
 			{
-				if(retur.getNedbør() < a.getNedbør())
-					retur =a;
+				nedbør += a.getNedbør();
 			}
 			a = a.neste;
 		}
-		return retur;
+		return nedbør;
+	}
+	
+	public double getGjennomsnittsMaksTempIÅr(int år)
+	{/*<returnerer gjennomsnittsmaksimumstemperaturen for noder mellom fra og til>*/
+		double sum = 0.0;
+		int antall = 0;
+		Data a = første;
+		while(a != null)
+		{
+			if(a.getDato().get(Calendar.YEAR) == år)
+			{
+				sum += a.getMaxTemp();
+				antall++;
+			}
+			a=a.neste;
+		}
+		return sum/antall;
+	}
+	
+	public double getGjennomsnittsMinTempIÅr(int år)
+	{/*<returnerer gjennomsnittsmaksimumstemperaturen for noder mellom fra og til>*/
+		double sum = 0.0;
+		int antall = 0;
+		Data a = første;
+		while(a != null)
+		{
+			if(a.getDato().get(Calendar.YEAR) == år)
+			{
+				sum += a.getMinTemp();
+				antall++;
+			}
+			a=a.neste;
+		}
+		return sum/antall;
 	}
 	
 	//end of metoder for statistisk visning

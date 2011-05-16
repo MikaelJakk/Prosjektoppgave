@@ -76,14 +76,17 @@ public class ÅrligeEkstremer extends Lista implements ActionListener
 			}
 			else
 			{
-			utskrift.setText("Viser Data for år "+valgtår+"\n\n"
+			utskrift.setText(
+					"Viser Data for år "+valgtår+"\n\n"
 					+"\t\t"+"Sted:\t"+"Fylke:\t"+"Temperatur:\t"+"Dato:"+"\n"
 					+"Laveste Temperatur:\t"+stedliste.getMinTempIÅr(valgtår)+"\n"
 					+"Høyeste Temperatur:\t"+stedliste.getMaxTempIÅr(valgtår)+"\n"
-					+"Mest Nedbør:\t"+"\n"
-					+"Minst Nedbør:\t" +"\n" 
-					+"Snitt Minimumtemperatur:\t"+""+"\n"
-					+"Snitt Maksimumtemperatur:\t"+""
+					+"\n\t\tSted:\t"+"Fylke:\t"+"Nedbørsmengde:\n"
+					+"Mest Nedbør:\t\t"+stedliste.getMestNedbørIÅr(valgtår)+"\n"
+					+"Minst Nedbør:\t\t"+stedliste.getMinstNedbørIÅr(valgtår)+"\n"
+					+"\n\t\tGjennomsnitts Temperatur\n"
+					+"Snitt Minimumtemperatur:\t"+stedliste.getGjennomsnittMinTempIÅr(valgtår)+"\n"
+					+"Snitt Maksimumtemperatur:\t"+stedliste.getGjennomsnittMaxTempIÅr(valgtår)
 					);
 			}
 		}
