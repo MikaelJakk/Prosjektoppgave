@@ -11,7 +11,7 @@ public class Diagram extends JPanel
 	public Diagram()
 	{
 		setBackground (Color.black);
-		setPreferredSize(new Dimension (650,500));
+		setPreferredSize(new Dimension (550,500));
 	}
 	
 	//Diagram GUI-----------------------------------------------
@@ -22,8 +22,8 @@ public class Diagram extends JPanel
 			//Initsialiserer Diagram verdier
 			//AKSE verdier-------------------
 			int x=50,y=20,width=50,height=460;
-			int x2=50,y2=460,width2=630,height2=460;
-			//String verdier-----------------
+			int x2=50,y2=460,width2=525,height2=460;
+			//Y-Akse verdier-----------------
 			String texty1 = "-60.0";
 			int stringx1 = 10, stringy1 = 450;
 			//-------------------------------
@@ -68,7 +68,45 @@ public class Diagram extends JPanel
 			//-------------------------------
 			String texty15 = "40.0";
 			int stringx15 = 10, stringy15 = 30;
-			/*---------------------------------*/
+			//Slutt på Y-Akse verider----------
+			
+			//X-Akse Verdier-----------------
+			String textx1 = "Jan";
+			int stringxx1 = 60, stringyy1 = 485;
+			//-------------------------------
+			String textx2 = "Feb";
+			int stringxx2 = 100, stringyy2 = 485;
+			//-------------------------------
+			String textx3 = "Mar";
+			int stringxx3 = 140, stringyy3 = 485;
+			//-------------------------------
+			String textx4 = "Apr";
+			int stringxx4 = 180, stringyy4 = 485;
+			//-------------------------------
+			String textx5 = "Mai";
+			int stringxx5 = 220, stringyy5 = 485;
+			//-------------------------------
+			String textx6 = "Jun";
+			int stringxx6 = 260, stringyy6 = 485;
+			//-------------------------------
+			String textx7 = "Jul";
+			int stringxx7 = 300, stringyy7 = 485;
+			//-------------------------------
+			String textx8 = "Aug";
+			int stringxx8 = 340, stringyy8 = 485;
+			//-------------------------------
+			String textx9 = "Sep";
+			int stringxx9 = 380, stringyy9 = 485;
+			//-------------------------------
+			String textx10 = "Okt";
+			int stringxx10 = 420, stringyy10 = 485;
+			//-------------------------------
+			String textx11 = "Nov";
+			int stringxx11 = 460, stringyy11 = 485;
+			//-------------------------------
+			String textx12 = "Des";
+			int stringxx12 = 500, stringyy12 = 485;
+			//Slutt på X-Akse Verdier--------------
 			
 			//Setter X og Y akse inn i Diagrammet
 			tegneflate.setColor (Color.green);
@@ -139,10 +177,67 @@ public class Diagram extends JPanel
 			tegneflate.setColor (Color.red);
 			tegneflate.drawString(texty15, stringx15, stringy15);
 			repaint();
+			//Slutt Y-Akse Verdier inn i Diagrammet--------------
 			
+			//Setter X-Akse Verdier inn i Diagrammet----------
+			//----------------------EN------------------------
+			tegneflate.setColor (Color.red);
+			tegneflate.drawString(textx1, stringxx1, stringyy1);
+			repaint();
+			//----------------------TO------------------------
+			tegneflate.setColor (Color.red);
+			tegneflate.drawString(textx2, stringxx2, stringyy2);
+			repaint();
+			//----------------------TRE-----------------------
+			tegneflate.setColor (Color.red);
+			tegneflate.drawString(textx3, stringxx3, stringyy3);
+			repaint();
+			//----------------------FIRE-------------------------
+			tegneflate.setColor (Color.red);
+			tegneflate.drawString(textx4, stringxx4, stringyy4);
+			repaint();
+			//----------------------FEM--------------------------
+			tegneflate.setColor (Color.red);
+			tegneflate.drawString(textx5, stringxx5, stringyy5);
+			repaint();
+			//----------------------SEKS-------------------------
+			tegneflate.setColor (Color.red);
+			tegneflate.drawString(textx6, stringxx6, stringyy6);
+			repaint();
+			//----------------------SYV--------------------------
+			tegneflate.setColor (Color.red);
+			tegneflate.drawString(textx7, stringxx7, stringyy7);
+			repaint();
+			//----------------------ÅTTE-------------------------
+			tegneflate.setColor (Color.red);
+			tegneflate.drawString(textx8, stringxx8, stringyy8);
+			repaint();
+			//----------------------NI---------------------------
+			tegneflate.setColor (Color.red);
+			tegneflate.drawString(textx9, stringxx9, stringyy9);
+			repaint();
+			//----------------------TI---------------------------
+			tegneflate.setColor (Color.red);
+			tegneflate.drawString(textx10, stringxx10, stringyy10);
+			repaint();
+			//----------------------ELEVE------------------------
+			tegneflate.setColor (Color.red);
+			tegneflate.drawString(textx11, stringxx11, stringyy11);
+			repaint();
+			//----------------------TOLV-------------------------
+			tegneflate.setColor (Color.red);
+			tegneflate.drawString(textx12, stringxx12, stringyy12);
+			repaint();
 			//Endt of Diagram GUI---------------------------------
+			
+			
+			//Her vil metodene som setter reelle data inn i diagrammet bli kalt opp.
+			/*
+			 * 
+			 * 
+			 */
 	}
-		//skal få inn metrologiske data og sette dem som verdier for diagrammet
+		//skal få inn reelle metrologiske data og sette dem som verdier inn i diagrammet
 		//midlertidig satt til randomverdier for debugging av GUI!
 		private int[] setArrayVerdier()
 		{
