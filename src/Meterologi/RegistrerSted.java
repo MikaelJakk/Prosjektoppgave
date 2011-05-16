@@ -8,6 +8,8 @@ package Meterologi;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+
 import javax.swing.*;
 
 import Meterologi.Lister.*;
@@ -96,7 +98,7 @@ public class RegistrerSted extends Lista implements ActionListener
 		try
 		{
 			fylke = (String) fylkeboks.getSelectedItem();
-			sted = stedfelt.getText();
+			sted = stedfelt.getText().trim();//trim så det ikke er whitespace på slutten, pga lagringsmåten
 			
 		}
 		catch(Exception e)
@@ -151,7 +153,7 @@ public class RegistrerSted extends Lista implements ActionListener
 				//sjekker at fylke og sted er valgt, og oppretter Sted-Objekt med de innskrevene verdiene
 				if(stedfelt.getText().length() == 0)
 				{
-					JOptionPane.showMessageDialog(null, "fyll inn sted");
+					JOptionPane.showMessageDialog(null, "Du har ikke skrevet inn et riktig sted");
 				return;
 				}
 				if(stedfelt.getText().length() != 0)
@@ -201,6 +203,7 @@ public class RegistrerSted extends Lista implements ActionListener
 				
 				//Bruke metode som sletter nåværende node i lisa
 				stedliste.slettStedNode(fylke,sted);
+				new File(datamappe+"/"+fylke+"."+sted).delete();
 				lagreLista();
 				melding("Stedet er slettet!");
 				System.out.println("Slettet sted: "+fylke+", "+sted);

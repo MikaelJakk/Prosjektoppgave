@@ -4,14 +4,14 @@
 package Meterologi.Lister;
 
 import java.io.*;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.*;
 
 
 public class StedListe implements Serializable
 {
 	private static final long serialVersionUID = 1L;	
+	private final String datamappe = "Listedata";
+	
 	private TreeSet<Sted> stedliste = new TreeSet<Sted>();
 
 	//Metoder for grunnleggende innsettning og sletting av data
@@ -582,5 +582,57 @@ public class StedListe implements Serializable
 				return true;
 		}
 		return false;
+	}
+	
+	//metode for lagring av data
+	public void lagreLista()
+	{/*skal skrive ut all dataen i registeret sortert i et mappehierarki.*/
+		Iterator<Sted> iter = stedliste.iterator();
+		Sted gjeldende;
+		new File(datamappe).mkdirs();//passer på at mappen Listedata/ eksisterer
+		
+		while(iter.hasNext())
+		{//skriv ut til datamappe/gjeldende.getFylke().gjeldende.getSted.data.dat
+			gjeldende = iter.next();
+			
+			if(new File(datamappe).exists())//hvis mappen finnes
+			{
+				new File(datamappe+"/"+gjeldende.getFylke()+"."+gjeldende.getSted()).mkdirs();
+				gjeldende.dataliste.skrivTilFil(datamappe+"/"+gjeldende.getFylke()+"."+gjeldende.getSted()+"/");
+			}
+			else
+				System.out.println("Feil: mappen Listedata eksisterer ikke");
+		}
+	}
+	
+	public void lesLista(String filsti)
+	{/*skal lage nye steder utifra mappene i datamappe, 
+	og lese inne data i disse nye stedene utifra mappenavnet i datamappen*/
+		File datamappepeker = new File(filsti);
+		if(datamappepeker.exists())
+		{/*lag ett nytt sted for hver mappe og laster inn data for hver mappe i sitt respektive sted..*/
+			File[] mapper = datamappepeker.listFiles();
+			for(int i=0; i<mapper.length; i++)
+			{
+				String mappenavn = mapper[i].getName();
+				int dott = mappenavn.indexOf('.');
+				String fylke = mappenavn.substring(0,dott);
+				String sted = mappenavn.substring(dott+1);
+				
+				if(!finsStedNode(fylke, sted))
+				{
+					settInnFylke(new Sted(sted,fylke));
+					Sted gjeldende = getStedNode(fylke, sted);
+					
+					//gjeldende.dataliste.lesFraFil(mappenavn);
+					gjeldende.dataliste.lesFraFil(mapper[i]);
+				}
+			}
+		}
+		else
+		{
+			System.out.println("Feil: Mappen 'Listedata' eksisterer ikke");
+		}
+		
 	}
 }

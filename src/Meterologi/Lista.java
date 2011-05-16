@@ -6,10 +6,15 @@ import Meterologi.Lister.*;
 
 public abstract class Lista {
 	public final static String filnavn="listedata.dat";
+	public final static String datamappe = "Listedata";
 	public static StedListe stedliste = new StedListe();
 
 	public static void lesLista()
 	{
+		try{
+			stedliste.lesLista(datamappe);
+		}catch(Exception e){e.printStackTrace();}
+		/*
 		ObjectInputStream input = null;
 		
 		try{
@@ -32,10 +37,15 @@ public abstract class Lista {
 		} 
 		catch (Exception ex) 
 		{System.out.println("Feil: ved lesing av fil(filen eksisterer kanskje ikke)");}
+		*/
 	}
 	
 	public static void lagreLista()
 	{
+		try{
+		stedliste.lagreLista();
+		}catch(Exception ex){ex.printStackTrace();}
+		/*
 		ObjectOutputStream output = null;
 		
 		try {
@@ -53,5 +63,6 @@ public abstract class Lista {
 			output.close();
 		}
 		catch(Exception e){System.out.println("Feil under skriving til fil "+ e);}
+		*/
 	}
 }

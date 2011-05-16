@@ -4,16 +4,15 @@
 
 package Meterologi.Lister;
 
-import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.io.*;
+import java.text.*;
 import java.util.Calendar;
 
 public class DataListe implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	private Data første;
 	
+	private Data første;
 	
 	//Metoder for grunnleggende innsetting, sletting og visning av data
 	public boolean nyData(Data n)
@@ -474,6 +473,75 @@ public class DataListe implements Serializable{
 		}
 		return sum/antall;
 	}
-	
 	//end of metoder for statistisk visning
+	
+	//metoder for lagring og lesing (Dataoutput)
+	public void skrivTilFil( String filsti )
+	{
+		try
+		{
+			if(første == null)
+				return;
+			
+			DataOutputStream ut = null;
+			Data a = første;
+			
+			while(a != null)
+			{
+				ut = new DataOutputStream( new FileOutputStream( filsti+a.getDatoString()+".dat" ) );
+				ut.writeLong(a.getDato().getTimeInMillis());
+				ut.writeDouble(a.getMinTemp());
+				ut.writeDouble(a.getMaxTemp());
+				ut.writeDouble(a.getNedbør());
+				a = a.neste;
+			}
+			ut.close();
+		}
+		catch ( IOException e )
+		{
+		  System.out.println( "Filproblem. "+e );
+		}
+	}//end of skrivTilFil()
+
+	public void lesFraFil(File datamappepeker)
+	{/*skal lese inn filen Data.dat ifra filstien som er angitt..*/
+		boolean lestebra = false;
+		Calendar dato = Calendar.getInstance();
+		dato.setTimeInMillis(0);
+		double mintemp = 0;
+		double maxtemp = 0;
+		double nedbør = 0;
+		
+		if(datamappepeker.exists())
+		{
+			File[] filer = datamappepeker.listFiles();
+			System.out.println("rett før sjekk på mappen");
+			if(filer.length != 0)
+			{
+				for(int i=0;i<filer.length;i++)
+				{
+					try{
+						DataInputStream inn = new DataInputStream(
+								new BufferedInputStream(
+										new FileInputStream(datamappepeker+"/"+filer[i].getName()) ) );
+						dato.setTimeInMillis(inn.readLong());
+						mintemp = inn.readDouble();
+						maxtemp = inn.readDouble();
+						nedbør = inn.readDouble();
+						
+						inn.close();
+						lestebra = true;
+					}
+					catch(Exception ex){ex.printStackTrace();}
+					
+					if(lestebra)
+					{
+						Data nydata = new Data(dato,mintemp,maxtemp,nedbør);
+						nyData(nydata);
+					}
+					else System.out.println( "Feil: ved lesing av fil");
+				}
+			}
+		}
+	}//end of lesFraFil()
 }
