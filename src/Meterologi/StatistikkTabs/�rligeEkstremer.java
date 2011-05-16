@@ -1,19 +1,18 @@
 package Meterologi.StatistikkTabs;
 
-import java.awt.FlowLayout;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.Calendar;
+import javax.swing.*;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
+import Meterologi.Lista;
 
-public class ÅrligeEkstremer
+public class ÅrligeEkstremer extends Lista implements ActionListener
 {
 	private JTextArea utskrift;
 	
 	private JComboBox årvalg;
+	int valgtår = 1970;
 	//lager streng[] for årvalg utifra maskinens kalenderår
 	int fraår = 1970;
 	Calendar nå = Calendar.getInstance();
@@ -21,20 +20,72 @@ public class ÅrligeEkstremer
 	Calendar fradato;
 	Calendar tildato;
 	
-	private JRadioButton maxtemp, mintemp, nedbør;
-
-	private ButtonGroup utvalggruppe;
+	private JButton knappen;
 	
 	public JPanel ByggPanel() //utseende
 	{
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout());
+		panel.setLayout(new BorderLayout());
+		
+		JPanel knappepanel= new JPanel();
+		
+		JPanel årutvalg = new JPanel();
+		årutvalg.add(new JLabel("År"));
+		årvalg = new JComboBox(makeYearArray());
+		årvalg.addActionListener(this);
+		årutvalg.add(årvalg);
+		
+		knappen = new JButton("Vis Data");
+		knappen.addActionListener(this);
+		
+		knappepanel.add(årutvalg);
+		knappepanel.add(knappen);
+		panel.add(knappepanel, BorderLayout.NORTH);
 		
 		utskrift = new JTextArea(25,50);
-		
-		panel.add(utskrift);
-		
+		panel.add(utskrift, BorderLayout.CENTER);
 		
 		return panel;
+	}
+	
+	public String[] makeYearArray()
+	{
+		String[] dagarray = new String[tilår-fraår+1];
+		for(int i = fraår; i <= tilår; i++)
+		{
+			dagarray[i-fraår] = i + "";
+		}
+		return dagarray;
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == årvalg)
+		{
+			valgtår = Integer.parseInt((String)årvalg.getSelectedItem());
+			fradato = Calendar.getInstance();
+			fradato.setTimeInMillis(0);
+			tildato = fradato;
+			fradato.set(valgtår, 0, 1);
+			tildato.set(valgtår+1,0,1);
+		}
+		else if(e.getSource() == knappen)
+		{
+			if(!stedliste.finnesIÅr(valgtår))
+			{
+				utskrift.setText("Det finnes ingen data registrert på " +valgtår);
+			}
+			else
+			{
+			utskrift.setText("Viser Data for år "+valgtår+"\n\n"
+					+"\t\t"+"Sted:\t"+"Fylke:\t"+"Temperatur:\t"+"Dato:"+"\n"
+					+"Laveste Temperatur:\t"+stedliste.getMinTempIÅr(valgtår)+"\n"
+					+"Høyeste Temperatur:\t"+stedliste.getMaxTempIÅr(valgtår)+"\n"
+					+"Mest Nedbør:\t"+"\n"
+					+"Minst Nedbør:\t" +"\n" 
+					+"Snitt Minimumtemperatur:\t"+""+"\n"
+					+"Snitt Maksimumtemperatur:\t"+""
+					);
+			}
+		}
 	}
 }

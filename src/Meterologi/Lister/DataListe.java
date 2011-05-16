@@ -373,5 +373,76 @@ public class DataListe implements Serializable{
 		}
 		return retur;
 	}
+	
+	public boolean finnesIÅr(int år)
+	{
+		Data a = første;
+		while(a != null)
+		{
+			
+			if(a.getDato().get(Calendar.YEAR) == år)
+			{
+				return true;
+			}
+			a=a.neste;
+		}
+		return false;	
+	}
+	
+	public Data getLavestTempIÅr(int år)
+	{
+		Data a = første;
+		Data retur = null;
+		while(a!=null)
+		{
+			if(a.getDato().get(Calendar.YEAR) == år && retur == null)
+				retur = a;
+			else if(a.getDato().get(Calendar.YEAR) == år && retur != null)
+			{
+				if(retur.getMinTemp() > a.getMinTemp())
+					retur =a;
+			}
+			a = a.neste;
+		}
+		return retur;
+	}
+	
+	public Data getHøyesteTempIÅr(int år)
+	{
+		Data a = første;
+		Data retur = null;
+		while(a!=null)
+		{
+			if(a.getDato().get(Calendar.YEAR) == år && retur == null)
+				retur = a;
+			else if(a.getDato().get(Calendar.YEAR) == år && retur != null)
+			{
+				if(retur.getMaxTemp() < a.getMaxTemp())
+					retur =a;
+			}
+			a = a.neste;
+		}
+		return retur;
+	}
+	
+	public Data getMestNedbørIÅr(int år)
+	{/*returnerer den noden i valgt måned som har lavest temperatur
+	 	fins det ingen noder på valgt måned returnerer den null*/
+		Data a = første;
+		Data retur = null;
+		while(a!=null)
+		{
+			if(a.getDato().get(Calendar.YEAR) == år && retur == null)
+				retur = a;
+			else if(a.getDato().get(Calendar.YEAR) == år && retur != null)
+			{
+				if(retur.getNedbør() < a.getNedbør())
+					retur =a;
+			}
+			a = a.neste;
+		}
+		return retur;
+	}
+	
 	//end of metoder for statistisk visning
 }
