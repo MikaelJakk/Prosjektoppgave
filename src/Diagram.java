@@ -4,8 +4,6 @@ import java.util.Random;
 
 public class Diagram extends JPanel
 {
-	private final int MAXBREDDE = 300;
-	private final int BALLDIAMETER = 10;
 	Random generator = new Random();
 	
 	
@@ -145,6 +143,7 @@ public class Diagram extends JPanel
 			//Endt of Diagram GUI---------------------------------
 	}
 		//skal få inn metrologiske data og sette dem som verdier for diagrammet
+		//midlertidig satt til randomverdier for debugging av GUI!
 		private int[] setArrayVerdier()
 		{
 			int x = generator.nextInt(299) + 1;
@@ -160,16 +159,6 @@ public class Diagram extends JPanel
 			
 			return verdier;
 		}
-		
-	public void kastPåBlink(Graphics g)
-	{
-		int x = (int) (Math.random() * (MAXBREDDE - BALLDIAMETER));
-		int y = (int) (Math.random() * (MAXBREDDE - BALLDIAMETER));
-		g.setColor(Color.black);
-		g.drawOval(x,y, BALLDIAMETER, BALLDIAMETER);
-		g.setColor(Color.yellow);
-		g.fillOval(x+1, y+1, BALLDIAMETER-2, BALLDIAMETER-2);
-	}
 	
 	public void refresh()
 	{

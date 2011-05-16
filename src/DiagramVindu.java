@@ -9,14 +9,13 @@ public class DiagramVindu extends JFrame
 	
 	public DiagramVindu()
 	{
-		super("Kaste på Blink");
+		super("Gjennomsnitts temp for *automatisk stedsnavn* i året *automatisk år*");
 		diagram = new Diagram();
 		refreshknapp = new JButton("Refresh");
 		refreshknapp.addActionListener(new Knappelytter());
 		Container c = getContentPane();
 		c.add(diagram, BorderLayout.CENTER);
 		c.add(refreshknapp, BorderLayout.PAGE_END);
-		//c.add(kasteknapp, BorderLayout.PAGE_END);
 	}
 	
 	private class Knappelytter implements ActionListener
