@@ -515,7 +515,6 @@ public class DataListe implements Serializable{
 		if(datamappepeker.exists())
 		{
 			File[] filer = datamappepeker.listFiles();
-			System.out.println("rett før sjekk på mappen");
 			if(filer.length != 0)
 			{
 				for(int i=0;i<filer.length;i++)
