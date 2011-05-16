@@ -298,13 +298,13 @@ public class RegistrerData extends Lista implements ActionListener{
 						finnesidatalista = valgtSted.dataliste.datoEksisterer(nydata);
 						}catch(Exception ex){System.out.println("Feil: ved innsetting av data (2) "+ex);}
 						try{
-						if(finnesidatalista)
-						{melding("Det er allerede registrert data på denne datoen");}
-						else{
-							valgtSted.nyData(nydata);
-							lagreLista();//lagrer lista etter hver nye datainput
-							melding("Data er lagt til");
-						}
+							if(finnesidatalista)
+							{melding("Det er allerede registrert data på denne datoen");}
+							else{
+								valgtSted.nyData(nydata);
+								lagreLista();//lagrer lista etter hver nye datainput
+								melding("Data er lagt til");
+							}
 						}catch(Exception ex){System.out.println("Feil: ved innsetting av data (3) "+ex);}	
 					}
 				}
