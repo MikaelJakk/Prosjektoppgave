@@ -75,7 +75,7 @@ public class RegistrerData extends Lista implements ActionListener{
 		//innputfeltet for dato
 		JPanel datopanel = new JPanel();
 		datopanel.add(new JLabel("År"));
-		årboks = new JComboBox(makeyeararray());
+		årboks = new JComboBox(makeyeararray2());
 		årboks.addActionListener(this);
 		datopanel.add(årboks);
 		datopanel.add(new JLabel("Måned"));
@@ -178,6 +178,21 @@ public class RegistrerData extends Lista implements ActionListener{
 	public String[] makeyeararray()
 	{
 		return makearray(fraår, Calendar.getInstance().get(Calendar.YEAR));
+	}
+	private String[] makeyeararray2()
+	{
+		int til = Calendar.getInstance().get(Calendar.YEAR);
+		int fra = fraår;
+		
+		String[] array = new String[til-fra+1];
+		int j = 0;
+		for(int i = til; i>=fra; i--)
+		{	
+			array[j] = i+"";
+			j++;
+		}
+		
+		return array;
 	}
 	public String[] makearray(int fra, int til)
 	{

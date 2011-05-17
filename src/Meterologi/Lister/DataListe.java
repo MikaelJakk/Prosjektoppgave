@@ -505,40 +505,31 @@ public class DataListe implements Serializable{
 
 	public void lesFraFil(File datamappepeker)
 	{/*skal lese inn filen Data.dat ifra filstien som er angitt..*/
-		boolean lestebra = false;
-		Calendar dato = Calendar.getInstance();
-		dato.setTimeInMillis(0);
-		double mintemp = 0;
-		double maxtemp = 0;
-		double nedbør = 0;
-		
+
 		if(datamappepeker.exists())
 		{
 			File[] filer = datamappepeker.listFiles();
 			if(filer.length != 0)
 			{
+				
 				for(int i=0;i<filer.length;i++)
 				{
 					try{
 						DataInputStream inn = new DataInputStream(
 								new BufferedInputStream(
-										new FileInputStream(datamappepeker+"/"+filer[i].getName()) ) );
+										new FileInputStream(
+												datamappepeker+"/"+filer[i].getName()) ) );
+						Calendar dato = Calendar.getInstance();
 						dato.setTimeInMillis(inn.readLong());
-						mintemp = inn.readDouble();
-						maxtemp = inn.readDouble();
-						nedbør = inn.readDouble();
-						
+						double mintemp = inn.readDouble();
+						double maxtemp = inn.readDouble();
+						double nedbør = inn.readDouble();
 						inn.close();
-						lestebra = true;
-					}
-					catch(Exception ex){ex.printStackTrace();}
-					
-					if(lestebra)
-					{
+						
 						Data nydata = new Data(dato,mintemp,maxtemp,nedbør);
 						nyData(nydata);
 					}
-					else System.out.println( "Feil: ved lesing av fil");
+					catch(Exception ex){ex.printStackTrace();}
 				}
 			}
 		}
