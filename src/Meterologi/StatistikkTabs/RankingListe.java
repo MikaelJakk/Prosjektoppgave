@@ -114,8 +114,14 @@ public class RankingListe extends Lista implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource() == snittmintemp)
-		{
-			//gjør noe kult
+		{	//Finne gjenomsnittLavestsTemp for hvert sted!
+			
+			//Linke sted opp med år
+			
+			//Liste alle stedene ut etter valgt år
+			
+			
+			/*Sted i fylke som har laveste snitt temperatur i løpet av ett år */
 		}
 		
 		else if(e.getSource() == snittmaxtemp)

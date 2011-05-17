@@ -33,7 +33,7 @@ public class StedListe implements Serializable
 	}
 	
 	public Sted getStedNode(String f, String s)
-	{
+	{//returnerer noden som representerer valgt sted
 		Iterator<Sted> iterator = stedliste.iterator();
 		while(iterator.hasNext())
 		{
@@ -149,9 +149,11 @@ public class StedListe implements Serializable
 		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp() +"\t" + denmedminstetemp.getDatoString();
 	}
 	
+	//metode som returnerer gjennomsnittsTemp for valgt Sted fro Èn måned
+	
 	public String getMinTempForMåned(int måned)
 	{	/*skal returnere en tekststreng som inneholder
-		sted,fylke,mintemp,dato for laveste mintemp i valgt måned*/
+		sted,fylke,lavest temp og dato i valgt måned*/
 		
 		if(tomListe())
 			return "ingen registrerte steder";

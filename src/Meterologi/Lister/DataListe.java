@@ -458,7 +458,7 @@ public class DataListe implements Serializable{
 	}
 	
 	public double getGjennomsnittsMinTempIÅr(int år)
-	{/*<returnerer gjennomsnittsmaksimumstemperaturen for noder mellom fra og til>*/
+	{/*<returnerer et gjennomsnitt av minimumstemperaturen for noder mellom fra og til>*/
 		double sum = 0.0;
 		int antall = 0;
 		Data a = første;
