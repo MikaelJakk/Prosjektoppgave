@@ -4,14 +4,14 @@
 package Meterologi.Lister;
 
 import java.io.*;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.*;
 
 
 public class StedListe implements Serializable
 {
 	private static final long serialVersionUID = 1L;	
+	private final String datamappe = "Listedata";
+	
 	private TreeSet<Sted> stedliste = new TreeSet<Sted>();
 
 	//Metoder for grunnleggende innsettning og sletting av data
@@ -33,7 +33,7 @@ public class StedListe implements Serializable
 	}
 	
 	public Sted getStedNode(String f, String s)
-	{
+	{//returnerer noden som representerer valgt sted
 		Iterator<Sted> iterator = stedliste.iterator();
 		while(iterator.hasNext())
 		{
@@ -71,7 +71,7 @@ public class StedListe implements Serializable
 	}
 	//end of grunnleggende metoder
 	
-	
+	//metoder for visning av fylker og steder i programmet
 	public String[] getFylkeArray()
 	{// returnerer en array som inneholder alle fylkene som er registerert i systemet
 		if(tomListe())
@@ -112,9 +112,11 @@ public class StedListe implements Serializable
 			return (String[]) b.toArray(new String[0]);
 		}
 	}
+	//end of metoder for visning av fylke og sted
 	
+	//metoder for statistisk visning av data
 	public String getMinTempSted(Calendar fra, Calendar til)
-	{
+	{/*skal skrive ut stedet(fylke,sted, verdi og dato) som har lavest mintemp i hele registeret mellom datoene*/
 		if(stedliste.size() == 0)
 			return "Ingen steder registrert";
 		
@@ -147,9 +149,11 @@ public class StedListe implements Serializable
 		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp() +"\t" + denmedminstetemp.getDatoString();
 	}
 	
+	//metode som returnerer gjennomsnittsTemp for valgt Sted fro Èn måned
+	
 	public String getMinTempForMåned(int måned)
 	{	/*skal returnere en tekststreng som inneholder
-		sted,fylke,mintemp,dato for laveste mintemp i valgt måned*/
+		sted,fylke,lavest temp og dato i valgt måned*/
 		
 		if(tomListe())
 			return "ingen registrerte steder";
@@ -251,7 +255,7 @@ public class StedListe implements Serializable
 	
 	public String getMestNedbørForMåned(int måned)
 	{	/*skal returnere en tekststreng som inneholder
-		sted,fylke,nedbør,dato for mest nedbør i valgt måned*/
+		sted,fylke,nedbør,dato for enkeltdatoen med mest nedbør i valgt måned*/
 		
 		if(tomListe())
 			return "ingen registrerte steder";
@@ -300,21 +304,243 @@ public class StedListe implements Serializable
 		else return "Fant ingen data";
 	}
 	
-	public String getGjennomsnittsMinTempForAlleSteder(Calendar fra, Calendar til)
+	public boolean finnesIÅr(int år)
 	{
-		double snittnedbør = 0;
-		int antall = 0;
-		Sted gjeldende = null;
-		
 		Iterator<Sted> iter = stedliste.iterator();
+		Sted gjeldende = null;
+		while(iter.hasNext())
+		{	gjeldende = iter.next();
+			if(gjeldende.dataliste.finnesIÅr(år))
+				return true;
+		}
+		return false;
+	}
+	
+	public String getMinTempIÅr(int år)
+	{
+		if(tomListe())
+			return "ingen registrerte steder";
+		
+		Sted gjeldende;
+		
+		Data gjeldendedata;
+		String gjeldendested;
+		String gjeldendefylke;
+		
+		Data returdata = null;
+		String retursted = "";
+		String returfylke = "";
+		
+		Iterator<Sted> iter = stedliste.iterator(); 
 		while(iter.hasNext())
 		{
 			gjeldende = iter.next();
-			snittnedbør = gjeldende.dataliste.getGjennomsnittsMinTempVerdi(fra, til);
+			if(gjeldende.dataliste.finnesIÅr(år))
+			{
+				gjeldendedata = gjeldende.dataliste.getLavestTempIÅr(år);
+				gjeldendested = gjeldende.getSted();
+				gjeldendefylke = gjeldende.getFylke();
+
+				if(returdata == null)
+				{
+					returdata = gjeldendedata;
+					retursted = gjeldendested;
+					returfylke = gjeldendefylke;
+				}
+				else if(gjeldendedata != null)
+				{
+					if(returdata.getMinTemp() > gjeldendedata.getMinTemp())
+					{
+						returdata = gjeldendedata;
+						retursted = gjeldendested;
+						returfylke = gjeldendefylke;
+					}
+				}
+			} 
+		}
+		if (returdata != null)
+			return returfylke +"\t" +retursted +"\t" +returdata.getMinTemp()
+			+"\t" + returdata.getDatoString();
+		else return "Fant ingen data";
+	}
+	
+	public String getMaxTempIÅr(int år)
+	{
+		if(tomListe())
+			return "ingen registrerte steder";
+		
+		Sted gjeldende;
+		
+		Data gjeldendedata;
+		String gjeldendested;
+		String gjeldendefylke;
+		
+		Data returdata = null;
+		String retursted = "";
+		String returfylke = "";
+		
+		Iterator<Sted> iter = stedliste.iterator(); 
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			if(gjeldende.dataliste.finnesIÅr(år))
+			{
+				gjeldendedata = gjeldende.dataliste.getHøyesteTempIÅr(år);
+				gjeldendested = gjeldende.getSted();
+				gjeldendefylke = gjeldende.getFylke();
+
+				if(returdata == null)
+				{
+					returdata = gjeldendedata;
+					retursted = gjeldendested;
+					returfylke = gjeldendefylke;
+				}
+				else if(gjeldendedata != null)
+				{
+					if(returdata.getMaxTemp() < gjeldendedata.getMaxTemp())
+					{
+						returdata = gjeldendedata;
+						retursted = gjeldendested;
+						returfylke = gjeldendefylke;
+					}
+				}
+			} 
+		}
+	
+		if (returdata != null)
+			return returfylke +"\t" +retursted +"\t" +returdata.getMaxTemp()
+			+"\t" + returdata.getDatoString();
+		else return "Fant ingen data";
+	}
+	
+	public String getMestNedbørIÅr(int år)
+	{
+		if(tomListe())
+			return "ingen registrerte steder";
+		
+		Sted gjeldende;
+		
+		int gjeldendenedbør = 0;
+		String gjeldendested;
+		String gjeldendefylke;
+
+		int returnedbør = 0;
+		String retursted = "";
+		String returfylke = "";
+		
+		Iterator<Sted> iter = stedliste.iterator(); 
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			if(gjeldende.dataliste.finnesIÅr(år))
+			{
+				gjeldendenedbør = gjeldende.dataliste.getTotalNedbørIÅr(år);
+				gjeldendested = gjeldende.getSted();
+				gjeldendefylke = gjeldende.getFylke();
+
+				if(returnedbør == 0)
+				{
+					returnedbør = gjeldendenedbør;
+					retursted = gjeldendested;
+					returfylke = gjeldendefylke;
+				}
+				else if(gjeldendenedbør != 0)
+				{
+					if(returnedbør < gjeldendenedbør)
+					{
+						returnedbør = gjeldendenedbør;
+						retursted = gjeldendested;
+						returfylke = gjeldendefylke;
+					}
+				}
+			} 
+		}
+	
+		if (returnedbør != 0)
+			return returfylke +"\t" +retursted +"\t" +returnedbør+" mm";
+		else return "Fant ingen data";
+	}
+	
+	public String getMinstNedbørIÅr(int år)
+	{/*antar at stedet med minst nedbør i et år er stedet med minst totalnedbør det året, 
+	og at det har regnet minst 1 mm det året*/
+		if(tomListe())
+			return "ingen registrerte steder";
+		
+		Sted gjeldende;
+		
+		int gjeldendenedbør = 0;
+		String gjeldendested;
+		String gjeldendefylke;
+
+		int returnedbør = 0;
+		String retursted = "";
+		String returfylke = "";
+		
+		Iterator<Sted> iter = stedliste.iterator(); 
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			if(gjeldende.dataliste.finnesIÅr(år))
+			{
+				gjeldendenedbør = gjeldende.dataliste.getTotalNedbørIÅr(år);
+				gjeldendested = gjeldende.getSted();
+				gjeldendefylke = gjeldende.getFylke();
+
+				if(returnedbør == 0)
+				{
+					returnedbør = gjeldendenedbør;
+					retursted = gjeldendested;
+					returfylke = gjeldendefylke;
+				}
+				else if(gjeldendenedbør > 0)
+				{
+					if(returnedbør > gjeldendenedbør)
+					{
+						returnedbør = gjeldendenedbør;
+						retursted = gjeldendested;
+						returfylke = gjeldendefylke;
+					}
+				}
+			} 
+		}
+	
+		if (returnedbør != 0)
+			return returfylke +"\t" +retursted +"\t" +returnedbør+" mm";
+		else return "Fant ingen data";
+	}
+	
+	public String getGjennomsnittMinTempIÅr(int år)
+	{
+		double snittemp = 0;
+		int antall = 0;
+		
+		if(tomListe())
+			return "ingen data";
+		else{
+		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+			snittemp = iter.next().dataliste.getGjennomsnittsMinTempIÅr( år);
 			antall++;
 		}
-		NumberFormat format = new DecimalFormat("#0.00");
-		return format.format(snittnedbør/antall)+"ºC";
+		return snittemp/antall +"ºC";
+	}
+
+	public String getGjennomsnittMaxTempIÅr(int år)
+	{
+		double snittemp = 0;
+		int antall = 0;
+		
+		if(tomListe())
+			return "ingen data";
+		
+		else{
+		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+			snittemp = iter.next().dataliste.getGjennomsnittsMaksTempIÅr( år);
+			antall++;
+		}
+		return snittemp/antall +"ºC";
 	}
 	
 	public Object[] getRangertSnittMinTemp(Calendar fra, Calendar til)
@@ -358,5 +584,57 @@ public class StedListe implements Serializable
 				return true;
 		}
 		return false;
+	}
+	
+	//metode for lagring av data
+	public void lagreLista()
+	{/*skal skrive ut all dataen i registeret sortert i et mappehierarki.*/
+		Iterator<Sted> iter = stedliste.iterator();
+		Sted gjeldende;
+		new File(datamappe).mkdirs();//passer på at mappen Listedata/ eksisterer
+		
+		while(iter.hasNext())
+		{//skriv ut til datamappe/gjeldende.getFylke().gjeldende.getSted.data.dat
+			gjeldende = iter.next();
+			
+			if(new File(datamappe).exists())//hvis mappen finnes
+			{
+				new File(datamappe+"/"+gjeldende.getFylke()+"."+gjeldende.getSted()).mkdirs();
+				gjeldende.dataliste.skrivTilFil(datamappe+"/"+gjeldende.getFylke()+"."+gjeldende.getSted()+"/");
+			}
+			else
+				System.out.println("Feil: mappen Listedata eksisterer ikke");
+		}
+	}
+	
+	public void lesLista(String filsti)
+	{/*skal lage nye steder utifra mappene i datamappe, 
+	og lese inne data i disse nye stedene utifra mappenavnet i datamappen*/
+		File datamappepeker = new File(filsti);
+		if(datamappepeker.exists())
+		{/*lag ett nytt sted for hver mappe og laster inn data for hver mappe i sitt respektive sted..*/
+			File[] mapper = datamappepeker.listFiles();
+			for(int i=0; i<mapper.length; i++)
+			{
+				String mappenavn = mapper[i].getName();
+				int dott = mappenavn.indexOf('.');
+				String fylke = mappenavn.substring(0,dott);
+				String sted = mappenavn.substring(dott+1);
+				
+				if(!finsStedNode(fylke, sted))
+				{
+					settInnFylke(new Sted(sted,fylke));
+					Sted gjeldende = getStedNode(fylke, sted);
+					
+					//gjeldende.dataliste.lesFraFil(mappenavn);
+					gjeldende.dataliste.lesFraFil(mapper[i]);
+				}
+			}
+		}
+		else
+		{
+			System.out.println("Feil: Mappen 'Listedata' eksisterer ikke");
+		}
+		
 	}
 }

@@ -4,16 +4,16 @@
 
 package Meterologi.Lister;
 
-import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.io.*;
+import java.text.*;
 import java.util.Calendar;
+import Meterologi.Lister.*;
 
 public class DataListe implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	private Data første;
 	
+	private Data første;
 	
 	//Metoder for grunnleggende innsetting, sletting og visning av data
 	public boolean nyData(Data n)
@@ -373,5 +373,166 @@ public class DataListe implements Serializable{
 		}
 		return retur;
 	}
+	
+	public boolean finnesIÅr(int år)
+	{
+		Data a = første;
+		while(a != null)
+		{
+			
+			if(a.getDato().get(Calendar.YEAR) == år)
+			{
+				return true;
+			}
+			a=a.neste;
+		}
+		return false;	
+	}
+	
+	public Data getLavestTempIÅr(int år)
+	{
+		Data a = første;
+		Data retur = null;
+		while(a!=null)
+		{
+			if(a.getDato().get(Calendar.YEAR) == år && retur == null)
+				retur = a;
+			else if(a.getDato().get(Calendar.YEAR) == år && retur != null)
+			{
+				if(retur.getMinTemp() > a.getMinTemp())
+					retur =a;
+			}
+			a = a.neste;
+		}
+		return retur;
+	}
+	
+	public Data getHøyesteTempIÅr(int år)
+	{
+		Data a = første;
+		Data retur = null;
+		while(a!=null)
+		{
+			if(a.getDato().get(Calendar.YEAR) == år && retur == null)
+				retur = a;
+			else if(a.getDato().get(Calendar.YEAR) == år && retur != null)
+			{
+				if(retur.getMaxTemp() < a.getMaxTemp())
+					retur =a;
+			}
+			a = a.neste;
+		}
+		return retur;
+	}
+	
+	public int getTotalNedbørIÅr(int år)
+	{/*returnerer den noden i valgt måned som har lavest temperatur
+	 	fins det ingen noder på valgt måned returnerer den null*/
+		Data a = første;
+		int nedbør=0;
+		while(a!=null)
+		{
+			if(a.getDato().get(Calendar.YEAR) == år)
+			{
+				nedbør += a.getNedbør();
+			}
+			a = a.neste;
+		}
+		return nedbør;
+	}
+	
+	public double getGjennomsnittsMaksTempIÅr(int år)
+	{/*<returnerer gjennomsnittsmaksimumstemperaturen for noder mellom fra og til>*/
+		double sum = 0.0;
+		int antall = 0;
+		Data a = første;
+		while(a != null)
+		{
+			if(a.getDato().get(Calendar.YEAR) == år)
+			{
+				sum += a.getMaxTemp();
+				antall++;
+			}
+			a=a.neste;
+		}
+		return sum/antall;
+	}
+	
+	public double getGjennomsnittsMinTempIÅr(int år)
+	{/*<returnerer et gjennomsnitt av minimumstemperaturen for noder mellom fra og til>*/
+		double sum = 0.0;
+		int antall = 0;
+		Data a = første;
+		while(a != null)
+		{
+			if(a.getDato().get(Calendar.YEAR) == år)
+			{
+				sum += a.getMinTemp();
+				antall++;
+			}
+			a=a.neste;
+		}
+		return sum/antall;
+	}
 	//end of metoder for statistisk visning
+	
+	//metoder for lagring og lesing (Dataoutput)
+	public void skrivTilFil( String filsti )
+	{
+		try
+		{
+			if(første == null)
+				return;
+			
+			DataOutputStream ut = null;
+			Data a = første;
+			
+			while(a != null)
+			{
+				ut = new DataOutputStream( new FileOutputStream( filsti+a.getDatoString()+".dat" ) );
+				ut.writeLong(a.getDato().getTimeInMillis());
+				ut.writeDouble(a.getMinTemp());
+				ut.writeDouble(a.getMaxTemp());
+				ut.writeDouble(a.getNedbør());
+				a = a.neste;
+			}
+			ut.close();
+		}
+		catch ( IOException e )
+		{
+		  System.out.println( "Filproblem. "+e );
+		}
+	}//end of skrivTilFil()
+
+	public void lesFraFil(File datamappepeker)
+	{/*skal lese inn filen Data.dat ifra filstien som er angitt..*/
+
+		if(datamappepeker.exists())
+		{
+			File[] filer = datamappepeker.listFiles();
+			if(filer.length != 0)
+			{
+				
+				for(int i=0;i<filer.length;i++)
+				{
+					try{
+						DataInputStream inn = new DataInputStream(
+								new BufferedInputStream(
+										new FileInputStream(
+												datamappepeker+"/"+filer[i].getName()) ) );
+						Calendar dato = Calendar.getInstance();
+						dato.setTimeInMillis(inn.readLong());
+						double mintemp = inn.readDouble();
+						double maxtemp = inn.readDouble();
+						double nedbør = inn.readDouble();
+						inn.close();
+						
+						Data nydata = new Data(dato,mintemp,maxtemp,nedbør);
+						nyData(nydata);
+					}
+					catch(Exception ex){ex.printStackTrace();}
+				}
+			}
+		}
+	}//end of lesFraFil()
 }

@@ -1,9 +1,8 @@
 	/*
- * Re-edit av Nam le
+ * Skrevet av Nam Le og Mikael Jakhelln
  * Oppdatert: 11.4.2011
- * Denne klassen skal bygge gui, samt metoder og lytter for registrering av visData
- * og legges til i Hovedvindu
- * .java
+ * Denne klassen skal bygge gui, samt metoder og lytter for å vise data på et sted mellom to datoer
+ * og legges til i Hovedvindu.java
  */
 
 package Meterologi;
@@ -52,21 +51,19 @@ public class VisData extends Lista implements ActionListener{
 	private int tilmnd;
 	private int tilår;
 	
-	//pekere til fradato og tildato
 	Calendar fradato;
 	Calendar tildato;
 
-	//peker til valgtsted
 	private Sted valgtSted; 
 	//valgtSted skal peke på stedet man velger i comboboksene.
-	//det er dette stedet man skal lagre ny data på sted.nyData.(Data d);
+	//det er dette stedet man skal bruke til å lagre ny data på sted.nyData.(Data d);
 	
 	//array over registrerte fylker og steder. samt pekere til valgt fylke og sted
 	private String fylke;
 	private String[] fylker = stedliste.getFylkeArray();
 	private String sted;
 	private String[] steder = stedliste.getStedArray(fylker[0]);
-	//til å skrive ut datoer
+	
 	SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 	
 	 
@@ -107,7 +104,7 @@ public class VisData extends Lista implements ActionListener{
 		datopanel.add(fradagboks);	
 		//til dato bokser
 		datopanel2.add(new JLabel("Til år: "));
-		tilårboks = new JComboBox(makeyeararray());
+		tilårboks = new JComboBox(makeyeararray2());
 		tilårboks.addActionListener(this);
 		datopanel2.add(tilårboks);
 		datopanel2.add(new JLabel("Måned"));
@@ -199,14 +196,31 @@ public class VisData extends Lista implements ActionListener{
 	{
 		return makearray(STARTÅR, Calendar.getInstance().get(Calendar.YEAR));
 	}
+	
+	private String[] makeyeararray2()
+	{
+		int til = Calendar.getInstance().get(Calendar.YEAR);
+		int fra = STARTÅR;
+		
+		String[] array = new String[til-fra+1];
+		int j = 0;
+		for(int i = til; i>=fra; i--)
+		{	
+			array[j] = i+"";
+			j++;
+		}
+		
+		return array;
+	}
+	
 	private String[] makearray(int fra, int til)
 	{
-		String[] dagarray = new String[til-fra+1];
+		String[] array = new String[til-fra+1];
 		for(int i = fra; i <= til; i++)
 		{
-			dagarray[i-fra] = i + "";
+			array[i-fra] = i + "";
 		}
-		return dagarray;
+		return array;
 	}
 /*
 	public int telldager() // metode for å skjekke hvor mange dager det er i mnden
