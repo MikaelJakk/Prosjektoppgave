@@ -8,11 +8,13 @@ package Meterologi;
 ////// tab4.java "Statistikk"
 ////////////////////////////////////////
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class HovedVindu extends JFrame
 {
@@ -26,7 +28,7 @@ public class HovedVindu extends JFrame
 	public HovedVindu()
 	{
 
-		JFrame frame = new JFrame("Hovedvindu");
+		JFrame frame = new JFrame("Super Awesome Meteorology Program");
 
 		JTabbedPane tabs = new JTabbedPane(); // tabs
 
@@ -35,10 +37,20 @@ public class HovedVindu extends JFrame
 		JPanel p3 = visdata.ByggPanel();
 		JPanel p4 = stat.ByggPanel();
 
-		tabs.addTab("Registrer et nytt sted",null,p1,"Registrering av nye steder");
-		tabs.addTab("Registrer ny Data",null,p2,"Registrering av ny meterologisk data");
-	    tabs.addTab("Data For Sted",null,p3,"Visning av data for ett bestemt sted");
-	    tabs.addTab("Data for Alt",null,p4,"Visning av data for alle registrerte steder");
+		ImageIcon regstedikon = new ImageIcon( 
+				Toolkit.getDefaultToolkit().getImage("Bilder/by.png"));
+		ImageIcon regdataikon = new ImageIcon( 
+				Toolkit.getDefaultToolkit().getImage("Bilder/sologsky.jpg"));
+		ImageIcon visdataikon = new ImageIcon( 
+				Toolkit.getDefaultToolkit().getImage("Bilder/statistikkhus.jpg"));
+		ImageIcon statistikkikon = new ImageIcon( 
+				Toolkit.getDefaultToolkit().getImage("Bilder/statistikkjord.jpg"));
+		
+		//tabs.addTab(title, icon, component, tip)
+		tabs.addTab("Registrer nytt sted",regstedikon,p1,"Registrering av nye steder");
+		tabs.addTab("Registrer ny Data",regdataikon,p2,"Registrering av ny meterologisk data");
+	    tabs.addTab("Sted statistikk",visdataikon,p3,"Visning av data for ett bestemt sted");
+	    tabs.addTab("Global statistikk",statistikkikon,p4,"Visning av data for alle registrerte steder");
 	    
 	    //oppdaterer comboboxer i RegistrerData
 	    tabs.addChangeListener(new ChangeListener(){
@@ -58,6 +70,10 @@ public class HovedVindu extends JFrame
 	    frame.setPreferredSize( new java.awt.Dimension(800,600) );
 		frame.add(tabs);
 		frame.setSize(800,600);
+		
+		//setter ikonbilde
+		Image ikon = Toolkit.getDefaultToolkit().getImage("Bilder/regnsky.png");
+		frame.setIconImage(ikon);
 		frame.setVisible(true);
 	}
 }

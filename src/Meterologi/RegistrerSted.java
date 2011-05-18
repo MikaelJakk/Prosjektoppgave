@@ -66,7 +66,7 @@ public class RegistrerSted extends Lista implements ActionListener
 		leggtilny.addActionListener(this);
 		knappepanel.add(leggtilny);
 			//skriv ut steder
-		skrivut = new JButton("Skriv ut");
+		skrivut = new JButton("Vis registrerte steder");
 		skrivut.addActionListener(this);
 		knappepanel.add(skrivut);
 			//slett innskrevet sted
