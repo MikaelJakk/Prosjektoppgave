@@ -6,10 +6,10 @@ public class DiagramVindu extends JFrame
 {
 	private Diagram diagram;
 	private JButton refreshknapp;
-	
+
 	public DiagramVindu()
 	{
-		super("Gjennomsnitts temp for *automatisk stedsnavn* i året *automatisk år*");
+		super("GjennomsnittsTemp for Sted + Valgt år!");
 		diagram = new Diagram();
 		refreshknapp = new JButton("Refresh");
 		refreshknapp.addActionListener(new Knappelytter());
@@ -17,7 +17,7 @@ public class DiagramVindu extends JFrame
 		c.add(diagram, BorderLayout.CENTER);
 		c.add(refreshknapp, BorderLayout.PAGE_END);
 	}
-	
+
 	private class Knappelytter implements ActionListener
 	{
 		public void actionPerformed (ActionEvent e)
@@ -26,7 +26,7 @@ public class DiagramVindu extends JFrame
 			{
 				diagram.refresh();
 			}
-				
+
 		}
 	}
 }
