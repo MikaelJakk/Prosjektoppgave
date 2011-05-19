@@ -80,7 +80,7 @@ public class MånedligeRekorder extends Lista implements ActionListener
 			utskrift.setText("ingen steder er registrert");
 			return;
 		}
-		String retur = "Måned\tFylke\tSted\tMinTemp\tDato";
+		String retur = "Måned\tFylke\tSted\t\tMinTemp\tDato";
 
 		try{
 			retur += "\nJanuar:\t"+stedliste.getMinTempForMåned(Calendar.JANUARY);
@@ -113,7 +113,7 @@ public class MånedligeRekorder extends Lista implements ActionListener
 			utskrift.setText("ingen steder er registrert");
 			return;
 		}
-		String retur = "Måned\tFylke\tSted\tMaxTemp\tDato";
+		String retur = "Måned\tFylke\tSted\t\tMaxTemp\tDato";
 
 		try{
 			retur += "\nJanuar:\t"+stedliste.getMaxTempForMåned(Calendar.JANUARY);
@@ -140,7 +140,7 @@ public class MånedligeRekorder extends Lista implements ActionListener
 			utskrift.setText("ingen steder er registrert");
 			return;
 		}
-		String retur = "Måned\tFylke\tSted\tNedbør\tDato";
+		String retur = "Måned\tFylke\tSted\t\tNedbør\tDato";
 
 		try{
 			retur += "\nJanuar:\t"+stedliste.getMestNedbørForMåned(Calendar.JANUARY);

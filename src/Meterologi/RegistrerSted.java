@@ -79,6 +79,7 @@ public class RegistrerSted extends Lista implements ActionListener
 		//utskriftvindu
 		utskrift = new JTextArea(20,50);
 		panelet.add(new JScrollPane(utskrift));
+		
 		panelet.setVisible(true);
 		utskrift.setEditable(false);
 
@@ -203,7 +204,9 @@ public class RegistrerSted extends Lista implements ActionListener
 				
 				//Bruke metode som sletter nåværende node i lisa
 				stedliste.slettStedNode(fylke,sted);
-				new File(datamappe+"/"+fylke+"."+sted).delete();
+				//skal slette mappen
+				if(!stedliste.slettFil(datamappe+"/"+fylke+"."+sted))
+					melding("klarte ikke slette mappen");
 				lagreLista();
 				melding("Stedet er slettet!");
 				System.out.println("Slettet sted: "+fylke+", "+sted);

@@ -233,7 +233,7 @@ public class StedListe implements Serializable
 		}
 		
 		if (returdata != null)
-			return returfylke +"\t" +retursted +"\t" +returdata.getMinTemp()
+			return returfylke +"\t" +retursted +"\t\t" +returdata.getMinTemp()
 			+"\t" + returdata.getDatoString();
 		else return "Fant ingen data";
 	}
@@ -284,7 +284,7 @@ public class StedListe implements Serializable
 		}
 		
 		if (returdata != null)
-			return returfylke +"\t" +retursted +"\t" +returdata.getMaxTemp()
+			return returfylke +"\t" +retursted +"\t\t" +returdata.getMaxTemp()
 			+"\t" + returdata.getDatoString();
 		else return "Fant ingen data";
 	}
@@ -335,7 +335,7 @@ public class StedListe implements Serializable
 		}
 		
 		if (returdata != null)
-			return returfylke +"\t" +retursted +"\t" +returdata.getNedbør()
+			return returfylke +"\t" +retursted +"\t\t" +returdata.getNedbør()
 			+"\t" + returdata.getDatoString();
 		else return "Fant ingen data";
 	}
@@ -655,5 +655,22 @@ public class StedListe implements Serializable
 			System.out.println("Feil: Mappen 'Listedata' eksisterer ikke");
 		}
 		
+	}
+	
+	public boolean slettFil(String filsti)
+	{
+		File dir = new File(filsti);
+		if (dir.isDirectory()) {
+	        String[] children = dir.list();
+	        for (int i=0; i<children.length; i++) {
+	            boolean success = slettFil(dir+"/"+children[i]);
+	            if (!success) {
+	                return false;
+	            }
+	        }
+	    }
+
+	    // The directory is now empty so delete it
+	    return dir.delete();
 	}
 }
