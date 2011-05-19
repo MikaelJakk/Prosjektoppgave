@@ -1,6 +1,5 @@
 	/*
- * Skrevet av Nam Le og Mikael Jakhelln
- * Oppdatert: 11.4.2011
+ * Skrevet av Nam Le og Mikael Jakhelln April-Mai 2011
  * Denne klassen skal bygge gui, samt metoder og lytter for å vise data på et sted mellom to datoer
  * og legges til i Hovedvindu.java
  */
@@ -12,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.awt.event.*;
 import javax.swing.*;
-	
 import Meterologi.Lister.Data;
 import Meterologi.Lister.Sted;
 

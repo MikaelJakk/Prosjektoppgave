@@ -1,3 +1,7 @@
+/*
+ * Skrevet av Mikael Jakhelln
+ */
+
 package Meterologi;
 
 public class RunProgram extends Lista

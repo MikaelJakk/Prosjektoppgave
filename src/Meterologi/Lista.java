@@ -4,8 +4,6 @@
 
 package Meterologi;
 
-import java.io.*;
-
 import Meterologi.Lister.*;
 
 public abstract class Lista {

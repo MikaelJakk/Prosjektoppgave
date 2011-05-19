@@ -105,15 +105,14 @@ public class RegistrerData extends Lista implements ActionListener{
 		skrivut = new JButton("skriv ut");
 		skrivut.addActionListener(this);
 		knappepanel.add(skrivut);
-		//må lage metoder for sletting av data
 		slett = new JButton("Slett data");
 		slett.addActionListener(this);
 		knappepanel.add(slett);
 		toppanel.add(knappepanel);
-		//legger til toppanelet
+		//legger til toppanelet øverst
 		panelet.add(toppanel);
 		
-		//utskriftsvindu
+		//utskriftsvindu i midten
 		utskrift = new JTextArea(20, 50);
 		utskrift.setEditable(false);
 		panelet.add(new JScrollPane(utskrift));
@@ -145,7 +144,7 @@ public class RegistrerData extends Lista implements ActionListener{
 		år = Integer.parseInt((String) årboks.getSelectedItem());
 		måned =Integer.parseInt((String) månedboks.getSelectedItem());
 		dag = Integer.parseInt((String) dagboks.getSelectedItem());
-	}//end of getDatoVerdier()
+	}
 	
 	public boolean getVærVerdier()
 	{
@@ -233,6 +232,8 @@ public class RegistrerData extends Lista implements ActionListener{
 	
 	public void skrivUt()//skriver ut lista i utskriftsfeltet
 	{
+		getStedVerdier();
+		
 		if( stedliste.tomListe() )
 			utskrift.setText("ingen data i systemet!");
 		else if(getStedVerdier())
@@ -298,7 +299,7 @@ public class RegistrerData extends Lista implements ActionListener{
 					return;
 				//henter dato input
 				getDatoVerdier();
-				//lagrer dato som calendar objekt
+				//lagrer dato som calendar objekt for bruk i dataliste
 				Calendar dato = Calendar.getInstance();
 				dato.setTimeInMillis(0); //hadde vært lettere med Date(år, måned, dato)
 				dato.set(år,måned-1,dag);/*måned-1 fordi Calendar.set() er teit*/

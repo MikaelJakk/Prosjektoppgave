@@ -30,7 +30,7 @@ public class ÅrligeEkstremer extends Lista implements ActionListener
 	
 	DecimalFormat df = new DecimalFormat("#.##");
 	
-	public JPanel ByggPanel() //utseende
+	public JPanel ByggPanel()
 	{
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -39,7 +39,7 @@ public class ÅrligeEkstremer extends Lista implements ActionListener
 		
 		JPanel årutvalg = new JPanel();
 		årutvalg.add(new JLabel("År"));
-		årvalg = new JComboBox(makeYearArray());
+		årvalg = new JComboBox(makeyeararray());
 		årvalg.addActionListener(this);
 		årutvalg.add(årvalg);
 		
@@ -56,14 +56,20 @@ public class ÅrligeEkstremer extends Lista implements ActionListener
 		return panel;
 	}
 	
-	public String[] makeYearArray()
+	private String[] makeyeararray()
 	{
-		String[] dagarray = new String[tilår-fraår+1];
-		for(int i = fraår; i <= tilår; i++)
-		{
-			dagarray[i-fraår] = i + "";
+		int til = Calendar.getInstance().get(Calendar.YEAR);
+		int fra = fraår;
+		
+		String[] array = new String[til-fra+1];
+		int j = 0;
+		for(int i = til; i>=fra; i--)
+		{	
+			array[j] = i+"";
+			j++;
 		}
-		return dagarray;
+		
+		return array;
 	}
 
 	public void actionPerformed(ActionEvent e) {
