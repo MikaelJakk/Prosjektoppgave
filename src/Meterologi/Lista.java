@@ -1,3 +1,7 @@
+/*
+ * Skrevet av Mikael Jakhelln 10.Mai 2011
+ */
+
 package Meterologi;
 
 import java.io.*;

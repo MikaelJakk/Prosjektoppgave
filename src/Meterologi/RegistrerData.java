@@ -1,6 +1,5 @@
 /*
- * Skrevet av Mikael Jakhelln og Thomas Nordengen,
- * Oppdatert: 11.4.2011
+ * Skrevet av Mikael Jakhelln og Thomas Nordengen April-Mai 2011
  * Denne klassen skal bygge gui, samt metoder og lytter for registrering av nyData 
  * og legges til i Tab.java
  */

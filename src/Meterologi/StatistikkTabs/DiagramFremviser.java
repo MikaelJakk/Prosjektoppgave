@@ -1,3 +1,7 @@
+/*
+ * Skrevet at Thomas Nordengen 15.Mai 2011
+ */
+
 package Meterologi.StatistikkTabs;
 
 

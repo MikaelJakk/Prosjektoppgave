@@ -1,8 +1,8 @@
+/*
+ * Skrevet av Nam Le og Mikael Jakhelln 10.April 2011
+ */
+
 package Meterologi;
-////////////////////////////////////////
-//Gui-vindu 4: STATISTIKK///////////////
-//skrevet av Nam Le/////////////////////
-////////////////////////////////////////
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

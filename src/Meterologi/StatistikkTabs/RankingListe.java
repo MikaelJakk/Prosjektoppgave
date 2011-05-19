@@ -1,3 +1,7 @@
+/*
+ * Skrevet av Mikael Jakhelln 15.Mai 2011
+ */
+
 package Meterologi.StatistikkTabs;
 
 import java.awt.BorderLayout;

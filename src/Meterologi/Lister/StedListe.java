@@ -1,5 +1,5 @@
 /*
- * Skrevet av Thomas Nordengen den 12.april 2011
+ * Skrevet av Thomas Nordengen og Mikael Jakhelln den 5.Mai 2011
  */
 package Meterologi.Lister;
 

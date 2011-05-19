@@ -1,3 +1,7 @@
+/*
+ * Skrevet av Nam Le og Mikael Jakhelln 8.April 2011
+ */
+
 package Meterologi;
 
 ////////////////////////////////////////
