@@ -156,7 +156,7 @@ public class StedListe
 			return "Ingen steder registrert";
 		
 		Sted gjeldende = null;
-		Data denmedminstetemp = null;
+		Data gjeldendetemp = null;
 		String returfylke ="";
 		String retursted = "";
 		
@@ -164,24 +164,60 @@ public class StedListe
 		while(iter.hasNext())
 		{
 			gjeldende = iter.next();
-			if(denmedminstetemp == null)
+			if(gjeldendetemp == null)
 			{
-			denmedminstetemp = gjeldende.dataliste.getDenMedLavestTemp(fra,til);
-			returfylke = gjeldende.getFylke();
-			retursted = gjeldende.getSted();
+				gjeldendetemp = gjeldende.dataliste.getDenMedLavestTemp(fra,til);
+				returfylke = gjeldende.getFylke();
+				retursted = gjeldende.getSted();
 			}
 			else
 			{
 				gjeldende = iter.next();
-				if(denmedminstetemp.getMinTemp() > gjeldende.dataliste.getDenMedLavestTemp(fra, til).getMinTemp())
+				if(gjeldendetemp.getMinTemp() > gjeldende.dataliste.getDenMedLavestTemp(fra, til).getMinTemp())
 				{
-					denmedminstetemp = gjeldende.dataliste.getDenMedLavestTemp(fra, til);
+					gjeldendetemp = gjeldende.dataliste.getDenMedLavestTemp(fra, til);
 					returfylke = gjeldende.getFylke();
 					retursted = gjeldende.getSted();
 				}
 			}
 		}
-		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp() +"\t" + denmedminstetemp.getDatoString();
+		return returfylke +"\t" +retursted +"\t" +gjeldendetemp.getMinTemp() +"\t" 
+			+ gjeldendetemp.getDatoString();
+	}
+	
+	public String getMaxTempSted(Calendar fra, Calendar til)
+	{/*skal skrive ut stedet(fylke,sted, verdi og dato) som har lavest mintemp i hele registeret mellom datoene*/
+		if(stedliste.size() == 0)
+			return "Ingen steder registrert";
+		
+		Sted gjeldende = null;
+		Data gjeldendetemp = null;
+		String returfylke ="";
+		String retursted = "";
+		
+		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			if(gjeldendetemp == null)
+			{
+				gjeldendetemp = gjeldende.dataliste.getDenMedHøyesteTemp(fra,til);
+				returfylke = gjeldende.getFylke();
+				retursted = gjeldende.getSted();
+			}
+			else
+			{
+				gjeldende = iter.next();
+				if(gjeldendetemp.getMaxTemp() < gjeldende.dataliste.getDenMedHøyesteTemp(fra, til).getMaxTemp())
+				{
+					gjeldendetemp = gjeldende.dataliste.getDenMedHøyesteTemp(fra, til);
+					returfylke = gjeldende.getFylke();
+					retursted = gjeldende.getSted();
+				}
+			}
+		}
+		return returfylke +"\t" +retursted +"\t" +gjeldendetemp.getMaxTemp() +"\t" 
+			+ gjeldendetemp.getDatoString();
 	}
 	
 	//metode som returnerer gjennomsnittsTemp for valgt Sted fro Èn måned
