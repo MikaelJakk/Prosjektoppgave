@@ -555,28 +555,7 @@ public class StedListe implements Serializable
 		}
 		return snittemp/antall +"ºC";
 	}
-	
-<<<<<<< HEAD
-	public Object[] getRangertSnittMinTemp(Calendar fra, Calendar til)
-	{
-		Object [] kolonner = new Object[8];
-		
-		Iterator<Sted> iter = stedliste.iterator();
-		while(iter.hasNext())
-		{
-			/*
-			 * skal gå igjennom stedliste og finne de 8 stednodene med lavest gjennomsnittstemperatur
-			 * og legge til fylke,sted,gjennomsnittstemp og dato sortert stigende etter gjennomsnittstemperatur
-			 */
-		}
-		
-		
-		return kolonner;
-	}
-	
-	
-=======
->>>>>>> 6bfb556217cd148862a708018dd0511da0e2b477
+
 	public boolean tomListe()
 	{
 		Iterator<Sted> iter = stedliste.iterator();
