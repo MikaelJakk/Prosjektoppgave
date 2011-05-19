@@ -384,6 +384,11 @@ public class RegistrerData extends Lista implements ActionListener{
 					boolean vellykket = valgtSted.dataliste.slettData(sdata);
 					if(vellykket)
 					{
+						if(!stedliste.slettFil(datamappe+"/"+fylke+"."+sted))
+						{
+							melding("klarte ikke slette mappen");
+							return;
+						}
 						melding("Slettet data under:"
 								+"\nFylke: "+fylke +"\nSted: "+sted +"\nDato: "+sdata.getDatoString());
 						lagreLista();

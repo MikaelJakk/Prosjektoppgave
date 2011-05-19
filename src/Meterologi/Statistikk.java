@@ -14,7 +14,7 @@ import Meterologi.StatistikkTabs.*;
 public class Statistikk extends JFrame implements ActionListener
 {
 	MånedligeRekorder månedrec = new MånedligeRekorder();
-	RankingListe ranking = new RankingListe();
+	DatoEkstremer datorekorder = new DatoEkstremer();
 	SnittTemp  snitttemp = new SnittTemp();
 	ÅrligeEkstremer årligeks = new ÅrligeEkstremer();
 	RegnData regndata = new RegnData();
@@ -25,13 +25,13 @@ public class Statistikk extends JFrame implements ActionListener
 		panelet.setLayout(new FlowLayout());
 
 		JPanel p1 = månedrec.ByggPanel();
-		JPanel p2 = ranking.ByggPanel();
+		JPanel p2 = datorekorder.ByggPanel();
 		JPanel p3 = snitttemp.ByggPanel();
 		JPanel p4 = årligeks.ByggPanel();
 		JPanel p5 = regndata.ByggPanel();
 
 		JTabbedPane pane = new JTabbedPane();
-		//pane.addTab("Rankingliste", p2);
+		pane.addTab("Dato Ekstremer", p2);
 		pane.addTab("Årlige Ekstremer", p4);
 		pane.addTab("Månedlige Rekorder", p1);
 		pane.addTab("Snitts Tempratur",p3);
