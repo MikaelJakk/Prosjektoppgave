@@ -20,6 +20,7 @@ public class SnittTemp extends Lista implements ActionListener
 	//fra og til dato bokser
 	private JComboBox fraårboks;
 	private JComboBox tilårboks;
+	private int fra = 0, til =0;
 
 	private JButton oppdater;
 	
@@ -27,8 +28,6 @@ public class SnittTemp extends Lista implements ActionListener
 	private int fraår;
 	private int tilår;
 
-	private double g = 1;
-	private double n = 1;
 
 	public JPanel ByggPanel() //utseende
 	{		
@@ -61,7 +60,7 @@ public class SnittTemp extends Lista implements ActionListener
 		toppanel.add(datopanel);
 		toppanel.add(datopanel2);
 		
-		diagram = new Diagram(g,n);
+		diagram = new Diagram(0,0);
 
 		årpanel.add(toppanel);
 		årpanel.add(oppdater);
@@ -77,7 +76,6 @@ public class SnittTemp extends Lista implements ActionListener
 	{
 		return makearray(STARTÅR, Calendar.getInstance().get(Calendar.YEAR));
 	}
-	
 	
 	private String[] makearray(int fra, int til)
 	{
@@ -123,6 +121,31 @@ public class SnittTemp extends Lista implements ActionListener
 
 		return mellomlager;
 	}
+	public int antallÅr()
+	{
+		int antallÅr = tilår - fraår;
+		return antallÅr;
+	}
+	
+	public void tegnGraf(int fra, int til)
+	{
+		
+		int antallÅr = tilår - fraår;
+		double gammel = 0;
+		double ny;
+		
+		double[] temp = new double[antallÅr+1];
+		
+		int[] array = new int[til-fra+1];
+		for(int i = fra; i <= til; i++)
+		{
+			array[i-fra] = i;
+			temp[i-fra] = stedliste.getGjennomsnittMaxTempIÅr(array[i]);
+			ny = temp[i];
+			diagram = new Diagram(gammel,ny);
+			gammel = ny;
+		}	
+	}
 	
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -138,14 +161,13 @@ public class SnittTemp extends Lista implements ActionListener
 		
 		else if(e.getSource() == oppdater)
 		{
-
 			if(stedliste.tomListe())
 			{
 				melding("Det finnes ingen data registrert mellom" +fraår +" og " +tilår);
 			}
 			else
 			{
-					
+				tegnGraf(fraår, tilår);
 			}
 		}	
 	}	

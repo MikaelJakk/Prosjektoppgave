@@ -10,8 +10,8 @@ import java.util.Random;
 public class Diagram extends JPanel
 {
 	Random generator = new Random();
-	double[] høyest = new double[2];
-	double[] minst = new double[2];
+	double[] maksGjennomsnitt = new double[2];
+	double[] minstGjennomsnitt = new double[2];
 	private SnittTemp snittemp;
 	
 	int xcord, ycord, oldxcord,oldycord;
@@ -33,9 +33,9 @@ public class Diagram extends JPanel
 		//tegneflate.drawLine(x, y, width, height);
 		//repaint(); //Viktig med repaint()! 
 		//Det er repaint som tillater progranmmet å kunen tegne nye komponenter inn i programmet!
-		høyest = getMaxPixelVerdi(gammelGrad, nyGrad);
+		maksGjennomsnitt = getMaxPixelVerdi(gammelGrad, nyGrad);
 		
-		return høyest;
+		return maksGjennomsnitt;
 	}
 
 	//Diagram GUI-----------------------------------------------
@@ -89,8 +89,8 @@ public class Diagram extends JPanel
 			//Setter grafen for verdiene inn i Diagrammet
 				tegneflate.setColor (Color.green);
 				
-				int gammel = (int)høyest[0];
-				int ny = (int)høyest[1];
+				int gammel = (int)maksGjennomsnitt[0];
+				int ny = (int)maksGjennomsnitt[1];
 				int lengde1 = 50;
 				int lengde2 = 60;
 				
@@ -99,13 +99,26 @@ public class Diagram extends JPanel
 				//---------
 			//Slutt på generering av graf
 	}
-	
-	public int getAkseArray()
-	{
-		//Justerer størrelse på årArrey etter hvor mange år som er valgt!
-		int antallÅr = snittemp.setAkseArray();
-		return antallÅr;
+	public double[] tegnGraf(int fra, int til)
+	{	
+		int antallÅr = snittemp.antallÅr();
+		double gjennomsnittene[] = new double[antallÅr];
+		double ny;
+		
+		double[] temp = new double[antallÅr+1];
+		
+		int[] array = new int[til-fra+1];
+		for(int i = fra; i <= til; i++)
+		{
+			array[i-fra] = i;
+			temp[i-fra] = snittemp.stedliste.getGjennomsnittMaxTempIÅr(array[i]);
+			
+			gjennomsnittene[i-fra] = temp[i-fra];
+		}
+		
+		return gjennomsnittene;
 	}
+	
 	
 	public String[] getAkseString()
 	{
