@@ -14,7 +14,7 @@ public class Diagram extends JPanel
 	int[] maksGjennomsnitt = new int[2];
 	int[] minstGjennomsnitt = new int[2];
 	private SnittTemp snittemp;
-	int[][] a2;
+	int[][] a2 = new int [2][12];
 	int[] aa;
 	int[] bb;
 	int teller;
@@ -53,7 +53,7 @@ public class Diagram extends JPanel
 			int startgradx = 10;
 			int startgradMånedY = 255;
 			int startgradMånedX = 60;
-			int startlengdea = 10;
+			int startlengdea = 50;
 			int startlengdeb = 10;
 			//Setter X og Y akse inn i Diagrammet
 			tegneflate.setColor (Color.blue);
@@ -106,10 +106,10 @@ public class Diagram extends JPanel
 				{
 					aa = new int[12];
 					bb = new int[12];
-					for(int r=0; r < 13; r++ )
-					{
+					for(int r=0; r < 12; r++ )
+					{			
 						aa[r] = a2[0][r];
-						bb[r] = a2[1][r];
+						bb[r] = a2[1][r];	
 						
 						tegneflate.drawLine(startlengdea, aa[r], startlengdeb, bb[r]);
 						repaint();
@@ -138,21 +138,20 @@ public class Diagram extends JPanel
 	}
 	public void tegnGraf(int fra, int til)
 	{	
-		int antallÅr =12;
-		double gjennomsnittene[] = new double[antallÅr];
+		double gjennomsnittene[] = new double[til-fra+1];
 		double gammel = 0;
 		double ny;
 		int[] maxGrafVerdi;
-		a2 = new int [12][12];
+		a2 = new int [2][12];
 		
 		
-		double[] temp = new double[antallÅr+1];
+		double[] temp = new double[til-fra+1];
 		
 		int[] array = new int[til-fra+1];
 		for(int i = fra; i <= til; i++)
 		{
 			array[i-fra] = i;
-			temp[i-fra] = snittemp.stedliste.getGjennomsnittMaxTempIÅr(array[i]);
+			temp[i-fra] = snittemp.stedliste.getGjennomsnittMaxTempIÅr(array[i-fra]);
 			
 			gjennomsnittene[i-fra] = temp[i-fra];
 		}
@@ -161,10 +160,14 @@ public class Diagram extends JPanel
 		{
 			ny = gjennomsnittene[y];
 			maxGrafVerdi = getMaxPixelVerdi(gammel,ny);
-			a2[0][y] = maxGrafVerdi[0];
-			a2[1][y] = maxGrafVerdi[1];
-		}
-	
+			
+			
+			for(int b = 1; b <gjennomsnittene.length; y++)
+			{
+				a2[0][y] = maxGrafVerdi[y];
+				a2[1][b] = maxGrafVerdi[b];
+			}
+		}	
 	}
 	
 	
