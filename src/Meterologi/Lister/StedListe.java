@@ -581,69 +581,48 @@ public class StedListe
 		else return "Fant ingen data";
 	}
 	
-	public String getGjennomsnittMinTempIÅr(int år)
-	{
-		double snittemp = 0.0;
-		int antall = 0;
-		
-		if(tomListe())
-			return "ingen data";
-		else{
-		Iterator<Sted> iter = stedliste.iterator();
-		while(iter.hasNext())
-			snittemp = snittemp +iter.next().dataliste.getGjennomsnittsMinTempIÅr( år);
-			antall++;
-		}
-		return snittemp/antall +"ºC";
-	}
-	public double getGjennomsnittMinTempIÅrVerdi(int år)
+	public double getGjennomsnittMinTempIÅr(int år)
 	{
 		double snittemp = 0.0;
 		int antall = 0;
 		
 		if(tomListe())
 			return 0;
-		else{
-		Iterator<Sted> iter = stedliste.iterator();
-		while(iter.hasNext())
-			snittemp = snittemp +iter.next().dataliste.getGjennomsnittsMinTempIÅr( år);
-			antall++;
-		}
-		return snittemp/antall;
-	}
 
-	public String getGjennomsnittMaxTempIÅr(int år)
-	{
-		double snittemp = 0.0;
-		int antall = 0;
-		
-		if(tomListe())
-			return "ingen data";
-		
-		else{
 		Iterator<Sted> iter = stedliste.iterator();
+		Sted gjeldende = null;
 		while(iter.hasNext())
-			snittemp = snittemp +iter.next().dataliste.getGjennomsnittsMaksTempIÅr( år);
+		{
+			gjeldende = iter.next();
+			snittemp = snittemp + gjeldende.dataliste.getGjennomsnittsMinTempIÅr(år);
 			antall++;
 		}
-		return snittemp/antall +"ºC";
+		if(snittemp != 0 && antall != 0)
+			return snittemp/antall;
+		
+		return 0;
 	}
 	
-	public double getGjennomsnittMaxTempIÅrVerdi(int år)
+	public double getGjennomsnittMaxTempIÅr(int år)
 	{
 		double snittemp = 0.0;
 		int antall = 0;
 		
 		if(tomListe())
 			return 0;
-		
-		else{
+
 		Iterator<Sted> iter = stedliste.iterator();
+		Sted gjeldende = null;
 		while(iter.hasNext())
-			snittemp = snittemp +iter.next().dataliste.getGjennomsnittsMaksTempIÅr( år);
+		{
+			gjeldende = iter.next();
+			snittemp = snittemp + gjeldende.dataliste.getGjennomsnittsMaksTempIÅr(år);
 			antall++;
 		}
-		return snittemp/antall;
+		if(snittemp != 0 && antall != 0)
+			return snittemp/antall;
+		
+		return 0;
 	}
 
 	public boolean tomListe()

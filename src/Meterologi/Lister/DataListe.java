@@ -439,23 +439,6 @@ public class DataListe{
 		return nedbør;
 	}
 	
-	public double getGjennomsnittsMaksTempIÅr(int år)
-	{/*<returnerer gjennomsnittsmaksimumstemperaturen for noder mellom fra og til>*/
-		double sum = 0.0;
-		int antall = 0;
-		Data a = første;
-		while(a != null)
-		{
-			if(a.getDato().get(Calendar.YEAR) == år)
-			{
-				sum += a.getMaxTemp();
-				antall++;
-			}
-			a=a.neste;
-		}
-		return sum/antall;
-	}
-	
 	public double getGjennomsnittsMinTempIÅr(int år)
 	{/*<returnerer et gjennomsnitt av minimumstemperaturen for noder mellom fra og til>*/
 		double sum = 0.0;
@@ -470,6 +453,28 @@ public class DataListe{
 			}
 			a=a.neste;
 		}
+		if(antall == 0)
+			return 0;
+		
+		return sum/antall;
+	}
+	
+	public double getGjennomsnittsMaksTempIÅr(int år)
+	{/*<returnerer gjennomsnitts maksimumstemperaturen for noder mellom fra og til>*/
+		double sum = 0.0;
+		int antall = 0;
+		Data a = første;
+		while(a != null)
+		{
+			if(a.getDato().get(Calendar.YEAR) == år)
+			{
+				sum += a.getMaxTemp();
+				antall++;
+			}
+			a=a.neste;
+		}
+		if(antall == 0)
+			return 0;
 		return sum/antall;
 	}
 	
