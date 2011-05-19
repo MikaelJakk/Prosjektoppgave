@@ -4,15 +4,19 @@
 
 package Meterologi.StatistikkTabs;
 import  javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
 
 public class Diagram extends JPanel
 {
 	Random generator = new Random();
-	double[] maksGjennomsnitt = new double[2];
-	double[] minstGjennomsnitt = new double[2];
+	int[] maksGjennomsnitt = new int[2];
+	int[] minstGjennomsnitt = new int[2];
 	private SnittTemp snittemp;
+	int[][] a2;
+	int[] aa;
+	int[] bb;
 	
 	int xcord, ycord, oldxcord,oldycord;
 
@@ -26,7 +30,7 @@ public class Diagram extends JPanel
 	}
 	
 	//Her vil metodene som setter reelle data inn i diagrammet bli kalt opp.
-	public double[] settInnMaxGjennomsnittVerdier(double gammelGrad, double nyGrad)
+	public int[] settInnMaxGjennomsnittVerdier(double gammelGrad, double nyGrad)
 	{
 		//kode for generell insetting av data i tabellen
 		//tegneflate.setColor (Color.blue);
@@ -48,7 +52,8 @@ public class Diagram extends JPanel
 			int startgradx = 10;
 			int startgradMånedY = 255;
 			int startgradMånedX = 60;
-			
+			int startlengdea = 10;
+			int startlengdeb = 10;
 			//Setter X og Y akse inn i Diagrammet
 			tegneflate.setColor (Color.blue);
 			tegneflate.drawLine(x, y, width, height);
@@ -89,21 +94,49 @@ public class Diagram extends JPanel
 			//Setter grafen for verdiene inn i Diagrammet
 				tegneflate.setColor (Color.green);
 				
-				int gammel = (int)maksGjennomsnitt[0];
+				/*int gammel = (int)maksGjennomsnitt[0];
 				int ny = (int)maksGjennomsnitt[1];
 				int lengde1 = 50;
 				int lengde2 = 60;
 				
 				tegneflate.drawLine(lengde1, gammel, lengde2, ny);
-				repaint();
+				repaint();*/
+				
+				aa = new int[getArrayStørrelse()];
+				bb = new int[getArrayStørrelse()];
+				for(int r=0; r < getArrayStørrelse(); r++ )
+				{
+					aa[r] = a2[0][r];
+					bb[r] = a2[1][r];
+					
+					tegneflate.drawLine(startlengdea, aa[r], startlengdeb, bb[r]);
+					repaint();
+				}
 				//---------
 			//Slutt på generering av graf
 	}
-	public double[] tegnGraf(int fra, int til)
+	
+	public int getArrayStørrelse()
+	{
+		int størrelse = 0;
+		try
+		{
+			størrelse = snittemp.antallÅr();
+		}
+		catch(Exception e){JOptionPane.showMessageDialog(null,"Null antall år!");}
+			
+		
+		return størrelse;
+	}
+	public void tegnGraf(int fra, int til)
 	{	
 		int antallÅr = snittemp.antallÅr();
 		double gjennomsnittene[] = new double[antallÅr];
+		double gammel = 0;
 		double ny;
+		int[] maxGrafVerdi;
+		a2 = new int [antallÅr][antallÅr];
+		
 		
 		double[] temp = new double[antallÅr+1];
 		
@@ -116,7 +149,14 @@ public class Diagram extends JPanel
 			gjennomsnittene[i-fra] = temp[i-fra];
 		}
 		
-		return gjennomsnittene;
+		for(int y = 0; y < gjennomsnittene.length; y++)
+		{
+			ny = gjennomsnittene[y];
+			maxGrafVerdi = getMaxPixelVerdi(gammel,ny);
+			a2[0][y] = maxGrafVerdi[0];
+			a2[1][y] = maxGrafVerdi[1];
+		}
+	
 	}
 	
 	
@@ -129,33 +169,33 @@ public class Diagram extends JPanel
 	}
 	
 	//Returnerer minTempGjennomsnittsGrafKoordinaten
-	public double[] getMinPixelVerdi(double gammelVerdi, double nyVerdi)
+	public int[] getMinPixelVerdi(double gammelVerdi, double nyVerdi)
 	{//Denne metoden skal generere verdier ved hjelp av en algoritme, som skal sendes til metoden: SettInnVerdier().
 
 		//Gjør om til prosentandel av 40Grader, som er maxVerdi i Diagrammet
-		double minMellom = gammelVerdi/40*100*2;
-		double maxMellom = nyVerdi/40*100*2;
+		int gammelMellom = (int)(gammelVerdi/40*100*2);
+		int nyMellom = (int)nyVerdi/40*100*2;
 		
-		double minGrafVerdi = 200 + minMellom + 20;
-		double maxGrafVerdi = 200 + maxMellom + 20;
-		double[] min = new double[2];
-		min[0] = minGrafVerdi;
-		min[1] = maxGrafVerdi;
+		int gammelGrafVerdi = 200 + gammelMellom + 20;
+		int nyGrafVerdi = 200 + nyMellom + 20;
+		int[] min = new int[2];
+		min[0] = gammelGrafVerdi;
+		min[1] = nyGrafVerdi;
 		
 		return min;
 	}
 	//Returnerer maxTempGjennomsnittsGrafKoordinaten
-	public double[] getMaxPixelVerdi(double gammelVerdi, double nyVerdi)
+	public int[] getMaxPixelVerdi(double gammelVerdi, double nyVerdi)
 	{
 		//Gjør om til prosentandel av 40Grader, som er maxVerdi i Diagrammet
-		double minMellom = gammelVerdi/40*100*2;
-		double maxMellom = nyVerdi/40*100*2;
+		int gammelMellom = (int)(gammelVerdi/40*100*2);
+		int nyMellom = (int)nyVerdi/40*100*2;
 		
-		double minGrafVerdi = 200 - minMellom + 20;
-		double maxGrafVerdi = 200 - maxMellom + 20;
-		double[] max = new double[2];
-		max[0] = minGrafVerdi;
-		max[1] = maxGrafVerdi;
+		int gammelGrafVerdi = 200 + gammelMellom + 20;
+		int nyGrafVerdi = 200 + nyMellom + 20;
+		int[] max = new int[2];
+		max[0] = gammelGrafVerdi;
+		max[1] = nyGrafVerdi;
 		
 		return max;	
 	}

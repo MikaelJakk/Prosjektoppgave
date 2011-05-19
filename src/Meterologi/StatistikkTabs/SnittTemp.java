@@ -20,8 +20,7 @@ public class SnittTemp extends Lista implements ActionListener
 	//fra og til dato bokser
 	private JComboBox fraårboks;
 	private JComboBox tilårboks;
-	private int fra = 0, til =0;
-
+	
 	private JButton oppdater;
 	
 	//mellomlagring av dag mnd og år
@@ -129,8 +128,8 @@ public class SnittTemp extends Lista implements ActionListener
 	
 	public void tegnGraf(int fra, int til)
 	{
-		
-		int antallÅr = tilår - fraår;
+		diagram.tegnGraf(fra, til);
+		/*int antallÅr = tilår - fraår;
 		double gammel = 0;
 		double ny;
 		
@@ -144,7 +143,7 @@ public class SnittTemp extends Lista implements ActionListener
 			ny = temp[i];
 			diagram = new Diagram(gammel,ny);
 			gammel = ny;
-		}	
+		}	*/
 	}
 	
 	public void actionPerformed(ActionEvent e) 
