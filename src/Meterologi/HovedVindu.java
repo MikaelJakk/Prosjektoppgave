@@ -56,7 +56,7 @@ public class HovedVindu extends JFrame
 	    tabs.addTab("Sted statistikk",visdataikon,p3,"Visning av data for ett bestemt sted");
 	    tabs.addTab("Global statistikk",statistikkikon,p4,"Visning av data for alle registrerte steder");
 	    
-	    //oppdaterer comboboxer i RegistrerData
+	    //oppdaterer comboboxer
 	    tabs.addChangeListener(new ChangeListener(){
 	    								public void stateChanged(ChangeEvent evt){
 	    									try{

@@ -512,7 +512,7 @@ public class StedListe implements Serializable
 	
 	public String getGjennomsnittMinTempIÅr(int år)
 	{
-		double snittemp = 0;
+		double snittemp = 0.0;
 		int antall = 0;
 		
 		if(tomListe())
@@ -520,7 +520,7 @@ public class StedListe implements Serializable
 		else{
 		Iterator<Sted> iter = stedliste.iterator();
 		while(iter.hasNext())
-			snittemp = iter.next().dataliste.getGjennomsnittsMinTempIÅr( år);
+			snittemp = snittemp +iter.next().dataliste.getGjennomsnittsMinTempIÅr( år);
 			antall++;
 		}
 		return snittemp/antall +"ºC";
@@ -528,7 +528,7 @@ public class StedListe implements Serializable
 
 	public String getGjennomsnittMaxTempIÅr(int år)
 	{
-		double snittemp = 0;
+		double snittemp = 0.0;
 		int antall = 0;
 		
 		if(tomListe())
@@ -537,27 +537,10 @@ public class StedListe implements Serializable
 		else{
 		Iterator<Sted> iter = stedliste.iterator();
 		while(iter.hasNext())
-			snittemp = iter.next().dataliste.getGjennomsnittsMaksTempIÅr( år);
+			snittemp = snittemp +iter.next().dataliste.getGjennomsnittsMaksTempIÅr( år);
 			antall++;
 		}
 		return snittemp/antall +"ºC";
-	}
-	
-	public Object[] getRangertSnittMinTemp(Calendar fra, Calendar til)
-	{
-		Object [] kolonner = new Object[8];
-		
-		Iterator<Sted> iter = stedliste.iterator();
-		while(iter.hasNext())
-		{
-			/*
-			 * skal gå igjennom stedliste og finne de 8 stednodene med lavest gjennomsnittstemperatur
-			 * og legge til fylke,sted,gjennomsnittstemp og dato sortert stigende etter gjennomsnittstemperatur
-			 */
-		}
-		
-		
-		return kolonner;
 	}
 	
 	public boolean tomListe()
@@ -586,7 +569,7 @@ public class StedListe implements Serializable
 		return false;
 	}
 	
-	//metode for lagring av data
+	//metoder for lagring og lesing av data
 	public void lagreLista()
 	{/*skal skrive ut all dataen i registeret sortert i et mappehierarki.*/
 		Iterator<Sted> iter = stedliste.iterator();
