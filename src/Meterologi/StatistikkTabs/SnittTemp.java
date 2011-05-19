@@ -261,6 +261,8 @@ public class SnittTemp extends Lista implements ActionListener
 		
 		if(e.getSource() == oppdater)
 		{
+			if(!getStedVerdier() )
+					return;
 			if(!makeFraTilDato())
 			{
 				melding("Fradato er etter tildato, velg riktig dato");
