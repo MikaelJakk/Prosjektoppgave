@@ -596,6 +596,21 @@ public class StedListe
 		}
 		return snittemp/antall +"ºC";
 	}
+	public double getGjennomsnittMinTempIÅrVerdi(int år)
+	{
+		double snittemp = 0.0;
+		int antall = 0;
+		
+		if(tomListe())
+			return 0;
+		else{
+		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+			snittemp = snittemp +iter.next().dataliste.getGjennomsnittsMinTempIÅr( år);
+			antall++;
+		}
+		return snittemp/antall;
+	}
 
 	public String getGjennomsnittMaxTempIÅr(int år)
 	{
@@ -612,6 +627,23 @@ public class StedListe
 			antall++;
 		}
 		return snittemp/antall +"ºC";
+	}
+	
+	public double getGjennomsnittMaxTempIÅrVerdi(int år)
+	{
+		double snittemp = 0.0;
+		int antall = 0;
+		
+		if(tomListe())
+			return 0;
+		
+		else{
+		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+			snittemp = snittemp +iter.next().dataliste.getGjennomsnittsMaksTempIÅr( år);
+			antall++;
+		}
+		return snittemp/antall;
 	}
 
 	public boolean tomListe()
