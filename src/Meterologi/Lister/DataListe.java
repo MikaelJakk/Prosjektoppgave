@@ -7,7 +7,6 @@ package Meterologi.Lister;
 import java.io.*;
 import java.text.*;
 import java.util.Calendar;
-import Meterologi.Lister.*;
 
 public class DataListe{
 
@@ -476,7 +475,7 @@ public class DataListe{
 	
 	public int getSammenhengendeNullNedbørMellom(Calendar fra, Calendar til)
 	{/*skal gå igjennom lista og returnere en int som beskriver antall sammenhengende dager uten nedbør
-	 Antar at alle uregistrerte dager mellom to datoer som ikke har nedbør, ikke har nedbør*/
+	 	fungerer bare når vi har sammenhengende datoer*/
 		if(første == null)
 			return 0;
 		
@@ -484,12 +483,14 @@ public class DataListe{
 		int retur = 0;
 		while(a != null && a.neste != null)
 		{
-
-				if(a.getNedbør()!=0 && a.neste.getNedbør() != 0)
-				{
-					retur += regnUtDagerMellom(a.getDato(), a.neste.getDato());
-				}
-			a = a.neste;
+			if(a.getNedbør() != 0)
+				retur = 0;
+			else if((a.getDato() == fra || a.getDato() == til 
+					|| a.getDato().after(fra) && a.getDato().before(til))
+				&& a.getNedbør() == 0)
+			{
+				retur++;
+			}
 		}
 		return retur;
 	}

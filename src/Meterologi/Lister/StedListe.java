@@ -146,7 +146,7 @@ public class StedListe
 			}
 		}
 		if(returdagerutennedbør == 0)
-			return "fant ingen data";
+			return "ingen sammenhengende data";
 		return "Fylke: "+returfylke+"\tSted: "+retursted+"\tDager uten nedbør: "+returdagerutennedbør;
 	}
 	
