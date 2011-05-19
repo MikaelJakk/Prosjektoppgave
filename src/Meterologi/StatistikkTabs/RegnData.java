@@ -91,8 +91,7 @@ public class RegnData extends Lista implements ActionListener
 			}
 			else
 			{
-			utskrift.setText("hei"+stedliste.ingenNedBør(fradato, tildato))
-					;
+			utskrift.setText(stedliste.ingenNedBør(fradato, tildato));
 			}
 		}
 	}
