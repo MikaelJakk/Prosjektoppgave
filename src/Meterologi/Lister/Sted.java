@@ -3,10 +3,9 @@
  */
 package Meterologi.Lister;
 
-import java.io.Serializable;
 import java.text.*;
 
-public class Sted implements Serializable, Comparable<Sted>{
+public class Sted implements Comparable<Sted>{
 
 		private final static String rekkefølge =
 			"<\0<0<1<2<3<4<5<6<7<8<9" +
@@ -41,7 +40,6 @@ public class Sted implements Serializable, Comparable<Sted>{
 				return kollator.compare(f1,f2);
 		}
 
-	private static final long serialVersionUID = 1L;
 	public DataListe dataliste;
 	private String sted;
 	private String fylke;

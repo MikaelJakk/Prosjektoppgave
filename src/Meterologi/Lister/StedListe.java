@@ -1,5 +1,5 @@
 /*
- * Skrevet av Thomas Nordengen og Mikael Jakhelln den 5.Mai 2011
+ * Skrevet av Thomas Nordengen og Mikael Jakhelln i April-Mai 2011
  */
 package Meterologi.Lister;
 
@@ -7,9 +7,8 @@ import java.io.*;
 import java.util.*;
 
 
-public class StedListe implements Serializable
-{
-	private static final long serialVersionUID = 1L;	
+public class StedListe
+{	
 	private final String datamappe = "Listedata";
 	
 	private TreeSet<Sted> stedliste = new TreeSet<Sted>();
@@ -33,7 +32,7 @@ public class StedListe implements Serializable
 	}
 	
 	public Sted getStedNode(String f, String s)
-	{//returnerer noden som representerer valgt sted
+	{//returnerer noden som representerer strengene f=fylke og s=sted
 		Iterator<Sted> iterator = stedliste.iterator();
 		while(iterator.hasNext())
 		{
@@ -44,9 +43,8 @@ public class StedListe implements Serializable
 		return null;	
 	}
 	
-	//Metoden er kanskje unødvendig da det sikkert går ann å implementere denne i "getStedNode" p åen eller annen måte.
 	public boolean slettStedNode(String f, String s)
-	{
+	{/*sletter stedet representert av f=fylke og s=sted fra lista*/
 		Iterator<Sted> iterator = stedliste.iterator();
 		while(iterator.hasNext())
 		{
@@ -57,10 +55,9 @@ public class StedListe implements Serializable
 		return true;
 	}
 	
-	//Gjennoml�per og skriver ut lista alfabetisk
+	//Gjennomløper og skriver ut lista alfabetisk
 	public String skrivUt()
 	{
-		//sorter();
 		String output = "";
 		Iterator<Sted> iterator = stedliste.iterator();
 		while(iterator.hasNext())
@@ -147,7 +144,7 @@ public class StedListe implements Serializable
 			}
 		}
 		if(returdagerutennedbør == 0)
-			return "fant ingen data";
+			return "ingen sammenhengende data";
 		return "Fylke: "+returfylke+"\tSted: "+retursted+"\tDager uten nedbør: "+returdagerutennedbør;
 	}
 	
@@ -157,7 +154,7 @@ public class StedListe implements Serializable
 			return "Ingen steder registrert";
 		
 		Sted gjeldende = null;
-		Data denmedminstetemp = null;
+		Data gjeldendetemp = null;
 		String returfylke ="";
 		String retursted = "";
 		
@@ -165,24 +162,60 @@ public class StedListe implements Serializable
 		while(iter.hasNext())
 		{
 			gjeldende = iter.next();
-			if(denmedminstetemp == null)
+			if(gjeldendetemp == null)
 			{
-			denmedminstetemp = gjeldende.dataliste.getDenMedLavestTemp(fra,til);
-			returfylke = gjeldende.getFylke();
-			retursted = gjeldende.getSted();
+				gjeldendetemp = gjeldende.dataliste.getDenMedLavestTemp(fra,til);
+				returfylke = gjeldende.getFylke();
+				retursted = gjeldende.getSted();
 			}
 			else
 			{
 				gjeldende = iter.next();
-				if(denmedminstetemp.getMinTemp() > gjeldende.dataliste.getDenMedLavestTemp(fra, til).getMinTemp())
+				if(gjeldendetemp.getMinTemp() > gjeldende.dataliste.getDenMedLavestTemp(fra, til).getMinTemp())
 				{
-					denmedminstetemp = gjeldende.dataliste.getDenMedLavestTemp(fra, til);
+					gjeldendetemp = gjeldende.dataliste.getDenMedLavestTemp(fra, til);
 					returfylke = gjeldende.getFylke();
 					retursted = gjeldende.getSted();
 				}
 			}
 		}
-		return returfylke +"\t" +retursted +"\t" +denmedminstetemp.getMinTemp() +"\t" + denmedminstetemp.getDatoString();
+		return returfylke +"\t" +retursted +"\t" +gjeldendetemp.getMinTemp() +"\t" 
+			+ gjeldendetemp.getDatoString();
+	}
+	
+	public String getMaxTempSted(Calendar fra, Calendar til)
+	{/*skal skrive ut stedet(fylke,sted, verdi og dato) som har lavest mintemp i hele registeret mellom datoene*/
+		if(stedliste.size() == 0)
+			return "Ingen steder registrert";
+		
+		Sted gjeldende = null;
+		Data gjeldendetemp = null;
+		String returfylke ="";
+		String retursted = "";
+		
+		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			if(gjeldendetemp == null)
+			{
+				gjeldendetemp = gjeldende.dataliste.getDenMedHøyesteTemp(fra,til);
+				returfylke = gjeldende.getFylke();
+				retursted = gjeldende.getSted();
+			}
+			else
+			{
+				gjeldende = iter.next();
+				if(gjeldendetemp.getMaxTemp() < gjeldende.dataliste.getDenMedHøyesteTemp(fra, til).getMaxTemp())
+				{
+					gjeldendetemp = gjeldende.dataliste.getDenMedHøyesteTemp(fra, til);
+					returfylke = gjeldende.getFylke();
+					retursted = gjeldende.getSted();
+				}
+			}
+		}
+		return returfylke +"\t" +retursted +"\t" +gjeldendetemp.getMaxTemp() +"\t" 
+			+ gjeldendetemp.getDatoString();
 	}
 	
 	//metode som returnerer gjennomsnittsTemp for valgt Sted fro Èn måned
@@ -233,7 +266,7 @@ public class StedListe implements Serializable
 		}
 		
 		if (returdata != null)
-			return returfylke +"\t" +retursted +"\t" +returdata.getMinTemp()
+			return returfylke +"\t" +retursted +"\t\t" +returdata.getMinTemp()
 			+"\t" + returdata.getDatoString();
 		else return "Fant ingen data";
 	}
@@ -284,7 +317,7 @@ public class StedListe implements Serializable
 		}
 		
 		if (returdata != null)
-			return returfylke +"\t" +retursted +"\t" +returdata.getMaxTemp()
+			return returfylke +"\t" +retursted +"\t\t" +returdata.getMaxTemp()
 			+"\t" + returdata.getDatoString();
 		else return "Fant ingen data";
 	}
@@ -335,7 +368,7 @@ public class StedListe implements Serializable
 		}
 		
 		if (returdata != null)
-			return returfylke +"\t" +retursted +"\t" +returdata.getNedbør()
+			return returfylke +"\t" +retursted +"\t\t" +returdata.getNedbør()
 			+"\t" + returdata.getDatoString();
 		else return "Fant ingen data";
 	}
@@ -546,37 +579,48 @@ public class StedListe implements Serializable
 		else return "Fant ingen data";
 	}
 	
-	public String getGjennomsnittMinTempIÅr(int år)
+	public double getGjennomsnittMinTempIÅr(int år)
 	{
 		double snittemp = 0.0;
 		int antall = 0;
 		
 		if(tomListe())
-			return "ingen data";
-		else{
-		Iterator<Sted> iter = stedliste.iterator();
-		while(iter.hasNext())
-			snittemp = snittemp +iter.next().dataliste.getGjennomsnittsMinTempIÅr( år);
-			antall++;
-		}
-		return snittemp/antall +"ºC";
-	}
+			return 0;
 
-	public String getGjennomsnittMaxTempIÅr(int år)
+		Iterator<Sted> iter = stedliste.iterator();
+		Sted gjeldende = null;
+		while(iter.hasNext())
+		{
+			gjeldende = iter.next();
+			snittemp = snittemp + gjeldende.dataliste.getGjennomsnittsMinTempIÅr(år);
+			antall++;
+		}
+		if(snittemp != 0 && antall != 0)
+			return snittemp/antall;
+		
+		return 0;
+	}
+	
+	public double getGjennomsnittMaxTempIÅr(int år)
 	{
 		double snittemp = 0.0;
 		int antall = 0;
 		
 		if(tomListe())
-			return "ingen data";
-		
-		else{
+			return 0;
+
 		Iterator<Sted> iter = stedliste.iterator();
+		Sted gjeldende = null;
 		while(iter.hasNext())
-			snittemp = snittemp +iter.next().dataliste.getGjennomsnittsMaksTempIÅr( år);
+		{
+			gjeldende = iter.next();
+			snittemp = snittemp + gjeldende.dataliste.getGjennomsnittsMaksTempIÅr(år);
 			antall++;
 		}
-		return snittemp/antall +"ºC";
+		if(snittemp != 0 && antall != 0)
+			return snittemp/antall;
+		
+		return 0;
 	}
 
 	public boolean tomListe()
@@ -605,7 +649,7 @@ public class StedListe implements Serializable
 		return false;
 	}
 	
-	//metoder for lagring og lesing av data
+	//metoder for lagring og lesing av data (skrevet av Mikael Jakhelln)
 	public void lagreLista()
 	{/*skal skrive ut all dataen i registeret sortert i et mappehierarki.*/
 		Iterator<Sted> iter = stedliste.iterator();
@@ -655,5 +699,22 @@ public class StedListe implements Serializable
 			System.out.println("Feil: Mappen 'Listedata' eksisterer ikke");
 		}
 		
+	}
+	
+	public boolean slettFil(String filsti)
+	{
+		File dir = new File(filsti);
+		if (dir.isDirectory()) {
+	        String[] children = dir.list();
+	        for (int i=0; i<children.length; i++) {
+	            boolean success = slettFil(dir+"/"+children[i]);
+	            if (!success) {
+	                return false;
+	            }
+	        }
+	    }
+
+	    // The directory is now empty so delete it
+	    return dir.delete();
 	}
 }

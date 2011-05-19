@@ -26,7 +26,7 @@ public class MånedligeRekorder extends Lista implements ActionListener
 	private ButtonGroup knappegruppe;
 	private JTextArea utskrift;
 
-	public JPanel ByggPanel() //utseende
+	public JPanel ByggPanel()
 	{
 		
 		makstemp = new JRadioButton("Høyest Temp");
@@ -67,20 +67,13 @@ public class MånedligeRekorder extends Lista implements ActionListener
 	}
 	
 	public void getMinTempRekorder()
-	{/*Månedlige rekorder, det vil si tabeller som for hver måned i året viser høyeste 
-	registrerte maksimumstemperatur (i løpet av alle år det er målinger for), verdien for denne, 
-	stedet der den er målt (inklusive fylke), samt dato og årstall. 
-	(Det kan være flere steder og/eller datoer for samme ekstremverdi.) 
-	Tilsvarende tabeller for minimumstemperatur og nedbør i løpet av et døgn.
-	*/
-		/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.
-		 */
+	{/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.*/
 		if(stedliste.tomListe())
 		{
 			utskrift.setText("ingen steder er registrert");
 			return;
 		}
-		String retur = "Måned\tFylke\tSted\tMinTemp\tDato";
+		String retur = "Måned\tFylke\tSted\t\tMinTemp\tDato";
 
 		try{
 			retur += "\nJanuar:\t"+stedliste.getMinTempForMåned(Calendar.JANUARY);
@@ -99,21 +92,16 @@ public class MånedligeRekorder extends Lista implements ActionListener
 		}catch(Exception ex){System.out.println("Feil: ved utregning av månedlige ekstremer " +ex);}
 		utskrift.setText(retur);
 	}
+	
 	public void getMaxTempRekorder()
-	{/*Månedlige rekorder, det vil si tabeller som for hver måned i året viser høyeste 
-	registrerte maksimumstemperatur (i løpet av alle år det er målinger for), verdien for denne, 
-	stedet der den er målt (inklusive fylke), samt dato og årstall. 
-	(Det kan være flere steder og/eller datoer for samme ekstremverdi.) 
-	Tilsvarende tabeller for minimumstemperatur og nedbør i løpet av et døgn.
-	*/
-		/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.
+	{/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.
 		 */
 		if(stedliste.tomListe())
 		{
 			utskrift.setText("ingen steder er registrert");
 			return;
 		}
-		String retur = "Måned\tFylke\tSted\tMaxTemp\tDato";
+		String retur = "Måned\tFylke\tSted\t\tMaxTemp\tDato";
 
 		try{
 			retur += "\nJanuar:\t"+stedliste.getMaxTempForMåned(Calendar.JANUARY);
@@ -140,7 +128,7 @@ public class MånedligeRekorder extends Lista implements ActionListener
 			utskrift.setText("ingen steder er registrert");
 			return;
 		}
-		String retur = "Måned\tFylke\tSted\tNedbør\tDato";
+		String retur = "Måned\tFylke\tSted\t\tNedbør\tDato";
 
 		try{
 			retur += "\nJanuar:\t"+stedliste.getMestNedbørForMåned(Calendar.JANUARY);

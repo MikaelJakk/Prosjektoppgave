@@ -1,6 +1,5 @@
 /*
- * Skrevet av Thomas Nordengen, og Mikael Jakhelln
- * Oppdatert: 12.4.2011
+ * Skrevet av Thomas Nordengen, og Mikael Jakhelln April-Mai 2011
  * Denne klassen skal bygge gui, samt metoder og lytter for registrering av nyData
  * og legges til i Tab.java
  */
@@ -8,7 +7,6 @@ package Meterologi;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 
 import javax.swing.*;
 
@@ -79,6 +77,7 @@ public class RegistrerSted extends Lista implements ActionListener
 		//utskriftvindu
 		utskrift = new JTextArea(20,50);
 		panelet.add(new JScrollPane(utskrift));
+		
 		panelet.setVisible(true);
 		utskrift.setEditable(false);
 
@@ -203,7 +202,9 @@ public class RegistrerSted extends Lista implements ActionListener
 				
 				//Bruke metode som sletter nåværende node i lisa
 				stedliste.slettStedNode(fylke,sted);
-				new File(datamappe+"/"+fylke+"."+sted).delete();
+				//skal slette mappen
+				if(!stedliste.slettFil(datamappe+"/"+fylke+"."+sted))
+					melding("klarte ikke slette mappen");
 				lagreLista();
 				melding("Stedet er slettet!");
 				System.out.println("Slettet sted: "+fylke+", "+sted);

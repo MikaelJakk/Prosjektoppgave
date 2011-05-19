@@ -10,9 +10,11 @@ import java.util.Random;
 public class Diagram extends JPanel
 {
 	Random generator = new Random();
-	double[] høyest = new double[2];
-	double[] minst = new double[2];
+	double[] maksGjennomsnitt = new double[2];
+	double[] minstGjennomsnitt = new double[2];
 	private SnittTemp snittemp;
+	
+	int xcord, ycord, oldxcord,oldycord;
 
 
 	//Setter bkgrunsfarge og størrelse
@@ -20,7 +22,7 @@ public class Diagram extends JPanel
 	{
 		setBackground (Color.black);
 		setPreferredSize(new Dimension (475,430));
-		settInnMaxGjennomsnittVerdier(g,n);
+		//settInnMaxGjennomsnittVerdier(g,n);
 	}
 	
 	//Her vil metodene som setter reelle data inn i diagrammet bli kalt opp.
@@ -29,10 +31,11 @@ public class Diagram extends JPanel
 		//kode for generell insetting av data i tabellen
 		//tegneflate.setColor (Color.blue);
 		//tegneflate.drawLine(x, y, width, height);
-		//repaint(); //Viktig med repaint()! Det er repaint som tillater progranmmet å kunen tegne  nye komponenter inn i programmet!
-		høyest = getMaxPixelVerdi(gammelGrad, nyGrad);
+		//repaint(); //Viktig med repaint()! 
+		//Det er repaint som tillater progranmmet å kunen tegne nye komponenter inn i programmet!
+		maksGjennomsnitt = getMaxPixelVerdi(gammelGrad, nyGrad);
 		
-		return høyest;
+		return maksGjennomsnitt;
 	}
 
 	//Diagram GUI-----------------------------------------------
@@ -57,7 +60,6 @@ public class Diagram extends JPanel
 			//------------------------------------------------
 			
 			// Genererer grafen ved hjelp av for-løkker
-			//String[] temp = {"40","35","30","25","20","15","10","5","0","-5","-10","-15","-20","-25","-30","-35","-40"};
 			int xtall = 40;
 			for(int i = 0; i < 17; i++)//setter tall og streker på y-aksen
 			{				
@@ -71,11 +73,9 @@ public class Diagram extends JPanel
 				startgrady += 25;
 			}
 			
-			int[] antÅr = new int[12];
 			String[] år = getAkseString();
 			
-			
-			for(int a = 0; a <= antÅr.length; a++)//setter måneder og streker på x-aksen
+			for(int a = 0; a < år.length; a++)//setter måneder og streker på x-aksen
 			{
 				//årene som kommer som blir vist langs X-Aksen blir hentet ut av String[] år
 				tegneflate.setColor (Color.red);
@@ -89,8 +89,8 @@ public class Diagram extends JPanel
 			//Setter grafen for verdiene inn i Diagrammet
 				tegneflate.setColor (Color.green);
 				
-				int gammel = (int)høyest[0];
-				int ny = (int)høyest[1];
+				int gammel = (int)maksGjennomsnitt[0];
+				int ny = (int)maksGjennomsnitt[1];
 				int lengde1 = 50;
 				int lengde2 = 60;
 				
@@ -99,18 +99,32 @@ public class Diagram extends JPanel
 				//---------
 			//Slutt på generering av graf
 	}
-	
-	public int getAkseArray()
-	{
-		//Justerer størrelse på årArrey etter hvor mange år som er valgt!
-		int antallÅr = snittemp.setAkseArray();
-		return antallÅr;
+	public double[] tegnGraf(int fra, int til)
+	{	
+		int antallÅr = snittemp.antallÅr();
+		double gjennomsnittene[] = new double[antallÅr];
+		double ny;
+		
+		double[] temp = new double[antallÅr+1];
+		
+		int[] array = new int[til-fra+1];
+		for(int i = fra; i <= til; i++)
+		{
+			array[i-fra] = i;
+			temp[i-fra] = snittemp.stedliste.getGjennomsnittMaxTempIÅr(array[i]);
+			
+			gjennomsnittene[i-fra] = temp[i-fra];
+		}
+		
+		return gjennomsnittene;
 	}
+	
+	
 	public String[] getAkseString()
 	{
-		String[] mellomlager;
+		String[] mellomlager = {"1970","1971","1972","1973"};
 		
-		mellomlager = snittemp.getAkseString();
+		//mellomlager = snittemp.getAkseString();
 		return mellomlager;
 	}
 	

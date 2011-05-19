@@ -6,6 +6,7 @@ package Meterologi.StatistikkTabs;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import javax.swing.*;
 
@@ -27,7 +28,9 @@ public class ÅrligeEkstremer extends Lista implements ActionListener
 	
 	private JButton knappen;
 	
-	public JPanel ByggPanel() //utseende
+	DecimalFormat df = new DecimalFormat("#.##");
+	
+	public JPanel ByggPanel()
 	{
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
@@ -36,7 +39,7 @@ public class ÅrligeEkstremer extends Lista implements ActionListener
 		
 		JPanel årutvalg = new JPanel();
 		årutvalg.add(new JLabel("År"));
-		årvalg = new JComboBox(makeYearArray());
+		årvalg = new JComboBox(makeyeararray());
 		årvalg.addActionListener(this);
 		årutvalg.add(årvalg);
 		
@@ -53,14 +56,20 @@ public class ÅrligeEkstremer extends Lista implements ActionListener
 		return panel;
 	}
 	
-	public String[] makeYearArray()
+	private String[] makeyeararray()
 	{
-		String[] dagarray = new String[tilår-fraår+1];
-		for(int i = fraår; i <= tilår; i++)
-		{
-			dagarray[i-fraår] = i + "";
+		int til = Calendar.getInstance().get(Calendar.YEAR);
+		int fra = fraår;
+		
+		String[] array = new String[til-fra+1];
+		int j = 0;
+		for(int i = til; i>=fra; i--)
+		{	
+			array[j] = i+"";
+			j++;
 		}
-		return dagarray;
+		
+		return array;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -90,8 +99,8 @@ public class ÅrligeEkstremer extends Lista implements ActionListener
 					+"Mest Nedbør:\t\t"+stedliste.getMestNedbørIÅr(valgtår)+"\n"
 					+"Minst Nedbør:\t\t"+stedliste.getMinstNedbørIÅr(valgtår)+"\n"
 					+"\n\t\tGjennomsnitts Temperatur\n"
-					+"Snitt Minimumtemperatur:\t"+stedliste.getGjennomsnittMinTempIÅr(valgtår)+"\n"
-					+"Snitt Maksimumtemperatur:\t"+stedliste.getGjennomsnittMaxTempIÅr(valgtår)
+					+"Snitt Minimumtemperatur:\t"+df.format(stedliste.getGjennomsnittMinTempIÅr(valgtår))+"ºC"+"\n"
+					+"Snitt Maksimumtemperatur:\t"+df.format(stedliste.getGjennomsnittMaxTempIÅr(valgtår))+"ºC"
 					);
 			}
 		}
