@@ -323,8 +323,7 @@ public class VisData extends Lista implements ActionListener{
 		
 		if(fradato.after(tildato))
 			return false;
-		else return true;
-		
+		else return true;	
 	}
 	
 	public void actionPerformed(ActionEvent event) {

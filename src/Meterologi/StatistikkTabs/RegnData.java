@@ -1,3 +1,7 @@
+/*
+ * Skal bli skrevet av Nam Le 19 Mai 2011....
+ */
+
 package Meterologi.StatistikkTabs;
 
 import java.awt.*;

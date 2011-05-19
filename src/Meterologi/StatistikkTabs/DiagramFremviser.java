@@ -1,3 +1,8 @@
+/*
+ * Skrevet at Thomas Nordengen 15.Mai 2011
+ */
+
+package Meterologi.StatistikkTabs;
 
 
 import javax.swing.JFrame;
@@ -10,7 +15,7 @@ public class DiagramFremviser
 	{
 		EventQueue.invokeLater(new Runnable()
 		{
-			
+
 			public void run()
 			{
 				DiagramVindu diagram = new DiagramVindu();

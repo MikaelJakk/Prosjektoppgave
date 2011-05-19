@@ -1,5 +1,5 @@
 /*
- * Skrevet av Thomas Nordengen den 12.april 2011
+ * Skrevet av Thomas Nordengen og Mikael Jakhelln den 5.Mai 2011
  */
 package Meterologi.Lister;
 
@@ -525,7 +525,7 @@ public class StedListe implements Serializable
 	
 	public String getGjennomsnittMinTempIÅr(int år)
 	{
-		double snittemp = 0;
+		double snittemp = 0.0;
 		int antall = 0;
 		
 		if(tomListe())
@@ -533,7 +533,7 @@ public class StedListe implements Serializable
 		else{
 		Iterator<Sted> iter = stedliste.iterator();
 		while(iter.hasNext())
-			snittemp = iter.next().dataliste.getGjennomsnittsMinTempIÅr( år);
+			snittemp = snittemp +iter.next().dataliste.getGjennomsnittsMinTempIÅr( år);
 			antall++;
 		}
 		return snittemp/antall +"ºC";
@@ -541,7 +541,7 @@ public class StedListe implements Serializable
 
 	public String getGjennomsnittMaxTempIÅr(int år)
 	{
-		double snittemp = 0;
+		double snittemp = 0.0;
 		int antall = 0;
 		
 		if(tomListe())
@@ -550,12 +550,13 @@ public class StedListe implements Serializable
 		else{
 		Iterator<Sted> iter = stedliste.iterator();
 		while(iter.hasNext())
-			snittemp = iter.next().dataliste.getGjennomsnittsMaksTempIÅr( år);
+			snittemp = snittemp +iter.next().dataliste.getGjennomsnittsMaksTempIÅr( år);
 			antall++;
 		}
 		return snittemp/antall +"ºC";
 	}
 	
+<<<<<<< HEAD
 	public Object[] getRangertSnittMinTemp(Calendar fra, Calendar til)
 	{
 		Object [] kolonner = new Object[8];
@@ -574,6 +575,8 @@ public class StedListe implements Serializable
 	}
 	
 	
+=======
+>>>>>>> 6bfb556217cd148862a708018dd0511da0e2b477
 	public boolean tomListe()
 	{
 		Iterator<Sted> iter = stedliste.iterator();
@@ -600,7 +603,7 @@ public class StedListe implements Serializable
 		return false;
 	}
 	
-	//metode for lagring av data
+	//metoder for lagring og lesing av data
 	public void lagreLista()
 	{/*skal skrive ut all dataen i registeret sortert i et mappehierarki.*/
 		Iterator<Sted> iter = stedliste.iterator();

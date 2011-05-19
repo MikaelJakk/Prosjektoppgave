@@ -1,3 +1,7 @@
+/*
+ * Skrevet at Mikael Jakhelln 15.Mai 2011
+ */
+
 package Meterologi.StatistikkTabs;
 import java.util.*;
 import java.awt.*;

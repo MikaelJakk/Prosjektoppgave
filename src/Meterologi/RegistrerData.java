@@ -1,6 +1,5 @@
 /*
- * Skrevet av Mikael Jakhelln og Thomas Nordengen,
- * Oppdatert: 11.4.2011
+ * Skrevet av Mikael Jakhelln og Thomas Nordengen April-Mai 2011
  * Denne klassen skal bygge gui, samt metoder og lytter for registrering av nyData 
  * og legges til i Tab.java
  */
@@ -75,7 +74,7 @@ public class RegistrerData extends Lista implements ActionListener{
 		//innputfeltet for dato
 		JPanel datopanel = new JPanel();
 		datopanel.add(new JLabel("År"));
-		årboks = new JComboBox(makeyeararray2());
+		årboks = new JComboBox(makereversedyeararray());
 		årboks.addActionListener(this);
 		datopanel.add(årboks);
 		datopanel.add(new JLabel("Måned"));
@@ -160,17 +159,31 @@ public class RegistrerData extends Lista implements ActionListener{
 		ned = Integer.parseInt(nedbørfelt.getText());
 		}catch(Exception e){melding("ugyldig nedbørsverdi");return false;}
 		
+		
+		//tester på ugyldige eller ekstreme inputverdier
 		if(ned < 0 )
-		{melding("ugyldig nedbørsverdi\nSjekk innskrevet verdi på nedbør"); return false;}
+		{melding("ugyldig nedbørsverdi\nSjekk innskrevet verdi på nedbør");return false;}
 		if(ned > 229.6)
-		{melding("Ny nedbørsrekord");}
-		//må legg etil yes/no dialog, og ny gamlenedbør.
+		{int valg = JOptionPane.showConfirmDialog(null, "Har du skrevet inn riktig nedbørsverdi?\n\n"+ned,
+				"Riktig data?", JOptionPane.YES_NO_OPTION);
+		if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)
+		return false;}
 		if(min < -273.15)
 		{melding("minimumstemperaturen som er innskrevet er mindre enn det absolutte nullpunkt!");return false;}
+		if(min < -70)
+		{melding("ugyldig minimumstemperatur");return false;}
+		if(min < -50)
+		{int valg = JOptionPane.showConfirmDialog(null, "Har du skrevet inn riktig minimums temperatur?\n\n"+min,
+				"Riktig data?", JOptionPane.YES_NO_OPTION);
+			if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)return false;}
 		if(max < min)
 		{melding("Innskrevet MaxTemp er mindre en MinTemp!");return false;}
+		if(max > 35)
+		{int valg = JOptionPane.showConfirmDialog(null, "Har du skrevet inn riktig maksimums temperatur?\n\n"+max,
+				"Riktig data?", JOptionPane.YES_NO_OPTION);
+			if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)return false;}
 		if(max > 100)
-		{melding("Ekstreme Temperaturer");}
+		{melding("verdens undergang!");return false;}
 		
 		return true;
 	}//end of getVærVerdier()
@@ -179,7 +192,18 @@ public class RegistrerData extends Lista implements ActionListener{
 	{
 		return makearray(fraår, Calendar.getInstance().get(Calendar.YEAR));
 	}
-	private String[] makeyeararray2()
+	
+	public String[] makearray(int fra, int til)
+	{
+		String[] dagarray = new String[til-fra+1];
+		for(int i = fra; i <= til; i++)
+		{
+			dagarray[i-fra] = i + "";
+		}
+		return dagarray;
+	}
+	
+	private String[] makereversedyeararray()
 	{
 		int til = Calendar.getInstance().get(Calendar.YEAR);
 		int fra = fraår;
@@ -193,15 +217,6 @@ public class RegistrerData extends Lista implements ActionListener{
 		}
 		
 		return array;
-	}
-	public String[] makearray(int fra, int til)
-	{
-		String[] dagarray = new String[til-fra+1];
-		for(int i = fra; i <= til; i++)
-		{
-			dagarray[i-fra] = i + "";
-		}
-		return dagarray;
 	}
 	
 	public void oppdater()//oppdaterer Jcomboboxene stedboks og fylkeboks

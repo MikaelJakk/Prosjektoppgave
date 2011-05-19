@@ -1,8 +1,8 @@
+/*
+ * Skrevet av Nam Le og Mikael Jakhelln 10.April 2011
+ */
+
 package Meterologi;
-////////////////////////////////////////
-//Gui-vindu 4: STATISTIKK///////////////
-//skrevet av Nam Le/////////////////////
-////////////////////////////////////////
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -31,7 +31,7 @@ public class Statistikk extends JFrame implements ActionListener
 		JPanel p5 = regndata.ByggPanel();
 
 		JTabbedPane pane = new JTabbedPane();
-		pane.addTab("Rankingliste", p2);
+		//pane.addTab("Rankingliste", p2);
 		pane.addTab("Årlige Ekstremer", p4);
 		pane.addTab("Månedlige Rekorder", p1);
 		pane.addTab("Snitts Tempratur",p3);

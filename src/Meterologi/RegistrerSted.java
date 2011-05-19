@@ -1,5 +1,5 @@
 /*
- * Skrevet av Thomas Nordengen,
+ * Skrevet av Thomas Nordengen, og Mikael Jakhelln
  * Oppdatert: 12.4.2011
  * Denne klassen skal bygge gui, samt metoder og lytter for registrering av nyData
  * og legges til i Tab.java
@@ -66,7 +66,7 @@ public class RegistrerSted extends Lista implements ActionListener
 		leggtilny.addActionListener(this);
 		knappepanel.add(leggtilny);
 			//skriv ut steder
-		skrivut = new JButton("Skriv ut");
+		skrivut = new JButton("Vis registrerte steder");
 		skrivut.addActionListener(this);
 		knappepanel.add(skrivut);
 			//slett innskrevet sted
