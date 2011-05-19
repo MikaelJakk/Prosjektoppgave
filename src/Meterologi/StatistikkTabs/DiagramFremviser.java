@@ -15,7 +15,6 @@ public class DiagramFremviser
 	{
 		EventQueue.invokeLater(new Runnable()
 		{
-
 			public void run()
 			{
 				DiagramVindu diagram = new DiagramVindu();

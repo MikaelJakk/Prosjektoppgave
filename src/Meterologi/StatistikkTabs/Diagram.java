@@ -13,6 +13,8 @@ public class Diagram extends JPanel
 	double[] høyest = new double[2];
 	double[] minst = new double[2];
 	private SnittTemp snittemp;
+	
+	int xcord, ycord, oldxcord,oldycord;
 
 
 	//Setter bkgrunsfarge og størrelse
@@ -20,7 +22,7 @@ public class Diagram extends JPanel
 	{
 		setBackground (Color.black);
 		setPreferredSize(new Dimension (475,430));
-		settInnMaxGjennomsnittVerdier(g,n);
+		//settInnMaxGjennomsnittVerdier(g,n);
 	}
 	
 	//Her vil metodene som setter reelle data inn i diagrammet bli kalt opp.
@@ -29,7 +31,8 @@ public class Diagram extends JPanel
 		//kode for generell insetting av data i tabellen
 		//tegneflate.setColor (Color.blue);
 		//tegneflate.drawLine(x, y, width, height);
-		//repaint(); //Viktig med repaint()! Det er repaint som tillater progranmmet å kunen tegne  nye komponenter inn i programmet!
+		//repaint(); //Viktig med repaint()! 
+		//Det er repaint som tillater progranmmet å kunen tegne nye komponenter inn i programmet!
 		høyest = getMaxPixelVerdi(gammelGrad, nyGrad);
 		
 		return høyest;
@@ -57,7 +60,6 @@ public class Diagram extends JPanel
 			//------------------------------------------------
 			
 			// Genererer grafen ved hjelp av for-løkker
-			//String[] temp = {"40","35","30","25","20","15","10","5","0","-5","-10","-15","-20","-25","-30","-35","-40"};
 			int xtall = 40;
 			for(int i = 0; i < 17; i++)//setter tall og streker på y-aksen
 			{				
@@ -106,9 +108,10 @@ public class Diagram extends JPanel
 		int antallÅr = snittemp.setAkseArray();
 		return antallÅr;
 	}
-	public String[] getAkseString()
+	
+	public String[] getAkseString()//setxaksestring kanskje?
 	{
-		String[] mellomlager;
+		String[] mellomlager = null;
 		
 		mellomlager = snittemp.getAkseString();
 		return mellomlager;
