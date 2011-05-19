@@ -14,6 +14,7 @@ public class Diagram extends JPanel
 	int[] maksGjennomsnitt = new int[2];
 	int[] minstGjennomsnitt = new int[2];
 	private SnittTemp snittemp;
+	int[][] minMellomPixelVerdi = new int[2][1];
 	int[][] a2 = new int [2][12];
 	int[] aa;
 	int[] bb;
@@ -109,8 +110,7 @@ public class Diagram extends JPanel
 					for(int r=0; r < 12; r++ )
 					{			
 						aa[r] = a2[0][r];
-						bb[r] = a2[1][r];	
-						
+						bb[r] = a2[1][r];			
 						tegneflate.drawLine(startlengdea, aa[r], startlengdeb, bb[r]);
 						repaint();
 					}
@@ -136,13 +136,54 @@ public class Diagram extends JPanel
 		
 		return størrelse;
 	}
-	public void tegnGraf(int fra, int til)
+	
+	public void tegnGraf(int fra, int til, double[] min, double max)
+	{
+		int[][] minPixelVerdi = new int[2][1];
+		
+		double[] gammel = new double[12];
+		double[] ny = new double[12];
+		int[] verdier = new int[2];
+		int grunnVerdier;
+		
+		for(int a=0; a < 12; a++)
+		{
+			ny[a] = min[a];
+			minPixelVerdi = getMinPixelVerdi(gammel[a], ny[a]);
+			
+			for(int r=0; r<2; r++)
+			{
+				for(int c=0; c < minPixelVerdi[r].length; c++ )
+				{
+					//index 0 == gammel, 1 =0 ny
+					verdier[c] += minPixelVerdi[r][c];
+					grunnVerdier = verdier[c];
+					
+					lagrePixelVerdier(grunnverdier);
+				}
+			}
+			
+			lagrePixelVerdier();
+			gammel[a] = ny[a];
+		}
+		
+	}
+	
+	public void lagrePixelVerdier(int gammel)
+	{
+		int pixelVerdier;
+		
+		for()
+		
+	}
+	
+	/*public void tegnGraf(int fra, int til)
 	{	
 		double gjennomsnittene[] = new double[til-fra+1];
 		double gammel = 0;
 		double ny;
 		int[] maxGrafVerdi;
-		a2 = new int [2][12];
+		a2 = new int [2][til-fra+1];
 		
 		
 		double[] temp = new double[til-fra+1];
@@ -156,19 +197,20 @@ public class Diagram extends JPanel
 			gjennomsnittene[i-fra] = temp[i-fra];
 		}
 		
-		for(int y = 0; y < gjennomsnittene.length; y++)
+		for(int y = 0; y < til-fra+1; y++)
 		{
 			ny = gjennomsnittene[y];
 			maxGrafVerdi = getMaxPixelVerdi(gammel,ny);
 			
+	
 			
-			for(int b = 1; b <gjennomsnittene.length; y++)
+			for(int b = 0; b <gjennomsnittene.length; b++)
 			{
-				a2[0][y] = maxGrafVerdi[y];
-				a2[1][b] = maxGrafVerdi[b];
+				a2[0][y] = maxGrafVerdi[0];
+				a2[1][b] = maxGrafVerdi[1];
 			}
 		}	
-	}
+	}*/
 	
 	
 	public String[] getAkseString()
@@ -180,7 +222,7 @@ public class Diagram extends JPanel
 	}
 	
 	//Returnerer minTempGjennomsnittsGrafKoordinaten
-	public int[] getMinPixelVerdi(double gammelVerdi, double nyVerdi)
+	public int[][] getMinPixelVerdi(double gammelVerdi, double nyVerdi)
 	{//Denne metoden skal generere verdier ved hjelp av en algoritme, som skal sendes til metoden: SettInnVerdier().
 
 		//Gjør om til prosentandel av 40Grader, som er maxVerdi i Diagrammet
@@ -189,9 +231,9 @@ public class Diagram extends JPanel
 		
 		int gammelGrafVerdi = 200 + gammelMellom + 20;
 		int nyGrafVerdi = 200 + nyMellom + 20;
-		int[] min = new int[2];
-		min[0] = gammelGrafVerdi;
-		min[1] = nyGrafVerdi;
+		int[][] min = new int[2][1];
+		min[0][0] = gammelGrafVerdi;
+		min[1][1] = nyGrafVerdi;
 		
 		return min;
 	}
