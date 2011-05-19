@@ -17,7 +17,7 @@ public class Diagram extends JPanel
 	int[][] a2;
 	int[] aa;
 	int[] bb;
-	
+	int teller;
 	int xcord, ycord, oldxcord,oldycord;
 
 
@@ -26,6 +26,7 @@ public class Diagram extends JPanel
 	{
 		setBackground (Color.black);
 		setPreferredSize(new Dimension (475,430));
+		teller = 1;
 		//settInnMaxGjennomsnittVerdier(g,n);
 	}
 	
@@ -101,41 +102,48 @@ public class Diagram extends JPanel
 				
 				tegneflate.drawLine(lengde1, gammel, lengde2, ny);
 				repaint();*/
-				
-				aa = new int[getArrayStørrelse()];
-				bb = new int[getArrayStørrelse()];
-				for(int r=0; r < getArrayStørrelse(); r++ )
+				if(teller != 2)
 				{
-					aa[r] = a2[0][r];
-					bb[r] = a2[1][r];
-					
-					tegneflate.drawLine(startlengdea, aa[r], startlengdeb, bb[r]);
-					repaint();
+					aa = new int[12];
+					bb = new int[12];
+					for(int r=0; r < 13; r++ )
+					{
+						aa[r] = a2[0][r];
+						bb[r] = a2[1][r];
+						
+						tegneflate.drawLine(startlengdea, aa[r], startlengdeb, bb[r]);
+						repaint();
+					}
 				}
+				else
+				{
+					teller = 2;
+				}
+				
 				//---------
 			//Slutt på generering av graf
 	}
 	
 	public int getArrayStørrelse()
 	{
-		int størrelse = 0;
-		try
+		int størrelse = 12;
+		/*try
 		{
 			størrelse = snittemp.antallÅr();
 		}
 		catch(Exception e){JOptionPane.showMessageDialog(null,"Null antall år!");}
-			
+			*/
 		
 		return størrelse;
 	}
 	public void tegnGraf(int fra, int til)
 	{	
-		int antallÅr = snittemp.antallÅr();
+		int antallÅr =12;
 		double gjennomsnittene[] = new double[antallÅr];
 		double gammel = 0;
 		double ny;
 		int[] maxGrafVerdi;
-		a2 = new int [antallÅr][antallÅr];
+		a2 = new int [12][12];
 		
 		
 		double[] temp = new double[antallÅr+1];
