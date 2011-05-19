@@ -1,5 +1,5 @@
 /*
- * Skrevet av Thomas Nordengen og Mikael Jakhelln den 5.Mai 2011
+ * Skrevet av Thomas Nordengen og Mikael Jakhelln i April-Mai 2011
  */
 package Meterologi.Lister;
 
@@ -32,7 +32,7 @@ public class StedListe
 	}
 	
 	public Sted getStedNode(String f, String s)
-	{//returnerer noden som representerer valgt sted
+	{//returnerer noden som representerer strengene f=fylke og s=sted
 		Iterator<Sted> iterator = stedliste.iterator();
 		while(iterator.hasNext())
 		{
@@ -43,9 +43,8 @@ public class StedListe
 		return null;	
 	}
 	
-	//Metoden er kanskje unødvendig da det sikkert går ann å implementere denne i "getStedNode" p åen eller annen måte.
 	public boolean slettStedNode(String f, String s)
-	{
+	{/*sletter stedet representert av f=fylke og s=sted fra lista*/
 		Iterator<Sted> iterator = stedliste.iterator();
 		while(iterator.hasNext())
 		{
@@ -56,10 +55,9 @@ public class StedListe
 		return true;
 	}
 	
-	//Gjennoml�per og skriver ut lista alfabetisk
+	//Gjennomløper og skriver ut lista alfabetisk
 	public String skrivUt()
 	{
-		//sorter();
 		String output = "";
 		Iterator<Sted> iterator = stedliste.iterator();
 		while(iterator.hasNext())
@@ -651,7 +649,7 @@ public class StedListe
 		return false;
 	}
 	
-	//metoder for lagring og lesing av data
+	//metoder for lagring og lesing av data (skrevet av Mikael Jakhelln)
 	public void lagreLista()
 	{/*skal skrive ut all dataen i registeret sortert i et mappehierarki.*/
 		Iterator<Sted> iter = stedliste.iterator();

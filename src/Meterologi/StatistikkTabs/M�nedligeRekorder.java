@@ -26,7 +26,7 @@ public class MånedligeRekorder extends Lista implements ActionListener
 	private ButtonGroup knappegruppe;
 	private JTextArea utskrift;
 
-	public JPanel ByggPanel() //utseende
+	public JPanel ByggPanel()
 	{
 		
 		makstemp = new JRadioButton("Høyest Temp");
@@ -67,14 +67,7 @@ public class MånedligeRekorder extends Lista implements ActionListener
 	}
 	
 	public void getMinTempRekorder()
-	{/*Månedlige rekorder, det vil si tabeller som for hver måned i året viser høyeste 
-	registrerte maksimumstemperatur (i løpet av alle år det er målinger for), verdien for denne, 
-	stedet der den er målt (inklusive fylke), samt dato og årstall. 
-	(Det kan være flere steder og/eller datoer for samme ekstremverdi.) 
-	Tilsvarende tabeller for minimumstemperatur og nedbør i løpet av et døgn.
-	*/
-		/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.
-		 */
+	{/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.*/
 		if(stedliste.tomListe())
 		{
 			utskrift.setText("ingen steder er registrert");
@@ -99,14 +92,9 @@ public class MånedligeRekorder extends Lista implements ActionListener
 		}catch(Exception ex){System.out.println("Feil: ved utregning av månedlige ekstremer " +ex);}
 		utskrift.setText(retur);
 	}
+	
 	public void getMaxTempRekorder()
-	{/*Månedlige rekorder, det vil si tabeller som for hver måned i året viser høyeste 
-	registrerte maksimumstemperatur (i løpet av alle år det er målinger for), verdien for denne, 
-	stedet der den er målt (inklusive fylke), samt dato og årstall. 
-	(Det kan være flere steder og/eller datoer for samme ekstremverdi.) 
-	Tilsvarende tabeller for minimumstemperatur og nedbør i løpet av et døgn.
-	*/
-		/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.
+	{/*skal returnere en streng med alle årets måneder med rekordene for hver måned,dato og hvor de er.
 		 */
 		if(stedliste.tomListe())
 		{

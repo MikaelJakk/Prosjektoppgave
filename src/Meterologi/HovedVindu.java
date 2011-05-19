@@ -12,13 +12,9 @@ package Meterologi;
 ////// tab4.java "Statistikk"
 ////////////////////////////////////////
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
+import javax.swing.event.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class HovedVindu extends JFrame
 {
