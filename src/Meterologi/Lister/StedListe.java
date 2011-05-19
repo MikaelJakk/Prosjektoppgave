@@ -115,6 +115,19 @@ public class StedListe implements Serializable
 	//end of metoder for visning av fylke og sted
 	
 	//metoder for statistisk visning av data
+	public String ingenNedBør(Calendar fra, Calendar til)
+	{
+		if(stedliste.size() == 0)
+			return "ingen steder registrert";
+		
+		Iterator<Sted> iter = stedliste.iterator();
+		while(iter.hasNext())
+		{
+			
+		}
+		
+		return null;
+	}
 	public String getMinTempSted(Calendar fra, Calendar til)
 	{/*skal skrive ut stedet(fylke,sted, verdi og dato) som har lavest mintemp i hele registeret mellom datoene*/
 		if(stedliste.size() == 0)
@@ -559,6 +572,7 @@ public class StedListe implements Serializable
 		
 		return kolonner;
 	}
+	
 	
 	public boolean tomListe()
 	{
