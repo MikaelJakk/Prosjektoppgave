@@ -64,17 +64,8 @@ public class SnittTemp extends Lista implements ActionListener
 		JPanel knappepanel = new JPanel();
 		JPanel toppanel = new JPanel();
 		toppanel.setLayout(new GridLayout(4,0));
-		//dropdown for valg av fylke og sted
-		JPanel stedpanel = new JPanel();
-		stedpanel.add(new JLabel("Fylke:"));
-		fylkeboks = new JComboBox(fylker);
-		fylkeboks.addActionListener(this);
-		stedpanel.add(fylkeboks);
-		stedpanel.add(new JLabel("Sted:"));
-		stedboks = new JComboBox(steder);
-		stedboks.addActionListener(this);
-		stedpanel.add(stedboks);
-		toppanel.add(stedpanel);
+
+
 		//innputfeltet for dato
 		JPanel datopanel = new JPanel();
 		JPanel datopanel2 = new JPanel();
@@ -109,13 +100,12 @@ public class SnittTemp extends Lista implements ActionListener
 		toppanel.add(datopanel);
 		toppanel.add(datopanel2);
 		
-		//diagram = new Diagram(g,n);
+		diagram = new Diagram(g,n);
 		
-		årpanel.add(stedpanel);
 		årpanel.add(toppanel);
 		årpanel.add(oppdater);
 		knappepanel.add(årpanel);
-		//knappepanel.add(diagram);
+		knappepanel.add(diagram);
 		
 		panel.add(knappepanel,BorderLayout.WEST);
 	
@@ -244,23 +234,10 @@ public class SnittTemp extends Lista implements ActionListener
 			tilår = Integer.parseInt((String)tilårboks.getSelectedItem());	
 		}
 		
-		if(e.getSource() == fylkeboks)
-		{
-			steder = stedliste.getStedArray((String)fylkeboks.getSelectedItem());
-			stedboks.setModel(new DefaultComboBoxModel(steder));
-			
-			if(!getStedVerdier())
-				return;			
-			
-			if(!makeFraTilDato())
-			{
-				melding("Fradato er etter tildato, velg riktig dato");
-				return;
-			}
-		}
 		
 		if(e.getSource() == oppdater)
 		{
+			getStedVerdier();
 			if(!makeFraTilDato())
 			{
 				melding("Fradato er etter tildato, velg riktig dato");
