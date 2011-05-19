@@ -6,6 +6,7 @@ package Meterologi.StatistikkTabs;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import javax.swing.*;
 
@@ -26,6 +27,8 @@ public class ÅrligeEkstremer extends Lista implements ActionListener
 	Calendar tildato;
 	
 	private JButton knappen;
+	
+	DecimalFormat df = new DecimalFormat("#.##");
 	
 	public JPanel ByggPanel() //utseende
 	{
@@ -90,8 +93,8 @@ public class ÅrligeEkstremer extends Lista implements ActionListener
 					+"Mest Nedbør:\t\t"+stedliste.getMestNedbørIÅr(valgtår)+"\n"
 					+"Minst Nedbør:\t\t"+stedliste.getMinstNedbørIÅr(valgtår)+"\n"
 					+"\n\t\tGjennomsnitts Temperatur\n"
-					+"Snitt Minimumtemperatur:\t"+stedliste.getGjennomsnittMinTempIÅr(valgtår)+"\n"
-					+"Snitt Maksimumtemperatur:\t"+stedliste.getGjennomsnittMaxTempIÅr(valgtår)
+					+"Snitt Minimumtemperatur:\t"+df.format(stedliste.getGjennomsnittMinTempIÅr(valgtår))+"ºC"+"\n"
+					+"Snitt Maksimumtemperatur:\t"+df.format(stedliste.getGjennomsnittMaxTempIÅr(valgtår))+"ºC"
 					);
 			}
 		}
