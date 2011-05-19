@@ -56,7 +56,7 @@ public class HovedVindu extends JFrame
 	    tabs.addTab("Sted statistikk",visdataikon,p3,"Visning av data for ett bestemt sted");
 	    tabs.addTab("Global statistikk",statistikkikon,p4,"Visning av data for alle registrerte steder");
 	    
-	    //oppdaterer comboboxer i RegistrerData
+	    //oppdaterer comboboxer
 	    tabs.addChangeListener(new ChangeListener(){
 	    								public void stateChanged(ChangeEvent evt){
 	    									try{
@@ -74,6 +74,7 @@ public class HovedVindu extends JFrame
 	    frame.setPreferredSize( new java.awt.Dimension(800,600) );
 		frame.add(tabs);
 		frame.setSize(800,600);
+		frame.setExtendedState(MAXIMIZED_BOTH);
 		
 		//setter ikonbilde
 		Image ikon = Toolkit.getDefaultToolkit().getImage("Bilder/regnsky.png");
