@@ -11,7 +11,6 @@ import java.util.Calendar;
 import javax.swing.*;
 
 import Meterologi.Lista;
-import Meterologi.Lister.Sted;
 
 public class SnittTemp extends Lista implements ActionListener
 {
@@ -52,7 +51,7 @@ public class SnittTemp extends Lista implements ActionListener
 		datopanel.add(fraårboks);
 
 		datopanel2.add(new JLabel("Til år: "));
-		tilårboks = new JComboBox(makeyeararray());
+		tilårboks = new JComboBox(makeyeararray2());
 		tilårboks.addActionListener(this);
 		datopanel2.add(tilårboks);
 	
@@ -87,6 +86,21 @@ public class SnittTemp extends Lista implements ActionListener
 		{
 			array[i-fra] = i + "";
 		}
+		return array;
+	}
+	private String[] makeyeararray2()
+	{
+		int til = Calendar.getInstance().get(Calendar.YEAR);
+		int fra = STARTÅR;
+		
+		String[] array = new String[til-fra+1];
+		int j = 0;
+		for(int i = til; i>=fra; i--)
+		{	
+			array[j] = i+"";
+			j++;
+		}
+		
 		return array;
 	}
 	
