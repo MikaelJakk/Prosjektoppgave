@@ -52,20 +52,27 @@ public class Diagram extends JPanel
 			//------------------------------------------------
 			
 			// Genererer grafen ved hjelp av for-løkker
-			String[] temp = {"40","35","30","25","20","15","10","5","0","-5","-10","-15","-20","-25","-30","-35","-40"};
-			for(int i = 0; i < 17; i++)
+			//String[] temp = {"40","35","30","25","20","15","10","5","0","-5","-10","-15","-20","-25","-30","-35","-40"};
+			int xtall = 40;
+			for(int i = 0; i < 17; i++)//setter tall og streker på y-aksen
 			{				
 				tegneflate.setColor (Color.red);
-				tegneflate.drawString(temp[i], startgradx, startgrady);
+				tegneflate.drawString(xtall+"", startgradx, startgrady);
+				tegneflate.setColor (Color.blue);
+				tegneflate.drawLine(50, startgrady, 53,startgrady);
+				repaint();
+				xtall = xtall-5;
 				repaint();
 				startgrady += 25;
 			}
 			
 			String[] måned = {"Jan","Feb","Mar","Apr","Mai","Jun","Juli","Aug","Sep","Okt","Nov","Des"};
-			for(int a = 0; a < 12; a++)
+			for(int a = 0; a < 12; a++)//setter måneder og streker på x-aksen
 			{
 				tegneflate.setColor (Color.red);
 				tegneflate.drawString(måned[a], startgradMånedX, startgradMånedY);
+				tegneflate.setColor(Color.blue);
+				tegneflate.drawLine(startgradMånedX, 215, startgradMånedX, 215-5);
 				repaint();
 				startgradMånedX += 35;
 			}

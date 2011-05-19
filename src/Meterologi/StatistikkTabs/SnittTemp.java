@@ -52,11 +52,11 @@ public class SnittTemp extends Lista implements ActionListener
 	public JPanel ByggPanel() //utseende
 	{		
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout());
+		panel.setLayout(new BorderLayout());
+		
 		JPanel årpanel = new JPanel();
-		årpanel.setLayout(new GridLayout(4,0));
+		årpanel.setLayout(new GridLayout(3,0));
 		JPanel knappepanel = new JPanel();
-		diagram = new Diagram(g,n);
 		JPanel toppanel = new JPanel();
 		toppanel.setLayout(new GridLayout(4,0));
 		//dropdown for valg av fylke og sted
@@ -104,13 +104,15 @@ public class SnittTemp extends Lista implements ActionListener
 		toppanel.add(datopanel);
 		toppanel.add(datopanel2);
 		
+		diagram = new Diagram(g,n);
+		
 		årpanel.add(stedpanel);
 		årpanel.add(toppanel);
 		årpanel.add(oppdater);
 		knappepanel.add(årpanel);
 		knappepanel.add(diagram);
 		
-		panel.add(knappepanel,BorderLayout.NORTH);
+		panel.add(knappepanel,BorderLayout.WEST);
 	
 		return panel;
 	}
