@@ -73,11 +73,9 @@ public class Diagram extends JPanel
 				startgrady += 25;
 			}
 			
-			int[] ant≈r = new int[12];
 			String[] Âr = getAkseString();
 			
-			
-			for(int a = 0; a <= ant≈r.length; a++)//setter mÂneder og streker pÂ x-aksen
+			for(int a = 0; a < Âr.length; a++)//setter mÂneder og streker pÂ x-aksen
 			{
 				//Ârene som kommer som blir vist langs X-Aksen blir hentet ut av String[] Âr
 				tegneflate.setColor (Color.red);
@@ -109,11 +107,11 @@ public class Diagram extends JPanel
 		return antall≈r;
 	}
 	
-	public String[] getAkseString()//setxaksestring kanskje?
+	public String[] getAkseString()
 	{
-		String[] mellomlager = null;
+		String[] mellomlager = {"1970","1971","1972","1973"};
 		
-		mellomlager = snittemp.getAkseString();
+		//mellomlager = snittemp.getAkseString();
 		return mellomlager;
 	}
 	

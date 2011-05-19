@@ -17,23 +17,16 @@ public class SnittTemp extends Lista implements ActionListener
 {
 	private Diagram diagram;
 	private final int STARTÅR = 1970;
-	Calendar nå = Calendar.getInstance();
-	Calendar fradato;
-	Calendar tildato;
-	private double gammelTemp = 1;
-	private double nyTemp = 1;
-	private int akseVerdi;
-	
+
 	//fra og til dato bokser
 	private JComboBox fraårboks;
 	private JComboBox tilårboks;
-	
+
 	private JButton oppdater;
 	
 	//mellomlagring av dag mnd og år
 	private int fraår;
 	private int tilår;
-	
 
 	private double g = 1;
 	private double n = 1;
@@ -59,22 +52,22 @@ public class SnittTemp extends Lista implements ActionListener
 		datopanel.add(fraårboks);
 
 		datopanel2.add(new JLabel("Til år: "));
-		tilårboks = new JComboBox(makeyeararray2());
+		tilårboks = new JComboBox(makeyeararray());
 		tilårboks.addActionListener(this);
 		datopanel2.add(tilårboks);
-		
+	
 		oppdater = new JButton("Oppdater");
 		oppdater.addActionListener(this);
 		
 		toppanel.add(datopanel);
 		toppanel.add(datopanel2);
 		
-		//diagram = new Diagram(g,n);
+		diagram = new Diagram(g,n);
 
 		årpanel.add(toppanel);
 		årpanel.add(oppdater);
 		knappepanel.add(årpanel);
-		//knappepanel.add(diagram);
+		knappepanel.add(diagram);
 		
 		panel.add(knappepanel,BorderLayout.WEST);
 	
@@ -86,21 +79,6 @@ public class SnittTemp extends Lista implements ActionListener
 		return makearray(STARTÅR, Calendar.getInstance().get(Calendar.YEAR));
 	}
 	
-	private String[] makeyeararray2()
-	{
-		int til = Calendar.getInstance().get(Calendar.YEAR);
-		int fra = STARTÅR;
-		
-		String[] array = new String[til-fra+1];
-		int j = 0;
-		for(int i = til; i>=fra; i--)
-		{	
-			array[j] = i+"";
-			j++;
-		}
-		
-		return array;
-	}
 	
 	private String[] makearray(int fra, int til)
 	{
@@ -125,68 +103,37 @@ public class SnittTemp extends Lista implements ActionListener
 		return true;
 	}
 	
-	//Setter array verdien til X-Aksen GjennomsnittsTemp-Diagrammet
-	public int setAkseArray()
-	{
-		if(!getDatoVerdier())
-		{
-			melding("Feil i getDAtoverdier!");
-		}
-		else
-		{
-			int antallÅr = tilår - fraår;
-			
-			akseVerdi = antallÅr;
-			return akseVerdi;
-		}
-		return 1;
-	}
-	
 	public String[] getAkseString()
 	{
 		String[] mellomlager = makearray(fraår, tilår);
-		
-		
+
 		return mellomlager;
 	}
 	
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e) 
+	{
 
 		if(e.getSource() == fraårboks){
 			//forandrer antall dager i dagboksen så det blir riktig med tanke på skuddår osv.
 			fraår = Integer.parseInt((String)fraårboks.getSelectedItem());
 		}
-			
 		if(e.getSource() == tilårboks)
 		{	
 			tilår = Integer.parseInt((String)tilårboks.getSelectedItem());	
 		}
 		
-		if(e.getSource() == oppdater)
+		else if(e.getSource() == oppdater)
 		{
-			if(fraår > tilår)
-			{
-				melding("Fraår er etter tilår, velg riktige år");
-				return;
-			}
-			
+
 			if(stedliste.tomListe())
-				JOptionPane.showMessageDialog(null,"Ingen registrerte steder");
+			{
+				melding("Det finnes ingen data registrert mellom" +fraår +" og " +tilår);
+			}
 			else
-			{	
-				nyTemp = 30;//valgtSted.dataliste.getGjennomsnittsMinTempVerdi(fradato, tildato);
-				if(nyTemp == 0)
-				{
-					JOptionPane.showMessageDialog(null,"NyTemp returnerer 0 Grader!");
-				}
-				else
-				{
-					//diagram skal få inn startår og sluttår, og to arrayer, 
-					//en med minsnittverdier og en med makssnittverdier
-					diagram = new Diagram(gammelTemp,nyTemp);
-					gammelTemp = nyTemp;
-				}
+			{
+					
 			}
 		}	
 	}	
 }
+	
