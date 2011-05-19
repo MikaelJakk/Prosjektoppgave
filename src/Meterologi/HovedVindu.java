@@ -74,6 +74,7 @@ public class HovedVindu extends JFrame
 	    frame.setPreferredSize( new java.awt.Dimension(800,600) );
 		frame.add(tabs);
 		frame.setSize(800,600);
+		frame.setExtendedState(MAXIMIZED_BOTH);
 		
 		//setter ikonbilde
 		Image ikon = Toolkit.getDefaultToolkit().getImage("Bilder/regnsky.png");
