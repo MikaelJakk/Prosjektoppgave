@@ -474,6 +474,30 @@ public class DataListe implements Serializable{
 		}
 		return sum/antall;
 	}
+	
+	public int getSammenhengendeNullNedbørMellom(Calendar fra, Calendar til)
+	{/*skal gå igjennom lista og returnere en int som beskriver antall sammenhengende dager uten nedbør
+	 Antar at alle uregistrerte dager mellom to datoer som ikke har nedbør, ikke har nedbør*/
+		if(første == null)
+			return 0;
+		
+		Data a = første;
+		int retur = 0;
+		while(a != null && a.neste != null)
+		{
+			if(a.getNedbør()!=0 && a.neste.getNedbør() != 0)
+			{
+				retur += regnUtDagerMellom(a.getDato(), a.neste.getDato());
+			}
+			a = a.neste;
+		}
+		return retur;
+	}
+	
+	public int regnUtDagerMellom(Calendar fra, Calendar til)
+	{/*skal regne ut hvor mange dager det er mellom fra og til dato*/
+		return (int) (til.getTimeInMillis() - fra.getTimeInMillis() /(24*60*60*1000));
+	}
 	//end of metoder for statistisk visning
 	
 	//metoder for lagring og lesing (Dataoutput)
