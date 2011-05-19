@@ -7,9 +7,8 @@ import java.io.*;
 import java.util.*;
 
 
-public class StedListe implements Serializable
-{
-	private static final long serialVersionUID = 1L;	
+public class StedListe
+{	
 	private final String datamappe = "Listedata";
 	
 	private TreeSet<Sted> stedliste = new TreeSet<Sted>();

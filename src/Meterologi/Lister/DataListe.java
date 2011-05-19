@@ -9,9 +9,8 @@ import java.text.*;
 import java.util.Calendar;
 import Meterologi.Lister.*;
 
-public class DataListe implements Serializable{
-	
-	private static final long serialVersionUID = 1L;
+public class DataListe{
+
 	
 	private Data første;
 	
@@ -485,10 +484,11 @@ public class DataListe implements Serializable{
 		int retur = 0;
 		while(a != null && a.neste != null)
 		{
-			if(a.getNedbør()!=0 && a.neste.getNedbør() != 0)
-			{
-				retur += regnUtDagerMellom(a.getDato(), a.neste.getDato());
-			}
+
+				if(a.getNedbør()!=0 && a.neste.getNedbør() != 0)
+				{
+					retur += regnUtDagerMellom(a.getDato(), a.neste.getDato());
+				}
 			a = a.neste;
 		}
 		return retur;
@@ -496,7 +496,7 @@ public class DataListe implements Serializable{
 	
 	public int regnUtDagerMellom(Calendar fra, Calendar til)
 	{/*skal regne ut hvor mange dager det er mellom fra og til dato*/
-		return (int) (til.getTimeInMillis() - fra.getTimeInMillis() /(24*60*60*1000));
+		return Math.round((til.getTimeInMillis() - fra.getTimeInMillis()) /(24*60*60*1000));
 	}
 	//end of metoder for statistisk visning
 	
