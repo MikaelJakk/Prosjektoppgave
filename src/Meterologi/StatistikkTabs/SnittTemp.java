@@ -22,6 +22,7 @@ public class SnittTemp extends Lista implements ActionListener
 	Calendar tildato;
 	private double gammelTemp = 1;
 	private double nyTemp = 1;
+	private int akseVerdi;
 	
 	private Sted valgtSted; 
 	//valgtSted skal peke på stedet man velger i comboboksene.
@@ -82,39 +83,39 @@ public class SnittTemp extends Lista implements ActionListener
 		fraårboks = new JComboBox(makeyeararray());
 		fraårboks.addActionListener(this);
 		datopanel.add(fraårboks);
-		datopanel.add(new JLabel("Måned"));
-		framånedboks = new JComboBox(makearray(1, 12));
-		framånedboks.addActionListener(this);
-		datopanel.add(framånedboks);
-		datopanel.add(new JLabel("Dag"));
-		fradagboks = new JComboBox(makearray(1, 31));
-		fradagboks.addActionListener(this);
-		datopanel.add(fradagboks);	
+		//datopanel.add(new JLabel("Måned"));
+		//framånedboks = new JComboBox(makearray(1, 12));
+		//framånedboks.addActionListener(this);
+		//datopanel.add(framånedboks);
+		//datopanel.add(new JLabel("Dag"));
+		//fradagboks = new JComboBox(makearray(1, 31));
+		//fradagboks.addActionListener(this);
+		//datopanel.add(fradagboks);	
 		//til dato bokser
 		datopanel2.add(new JLabel("Til år: "));
 		tilårboks = new JComboBox(makeyeararray2());
 		tilårboks.addActionListener(this);
 		datopanel2.add(tilårboks);
-		datopanel2.add(new JLabel("Måned"));
-		tilmånedboks = new JComboBox(makearray(1, 12));
-		tilmånedboks.addActionListener(this);
-		datopanel2.add(tilmånedboks);
-		datopanel2.add(new JLabel("Dag"));
-		tildagboks = new JComboBox(makearray(1, 31));
-		tildagboks.addActionListener(this);
+		//datopanel2.add(new JLabel("Måned"));
+		//tilmånedboks = new JComboBox(makearray(1, 12));
+		//tilmånedboks.addActionListener(this);
+		//datopanel2.add(tilmånedboks);
+		//datopanel2.add(new JLabel("Dag"));
+		//tildagboks = new JComboBox(makearray(1, 31));
+		//tildagboks.addActionListener(this);
 		oppdater = new JButton("Oppdater");
 		oppdater.addActionListener(this);
-		datopanel2.add(tildagboks);		
+		//datopanel2.add(tildagboks);		
 		toppanel.add(datopanel);
 		toppanel.add(datopanel2);
 		
-		diagram = new Diagram(g,n);
+		//diagram = new Diagram(g,n);
 		
 		årpanel.add(stedpanel);
 		årpanel.add(toppanel);
 		årpanel.add(oppdater);
 		knappepanel.add(årpanel);
-		knappepanel.add(diagram);
+		//knappepanel.add(diagram);
 		
 		panel.add(knappepanel,BorderLayout.WEST);
 	
@@ -166,32 +167,19 @@ public class SnittTemp extends Lista implements ActionListener
 		{melding("det oppstod en feil med valg av fylke og sted");return false;}
 		return true;
 	}
-	private void settDatoVerdierIBokser(JComboBox å, JComboBox m, JComboBox d)
+	private void settDatoVerdierIBokser(JComboBox å)
 	{
-		int månednr = 1 + m.getSelectedIndex();
-		int antalldager;
-		if (månednr == 1 || månednr == 3 || månednr == 5 || månednr == 7 ||
-				månednr == 8 || månednr == 10 || månednr == 12) {
-			antalldager = 31;
-		} else if (månednr == 2) {
+		
 			int år = Integer.parseInt((String) å.getSelectedItem());
-			//sjekk skuddår
-			if(år%400 == 0 || (år%4 == 0 && år%100 != 0))
-			{antalldager = 29;}
-			else antalldager = 28;
-		} else {
-			antalldager = 30;
-		}
-		String[] dager = makearray(1, antalldager);
-		d.setModel(new DefaultComboBoxModel(dager));
+			
 	}
 	
 	public boolean getDatoVerdier()
 	{
-		framnd = Integer.parseInt((String) framånedboks.getSelectedItem());
+		//framnd = Integer.parseInt((String) framånedboks.getSelectedItem());
 		fraår = Integer.parseInt((String)fraårboks.getSelectedItem());
 		tilår = Integer.parseInt((String)tilårboks.getSelectedItem());
-		tilmnd = Integer.parseInt((String)tilmånedboks.getSelectedItem());
+		//tilmnd = Integer.parseInt((String)tilmånedboks.getSelectedItem());
 		//må lage test på registrering av datoer som ikke har vært ennå.
 		return true;
 	}//end of getDatoVerdier()
@@ -213,14 +201,48 @@ public class SnittTemp extends Lista implements ActionListener
 		else return true;	
 	}
 	
-	public void actionPerformed(ActionEvent e) {
+	//Setter array verdien til X-Aksen GjennomsnittsTemp-Diagrammet
+	public int setAkseArray()
+	{
+		if(!getDatoVerdier())
+		{
+			melding("Feil i getDAtoverdier!");
+		}
+		else
+		{
+			int antallÅr = tilår - fraår;
+			
+			akseVerdi = antallÅr;
+			return akseVerdi;
+		}
+		return 1;
+	}
+	
+	public String[] getAkseString()
+	{
+		int mellomlagerFraår;
+		int mellomlagerTilår;
 		
+		mellomlagerFraår = Integer.parseInt((String)fraårboks.getSelectedItem());
+		mellomlagerTilår = Integer.parseInt((String)tilårboks.getSelectedItem());
+		
+		String[] mellomlager = makearray(mellomlagerFraår, mellomlagerTilår);
+		
+		
+		return mellomlager;
+	}
+	
+	public void actionPerformed(ActionEvent e) {
 
-		if(e.getSource() == fraårboks || e.getSource() == framånedboks){
+		if(e.getSource() == fraårboks){
 			//forandrer antall dager i dagboksen så det blir riktig med tanke på skuddår osv.
-			settDatoVerdierIBokser(fraårboks,framånedboks,fradagboks);}
-		if(e.getSource() == tilårboks || e.getSource() == tilmånedboks){	
-			settDatoVerdierIBokser(tilårboks,tilmånedboks,tildagboks);}
+			fraår = Integer.parseInt((String)fraårboks.getSelectedItem());
+		}
+			
+		if(e.getSource() == tilårboks)
+		{	
+			tilår = Integer.parseInt((String)tilårboks.getSelectedItem());	
+		}
 		
 		if(e.getSource() == fylkeboks)
 		{
@@ -228,17 +250,40 @@ public class SnittTemp extends Lista implements ActionListener
 			stedboks.setModel(new DefaultComboBoxModel(steder));
 			
 			if(!getStedVerdier())
-				return;
+				return;			
 			
-				
+			if(!makeFraTilDato())
+			{
+				melding("Fradato er etter tildato, velg riktig dato");
+				return;
+			}
 		}
 		
 		if(e.getSource() == oppdater)
 		{
+			if(!makeFraTilDato())
+			{
+				melding("Fradato er etter tildato, velg riktig dato");
+				return;
+			}
 			valgtSted = stedliste.getStedNode(fylke, sted);
-			nyTemp = valgtSted.dataliste.getGjennomsnittsMinTempVerdi(fradato, tildato);
-			diagram = new Diagram(gammelTemp,nyTemp);
-			gammelTemp = nyTemp;
+			
+			if(valgtSted.dataliste.tomListe())
+				JOptionPane.showMessageDialog(null,"Ingen lagret på valgt sted");
+			else
+			{	
+				makeFraTilDato();
+				nyTemp = 30;//valgtSted.dataliste.getGjennomsnittsMinTempVerdi(fradato, tildato);
+				if(nyTemp == 0)
+				{
+					JOptionPane.showMessageDialog(null,"NyTemp returnerer 0 Grader!");
+				}
+				else
+				{
+					diagram = new Diagram(gammelTemp,nyTemp);
+					gammelTemp = nyTemp;
+				}
+			}
 		}	
 	}	
 }

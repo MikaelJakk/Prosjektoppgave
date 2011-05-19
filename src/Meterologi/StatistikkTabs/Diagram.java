@@ -12,6 +12,7 @@ public class Diagram extends JPanel
 	Random generator = new Random();
 	double[] høyest = new double[2];
 	double[] minst = new double[2];
+	private SnittTemp snittemp;
 
 
 	//Setter bkgrunsfarge og størrelse
@@ -70,11 +71,15 @@ public class Diagram extends JPanel
 				startgrady += 25;
 			}
 			
-			String[] måned = {"Jan","Feb","Mar","Apr","Mai","Jun","Juli","Aug","Sep","Okt","Nov","Des"};
-			for(int a = 0; a < 12; a++)//setter måneder og streker på x-aksen
+			int[] antÅr = new int[12];
+			String[] år = getAkseString();
+			
+			
+			for(int a = 0; a <= antÅr.length; a++)//setter måneder og streker på x-aksen
 			{
+				//årene som kommer som blir vist langs X-Aksen blir hentet ut av String[] år
 				tegneflate.setColor (Color.red);
-				tegneflate.drawString(måned[a], startgradMånedX, startgradMånedY);
+				tegneflate.drawString(år[a], startgradMånedX, startgradMånedY);
 				tegneflate.setColor(Color.blue);
 				tegneflate.drawLine(startgradMånedX, 215, startgradMånedX, 215-5);
 				repaint();
@@ -93,6 +98,20 @@ public class Diagram extends JPanel
 				repaint();
 				//---------
 			//Slutt på generering av graf
+	}
+	
+	public int getAkseArray()
+	{
+		//Justerer størrelse på årArrey etter hvor mange år som er valgt!
+		int antallÅr = snittemp.setAkseArray();
+		return antallÅr;
+	}
+	public String[] getAkseString()
+	{
+		String[] mellomlager;
+		
+		mellomlager = snittemp.getAkseString();
+		return mellomlager;
 	}
 	
 	//Returnerer minTempGjennomsnittsGrafKoordinaten
