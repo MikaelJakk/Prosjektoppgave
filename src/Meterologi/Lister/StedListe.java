@@ -667,18 +667,16 @@ public class StedListe
 	
 	public boolean slettFil(String filsti)
 	{
-		File dir = new File(filsti);
-		if (dir.isDirectory()) {
-	        String[] children = dir.list();
-	        for (int i=0; i<children.length; i++) {
-	            boolean success = slettFil(dir+"/"+children[i]);
-	            if (!success) {
+		File fil = new File(filsti);
+		if (fil.isDirectory()) {
+	        String[] undermapper = fil.list();
+	        for (int i=0; i<undermapper.length; i++) {
+	            boolean win = slettFil(fil+"/"+undermapper[i]);
+	            if (!win) {
 	                return false;
 	            }
 	        }
 	    }
-
-	    // The directory is now empty so delete it
-	    return dir.delete();
+	    return fil.delete();
 	}
 }
