@@ -161,13 +161,8 @@ public class SnittTemp extends Lista implements ActionListener
 		
 		else if(e.getSource() == oppdater)
 		{
-<<<<<<< HEAD
-			if(!getStedVerdier() )
-					return;
-			if(!makeFraTilDato())
-=======
+				
 			if(stedliste.tomListe())
->>>>>>> 8458f981f85eef275e5aa6713e2f0481687a2471
 			{
 				melding("Det finnes ingen data registrert mellom" +fraår +" og " +tilår);
 			}

@@ -112,22 +112,28 @@ public class StedListe
 	//end of metoder for visning av fylke og sted
 	
 	//metoder for statistisk visning av data
-	public String ingenNedBør(Calendar fra, Calendar til)
+	public String ingenNedBør(int fra, int til)
 	{
 		if(stedliste.size() == 0)
 			return "ingen steder registrert";
 		
 		Iterator<Sted> iter = stedliste.iterator();
-		Sted gjeldende = null;
+
 		int dagerutennedbør = 0;
 		int returdagerutennedbør = 0;
-		String fylke="", sted = "";
-		String returfylke = "",retursted = "";
+		String fylke="";
+		String sted = "";
+		String output = "";
+		String returfylke = "";
+		String retursted = "";
+		int motsatt = 0;
 		
 		while(iter.hasNext())
 		{
-			gjeldende = iter.next();
+			Sted gjeldende = iter.next();
 			dagerutennedbør = gjeldende.dataliste.getSammenhengendeNullNedbørMellom(fra,til);
+			motsatt = gjeldende.dataliste.getMotsattNedbør();
+			
 			fylke = gjeldende.getFylke();
 			sted = gjeldende.getSted();
 			if(returdagerutennedbør == 0 && dagerutennedbør != 0)
@@ -142,10 +148,11 @@ public class StedListe
 				retursted = sted;
 				returdagerutennedbør = dagerutennedbør;
 			}
-		}
+				}
 		if(returdagerutennedbør == 0)
-			return "ingen sammenhengende data";
-		return "Fylke: "+returfylke+"\tSted: "+retursted+"\tDager uten nedbør: "+returdagerutennedbør;
+			return "ingen sammenhenger";
+
+		return "Fylke: "+returfylke+"\tSted: "+retursted+" har mest dager uten nedbør registrert  \t Dager uten nedbør: "+returdagerutennedbør+ "\n Registrert dager nedbør:" + motsatt;
 	}
 	
 	public String getMinTempSted(Calendar fra, Calendar til)

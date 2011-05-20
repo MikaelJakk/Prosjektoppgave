@@ -62,6 +62,13 @@ public class RegnData extends Lista implements ActionListener
 		return panel;
 	}
 	
+	public boolean getDatoVerdier()
+	{
+		valgtfraår = Integer.parseInt((String) årvalg.getSelectedItem());
+		valgttilår = Integer.parseInt((String) årvalg1.getSelectedItem());
+		//må lage test på registrering av datoer som ikke har vært ennå.
+		return true;
+	}//end of getDatoVerdier()
 	public String[] makeYearArray()
 	{
 		String[] dagarray = new String[tilår-fraår+1];
@@ -73,13 +80,16 @@ public class RegnData extends Lista implements ActionListener
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		if(!getDatoVerdier())
+			return;
+		
 		if(e.getSource() == årvalg)
 		{
-			valgtfraår = Integer.parseInt((String)årvalg.getSelectedItem());
-			valgttilår = Integer.parseInt((String)årvalg1.getSelectedItem());
+			if(!getDatoVerdier())
+				return;
 			fradato = Calendar.getInstance();
 			fradato.setTimeInMillis(0);
-			tildato = fradato;
+			
 			fradato.set(valgtfraår, 0, 1);
 			tildato.set(valgttilår,0,1);
 		}
@@ -91,7 +101,9 @@ public class RegnData extends Lista implements ActionListener
 			}
 			else
 			{
-			utskrift.setText(stedliste.ingenNedBør(fradato, tildato));
+
+			utskrift.setText(stedliste.ingenNedBør(valgtfraår, valgttilår));
+			
 			}
 		}
 	}
