@@ -67,7 +67,7 @@ public class SnittTemp extends Lista implements ActionListener
 		knappepanel.add(diagram);
 		
 		panel.add(knappepanel,BorderLayout.WEST);
-	
+		
 		return panel;
 	}
 	
@@ -124,6 +124,31 @@ public class SnittTemp extends Lista implements ActionListener
 	{
 		int antallÅr = tilår - fraår;
 		return antallÅr;
+	}
+	
+	public double[] makeSnittMinTempArray(int fra, int til)
+	{
+		double[] array = new double[til-fra-1];
+		
+		for(int i = 0; i<(til-fra-1); i++)
+		{
+			array[i] = stedliste.getGjennomsnittMinTempIÅr(fra++);
+			System.out.println(array[i]);
+		}
+		
+		return array;
+	}
+	public double[] makeSnittMaxTempArray(int fra, int til)
+	{
+		double[] array = new double[til-fra-1];
+		
+		for(int i = 0; i<(til-fra-1); i++)
+		{
+			array[i] = stedliste.getGjennomsnittMaxTempIÅr(fra++);
+			System.out.println(array[i]);
+		}
+		
+		return array;
 	}
 	
 	public void tegnGraf(int fra, int til)

@@ -480,24 +480,22 @@ public class DataListe{
 	
 	public int getSammenhengendeNullNedbørMellom(Calendar fra, Calendar til)
 	{/*skal gå igjennom lista og returnere en int som beskriver antall sammenhengende dager uten nedbør
-	 	fungerer bare når vi har sammenhengende datoer*/
+	 antar at uregistrerte dager mellom to noder ikke har hatt nedbør*/
 		if(første == null)
 			return 0;
 		
 		Data a = første;
-		int retur = 0;
-		while(a != null && a.neste != null)
+		int gjeldendedagerutennedbør= 0;
+		int flestdagerutennedbør = 0;
+		while(a.neste != null)
 		{
-			if(a.getNedbør() != 0)
-				retur = 0;
-			else if((a.getDato() == fra || a.getDato() == til 
-					|| a.getDato().after(fra) && a.getDato().before(til))
-				&& a.getNedbør() == 0)
+			if(a.getNedbør() == 0 && a.neste.getNedbør()==0)
 			{
-				retur++;
+				gjeldendedagerutennedbør = 0;
 			}
+			a = a.neste;
 		}
-		return retur;
+		return flestdagerutennedbør;
 	}
 	
 	public int regnUtDagerMellom(Calendar fra, Calendar til)

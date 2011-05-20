@@ -26,7 +26,8 @@ public class RegnData extends Lista implements ActionListener
 	Calendar fradato;
 	Calendar tildato;
 	
-	private JButton knappen;
+	private JButton ingennedbør;
+	private JButton nedbør;
 	
 	public JPanel ByggPanel() //utseende
 	{
@@ -48,12 +49,15 @@ public class RegnData extends Lista implements ActionListener
 		årutvalg1.add(årvalg1);
 		
 		
-		knappen = new JButton("Vis Data");
-		knappen.addActionListener(this);
+		ingennedbør = new JButton("vi høyest antall sammenhengende dager uten nedbør");
+		ingennedbør.addActionListener(this);
+		nedbør = new JButton("vi høyest antall sammenhengende dager med nedbør");
+		nedbør.addActionListener(this);
 		
 		knappepanel.add(årutvalg);
 		knappepanel.add(årutvalg1);
-		knappepanel.add(knappen);
+		knappepanel.add(ingennedbør);
+		knappepanel.add(nedbør);
 		panel.add(knappepanel, BorderLayout.NORTH);
 		
 		utskrift = new JTextArea(25,50);
@@ -83,7 +87,7 @@ public class RegnData extends Lista implements ActionListener
 			fradato.set(valgtfraår, 0, 1);
 			tildato.set(valgttilår,0,1);
 		}
-		else if(e.getSource() == knappen)
+		else if(e.getSource() == ingennedbør)
 		{
 			if(!stedliste.finnesIÅr(valgtfraår))
 			{
@@ -91,7 +95,18 @@ public class RegnData extends Lista implements ActionListener
 			}
 			else
 			{
-			utskrift.setText(stedliste.ingenNedBør(fradato, tildato));
+				utskrift.setText(stedliste.ingenNedBør(fradato, tildato));
+			}
+		}
+		else if(e.getSource() == nedbør)
+		{
+			if(!stedliste.finnesIÅr(valgtfraår))
+			{
+				utskrift.setText("Det finnes ingen data registrert på " +valgtfraår);
+			}
+			else
+			{
+				utskrift.setText(stedliste.ingenNedBør(fradato, tildato));
 			}
 		}
 	}
