@@ -204,7 +204,10 @@ public class RegistrerSted extends Lista implements ActionListener
 				stedliste.slettStedNode(fylke,sted);
 				//skal slette mappen
 				if(!stedliste.slettFil(datamappe+"/"+fylke+"."+sted))
+				{
 					melding("klarte ikke slette mappen");
+					return;
+				}
 				lagreLista();
 				melding("Stedet er slettet!");
 				System.out.println("Slettet sted: "+fylke+", "+sted);

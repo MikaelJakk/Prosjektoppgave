@@ -20,13 +20,12 @@ public class SnittTemp extends Lista implements ActionListener
 	//fra og til dato bokser
 	private JComboBox fraårboks;
 	private JComboBox tilårboks;
-	private int fra = 0, til =0;
-
 	private JButton oppdater;
 	
 	//mellomlagring av dag mnd og år
 	private int fraår;
 	private int tilår;
+
 
 
 	public JPanel ByggPanel() //utseende
@@ -60,15 +59,16 @@ public class SnittTemp extends Lista implements ActionListener
 		toppanel.add(datopanel);
 		toppanel.add(datopanel2);
 		
-		diagram = new Diagram(0,0);
+		diagram = new Diagram();
 
 		årpanel.add(toppanel);
 		årpanel.add(oppdater);
 		knappepanel.add(årpanel);
 		knappepanel.add(diagram);
+		diagram.setPanelgrafikk();
 		
 		panel.add(knappepanel,BorderLayout.WEST);
-	
+		
 		return panel;
 	}
 	
@@ -98,7 +98,6 @@ public class SnittTemp extends Lista implements ActionListener
 			array[j] = i+"";
 			j++;
 		}
-		
 		return array;
 	}
 	
@@ -127,24 +126,52 @@ public class SnittTemp extends Lista implements ActionListener
 		return antallÅr;
 	}
 	
-	public void tegnGraf(int fra, int til)
+	public double[] makeSnittMinTempArray(int fra, int til)
 	{
+		double[] array = new double[til-fra-1];
 		
-		int antallÅr = tilår - fraår;
-		double gammel = 0;
-		double ny;
-		
-		double[] temp = new double[antallÅr+1];
-		
-		int[] array = new int[til-fra+1];
-		for(int i = fra; i <= til; i++)
+		for(int i = 0; i<(til-fra-1); i++)
 		{
-			array[i-fra] = i;
-			temp[i-fra] = stedliste.getGjennomsnittMaxTempIÅr(array[i]);
-			ny = temp[i];
-			diagram = new Diagram(gammel,ny);
-			gammel = ny;
-		}	
+			array[i] = stedliste.getGjennomsnittMinTempIÅr(fra++);
+		}
+		
+		return array;
+	}
+	public double[] makeSnittMaxTempArray(int fra, int til)
+	{
+		double[] array = new double[til-fra-1];
+		
+		for(int i = 0; i<(til-fra-1); i++)
+		{
+			array[i] = stedliste.getGjennomsnittMaxTempIÅr(fra++);
+		}
+		
+		return array;
+	}
+	
+	public void sendMinSnittTempArray(int fra, int til)
+	{
+		double gammelVerdi = 0;
+		double nyVerdi;
+		double[] minArray = makeSnittMinTempArray(fra, til);
+		for(int i = 0; i < minArray.length; i++)
+		{
+			nyVerdi = minArray[i];
+			diagram.getMinPixelVerdi(gammelVerdi,nyVerdi);
+			gammelVerdi=nyVerdi;
+		}
+	}
+	public void sendMaxSnittTempArray(int fra, int til)
+	{
+		double gammelVerdi = 0;
+		double nyVerdi;
+		double[] maxArray = makeSnittMaxTempArray(fra, til);
+		for(int i = 0; i < maxArray.length; i++)
+		{
+			nyVerdi = maxArray[i];
+			diagram.getMinPixelVerdi(gammelVerdi,nyVerdi);
+			gammelVerdi=nyVerdi;
+		}
 	}
 	
 	public void actionPerformed(ActionEvent e) 
@@ -168,7 +195,8 @@ public class SnittTemp extends Lista implements ActionListener
 			}
 			else
 			{
-				tegnGraf(fraår, tilår);
+				sendMinSnittTempArray(fraår, tilår);
+			
 			}
 		}	
 	}	

@@ -17,7 +17,7 @@ public class ÅrligeEkstremer extends Lista implements ActionListener
 	private JTextArea utskrift;
 	
 	private JComboBox årvalg;
-	int valgtår = 1970;//peker til valgtår i årvalg.
+	int valgtår = 2011;//peker til valgtår i årvalg.
 	
 	//lager streng[] for årvalg utifra maskinens kalenderår
 	int fraår = 1970;
