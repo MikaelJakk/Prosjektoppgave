@@ -28,7 +28,6 @@ public class Diagram extends JPanel
 		
 		//settInnMaxGjennomsnittVerdier(g,n);
 	}
-	
 
 	//Diagram GUI-----------------------------------------------
 	
