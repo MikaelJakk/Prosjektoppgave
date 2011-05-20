@@ -112,6 +112,52 @@ public class StedListe
 	//end of metoder for visning av fylke og sted
 	
 	//metoder for statistisk visning av data
+<<<<<<< HEAD
+	public String ingenNedBør(int fra, int til)
+	{
+		if(stedliste.size() == 0)
+			return "ingen steder registrert";
+		
+		Iterator<Sted> iter = stedliste.iterator();
+
+		int dagerutennedbør = 0;
+		int returdagerutennedbør = 0;
+		String fylke="";
+		String sted = "";
+		String output = "";
+		String returfylke = "";
+		String retursted = "";
+		int motsatt = 0;
+		
+		while(iter.hasNext())
+		{
+			Sted gjeldende = iter.next();
+			dagerutennedbør = gjeldende.dataliste.getSammenhengendeNullNedbørMellom(fra,til);
+			motsatt = gjeldende.dataliste.getMotsattNedbør();
+			
+			fylke = gjeldende.getFylke();
+			sted = gjeldende.getSted();
+			if(returdagerutennedbør == 0 && dagerutennedbør != 0)
+			{ 
+				returfylke = fylke;
+				retursted = sted;
+				returdagerutennedbør = dagerutennedbør;
+			}
+			else if(returdagerutennedbør < dagerutennedbør)
+			{
+				returfylke = fylke;
+				retursted = sted;
+				returdagerutennedbør = dagerutennedbør;
+			}
+				}
+		if(returdagerutennedbør == 0)
+			return "ingen sammenhenger";
+
+		return "Fylke: "+returfylke+"\tSted: "+retursted+" har mest dager uten nedbør registrert  \t Dager uten nedbør: "+returdagerutennedbør+ "\n Registrert dager nedbør:" + motsatt;
+	}
+	
+=======
+>>>>>>> 28a9f246df90a8743dfb1e949be0a901b2940c18
 	public String getMinTempSted(Calendar fra, Calendar til)
 	{/*skal skrive ut stedet(fylke,sted, verdi og dato) som har lavest mintemp i hele registeret mellom datoene*/
 		if(stedliste.size() == 0)
