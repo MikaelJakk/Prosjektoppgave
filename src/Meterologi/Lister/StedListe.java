@@ -112,42 +112,6 @@ public class StedListe
 	//end of metoder for visning av fylke og sted
 	
 	//metoder for statistisk visning av data
-	public String ingenNedBør(Calendar fra, Calendar til)
-	{
-		if(stedliste.size() == 0)
-			return "ingen steder registrert";
-		
-		Iterator<Sted> iter = stedliste.iterator();
-		Sted gjeldende = null;
-		int dagerutennedbør = 0;
-		int returdagerutennedbør = 0;
-		String fylke="", sted = "";
-		String returfylke = "",retursted = "";
-		
-		while(iter.hasNext())
-		{
-			gjeldende = iter.next();
-			dagerutennedbør = gjeldende.dataliste.getSammenhengendeNullNedbørMellom(fra,til);
-			fylke = gjeldende.getFylke();
-			sted = gjeldende.getSted();
-			if(returdagerutennedbør == 0 && dagerutennedbør != 0)
-			{ 
-				returfylke = fylke;
-				retursted = sted;
-				returdagerutennedbør = dagerutennedbør;
-			}
-			else if(returdagerutennedbør < dagerutennedbør)
-			{
-				returfylke = fylke;
-				retursted = sted;
-				returdagerutennedbør = dagerutennedbør;
-			}
-		}
-		if(returdagerutennedbør == 0)
-			return "ingen sammenhengende data";
-		return "Fylke: "+returfylke+"\tSted: "+retursted+"\tDager uten nedbør: "+returdagerutennedbør;
-	}
-	
 	public String getMinTempSted(Calendar fra, Calendar til)
 	{/*skal skrive ut stedet(fylke,sted, verdi og dato) som har lavest mintemp i hele registeret mellom datoene*/
 		if(stedliste.size() == 0)
@@ -703,18 +667,16 @@ public class StedListe
 	
 	public boolean slettFil(String filsti)
 	{
-		File dir = new File(filsti);
-		if (dir.isDirectory()) {
-	        String[] children = dir.list();
-	        for (int i=0; i<children.length; i++) {
-	            boolean success = slettFil(dir+"/"+children[i]);
-	            if (!success) {
+		File fil = new File(filsti);
+		if (fil.isDirectory()) {
+	        String[] undermapper = fil.list();
+	        for (int i=0; i<undermapper.length; i++) {
+	            boolean win = slettFil(fil+"/"+undermapper[i]);
+	            if (!win) {
 	                return false;
 	            }
 	        }
 	    }
-
-	    // The directory is now empty so delete it
-	    return dir.delete();
+	    return fil.delete();
 	}
 }

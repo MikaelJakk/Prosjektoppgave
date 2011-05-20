@@ -68,7 +68,7 @@ public class SnittTemp extends Lista implements ActionListener
 		diagram.setPanelgrafikk();
 		
 		panel.add(knappepanel,BorderLayout.WEST);
-	
+		
 		return panel;
 	}
 	
@@ -98,7 +98,6 @@ public class SnittTemp extends Lista implements ActionListener
 			array[j] = i+"";
 			j++;
 		}
-		
 		return array;
 	}
 	
@@ -128,28 +127,27 @@ public class SnittTemp extends Lista implements ActionListener
 	}
 	
 	public double[] makeSnittMinTempArray(int fra, int til)
-	 {
-	  double[] array = new double[til-fra-1];
-	  
-	  for(int i = 0; i<(til-fra-1); i++)
-	  {
-	   array[i] = stedliste.getGjennomsnittMinTempIÅr(fra++);
-	   System.out.println(array[i]);
-	  }
-	  return array;
-	 }
-	
+	{
+		double[] array = new double[til-fra-1];
+		
+		for(int i = 0; i<(til-fra-1); i++)
+		{
+			array[i] = stedliste.getGjennomsnittMinTempIÅr(fra++);
+		}
+		
+		return array;
+	}
 	public double[] makeSnittMaxTempArray(int fra, int til)
-	 {
-	  double[] array = new double[til-fra-1];
-	  
-	  for(int i = 0; i<(til-fra-1); i++)
-	  {
-	   array[i] = stedliste.getGjennomsnittMaxTempIÅr(fra++);
-	   System.out.println(array[i]);
-	  }
-	  return array;
-	 }
+	{
+		double[] array = new double[til-fra-1];
+		
+		for(int i = 0; i<(til-fra-1); i++)
+		{
+			array[i] = stedliste.getGjennomsnittMaxTempIÅr(fra++);
+		}
+		
+		return array;
+	}
 	
 	public void sendMinSnittTempArray(int fra, int til)
 	{

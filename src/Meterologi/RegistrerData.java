@@ -165,13 +165,15 @@ public class RegistrerData extends Lista implements ActionListener{
 		if(ned > 229.6)
 		{int valg = JOptionPane.showConfirmDialog(null, "Har du skrevet inn riktig nedbørsverdi?\n\n"+ned,
 				"Riktig data?", JOptionPane.YES_NO_OPTION);
-		if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)
-		return false;}
+			if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)
+			return false;}
+		if(ned > 500)
+		{melding("Usannsynlig nedbørsverdi");}
 		if(min < -273.15)
 		{melding("minimumstemperaturen som er innskrevet er mindre enn det absolutte nullpunkt!");return false;}
-		if(min < -70)
-		{melding("ugyldig minimumstemperatur");return false;}
-		if(min < -50)
+		if(min < -60)
+		{melding("usannsynlig minimumstemperatur");return false;}
+		if(min < -30)
 		{int valg = JOptionPane.showConfirmDialog(null, "Har du skrevet inn riktig minimums temperatur?\n\n"+min,
 				"Riktig data?", JOptionPane.YES_NO_OPTION);
 			if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)return false;}
@@ -181,8 +183,8 @@ public class RegistrerData extends Lista implements ActionListener{
 		{int valg = JOptionPane.showConfirmDialog(null, "Har du skrevet inn riktig maksimums temperatur?\n\n"+max,
 				"Riktig data?", JOptionPane.YES_NO_OPTION);
 			if(valg == JOptionPane.NO_OPTION || valg == JOptionPane.CLOSED_OPTION)return false;}
-		if(max > 100)
-		{melding("verdens undergang!");return false;}
+		if(max > 50)
+		{melding("usannsynlig makstemperatur!");return false;}
 		
 		return true;
 	}//end of getVærVerdier()
@@ -385,11 +387,7 @@ public class RegistrerData extends Lista implements ActionListener{
 					boolean vellykket = valgtSted.dataliste.slettData(sdata);
 					if(vellykket)
 					{
-						if(!stedliste.slettFil(datamappe+"/"+fylke+"."+sted))
-						{
-							melding("klarte ikke slette mappen");
-							return;
-						}
+						stedliste.slettFil(datamappe+"/"+fylke+"."+sted);
 						melding("Slettet data under:"
 								+"\nFylke: "+fylke +"\nSted: "+sted +"\nDato: "+sdata.getDatoString());
 						lagreLista();
