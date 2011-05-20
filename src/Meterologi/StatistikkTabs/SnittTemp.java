@@ -28,28 +28,16 @@ public class SnittTemp extends Lista implements ActionListener
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		
-		JPanel årpanel = new JPanel();
-		årpanel.setLayout(new GridLayout(3,0));
-		JPanel knappepanel = new JPanel();
 		JPanel toppanel = new JPanel();
 		toppanel.setLayout(new GridLayout(4,0));
 
-		//innputfeltet for dato
-		JPanel datopanel = new JPanel();
-		JPanel datopanel2 = new JPanel();
-		//fra dato bokser
-		datopanel.add(new JLabel("Fra år:"));
+		//fra år boks
+		toppanel.add(new JLabel("Fra år:"));
 		fraårboks = new JComboBox(makeyeararray());
 		fraårboks.addActionListener(this);
-		datopanel.add(fraårboks);
+		toppanel.add(fraårboks);
 		
-		toppanel.add(datopanel);
-		toppanel.add(datopanel2);
-
-		årpanel.add(toppanel);
-		knappepanel.add(årpanel);
-		
-		panel.add(knappepanel,BorderLayout.WEST);
+		panel.add(toppanel,BorderLayout.CENTER);
 		panel.setVisible(true);
 				
 		return panel;
@@ -110,12 +98,11 @@ public class SnittTemp extends Lista implements ActionListener
 		if(e.getSource() == fraårboks){
 			//forandrer antall dager i dagboksen så det blir riktig med tanke på skuddår osv.
 			fraår = Integer.parseInt((String)fraårboks.getSelectedItem());
+
+			double[] mintemparray = makeSnittMinTempArray(fraår, fraår+20);
+			double[] maxtemparray = makeSnittMaxTempArray(fraår, fraår+20);
 			
-			double[] maxtemparray = makeSnittMaxTempArray(fraår, fraår+9);
-			double[] mintemparray = makeSnittMinTempArray(fraår, fraår+9);
-			
-			DiagramVindu diagram = new DiagramVindu(fraår, maxtemparray, mintemparray);
-			
+			DiagramVindu diagram = new DiagramVindu(fraår, mintemparray, maxtemparray);
 		}
 	}	
 }
