@@ -32,7 +32,7 @@ public class Statistikk extends JFrame implements ActionListener
 		pane.addTab("Dato Ekstremer", p2);
 		pane.addTab("Årlige Ekstremer", p4);
 		pane.addTab("Månedlige Rekorder", p1);
-		pane.addTab("Snitts Tempratur",p3);
+		pane.addTab("Snitts Temperatur",p3);
 		
 		//Oppdaterer utskrift i statistikkvinduene ved bytte av tabs
 		pane.addChangeListener(new ChangeListener(){
