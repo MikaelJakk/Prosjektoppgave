@@ -20,12 +20,12 @@ public class SnittTemp extends Lista implements ActionListener
 	//fra og til dato bokser
 	private JComboBox fraårboks;
 	private JComboBox tilårboks;
-	
 	private JButton oppdater;
 	
 	//mellomlagring av dag mnd og år
 	private int fraår;
 	private int tilår;
+
 
 
 	public JPanel ByggPanel() //utseende
@@ -59,12 +59,13 @@ public class SnittTemp extends Lista implements ActionListener
 		toppanel.add(datopanel);
 		toppanel.add(datopanel2);
 		
-		diagram = new Diagram(10,30);
+		diagram = new Diagram();
 
 		årpanel.add(toppanel);
 		årpanel.add(oppdater);
 		knappepanel.add(årpanel);
 		knappepanel.add(diagram);
+		diagram.setPanelgrafikk();
 		
 		panel.add(knappepanel,BorderLayout.WEST);
 	
@@ -150,25 +151,30 @@ public class SnittTemp extends Lista implements ActionListener
 	  return array;
 	 }
 	
-	public void tegnGraf(int fra, int til)
-	{/*
-		diagram.tegnGraf(fra, til);
-		int antallÅr = tilår - fraår;
-		double gammel = 0;
-		double ny;
-		
-		double[] temp = new double[antallÅr+1];
-		
-		int[] array = new int[til-fra+1];
-		for(int i = fra; i <= til; i++)
+	public void sendMinSnittTempArray(int fra, int til)
+	{
+		double gammelVerdi = 0;
+		double nyVerdi;
+		double[] minArray = makeSnittMinTempArray(fra, til);
+		for(int i = 0; i < minArray.length; i++)
 		{
-			array[i-fra] = i;
-			temp[i-fra] = stedliste.getGjennomsnittMaxTempIÅr(array[i]);
-			ny = temp[i];
-			diagram = new Diagram(gammel,ny);
-			gammel = ny;
-		}	
-	*/}
+			nyVerdi = minArray[i];
+			diagram.getMinPixelVerdi(gammelVerdi,nyVerdi);
+			gammelVerdi=nyVerdi;
+		}
+	}
+	public void sendMaxSnittTempArray(int fra, int til)
+	{
+		double gammelVerdi = 0;
+		double nyVerdi;
+		double[] maxArray = makeSnittMaxTempArray(fra, til);
+		for(int i = 0; i < maxArray.length; i++)
+		{
+			nyVerdi = maxArray[i];
+			diagram.getMinPixelVerdi(gammelVerdi,nyVerdi);
+			gammelVerdi=nyVerdi;
+		}
+	}
 	
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -190,8 +196,8 @@ public class SnittTemp extends Lista implements ActionListener
 			}
 			else
 			{
-				double[] minSnittTemp = makeSnittMinTempArray(fraår, tilår);
-				double[] maxSnittTemp = makeSnittMaxTempArray(fraår, tilår);
+				sendMinSnittTempArray(fraår, tilår);
+			
 			}
 		}	
 	}	
