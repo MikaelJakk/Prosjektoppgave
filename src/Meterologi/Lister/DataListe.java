@@ -478,26 +478,6 @@ public class DataListe{
 		return sum/antall;
 	}
 	
-	public int getSammenhengendeNullNedbørMellom(Calendar fra, Calendar til)
-	{/*skal gå igjennom lista og returnere en int som beskriver antall sammenhengende dager uten nedbør
-	 antar at uregistrerte dager mellom to noder ikke har hatt nedbør*/
-		if(første == null)
-			return 0;
-		
-		Data a = første;
-		int gjeldendedagerutennedbør= 0;
-		int flestdagerutennedbør = 0;
-		while(a.neste != null)
-		{
-			if(a.getNedbør() == 0 && a.neste.getNedbør()==0)
-			{
-				gjeldendedagerutennedbør = 0;
-			}
-			a = a.neste;
-		}
-		return flestdagerutennedbør;
-	}
-	
 	public int regnUtDagerMellom(Calendar fra, Calendar til)
 	{/*skal regne ut hvor mange dager det er mellom fra og til dato*/
 		return Math.round((til.getTimeInMillis() - fra.getTimeInMillis()) /(24*60*60*1000));
@@ -563,4 +543,4 @@ public class DataListe{
 			}
 		}
 	}//end of lesFraFil()
-}
+}//end of class

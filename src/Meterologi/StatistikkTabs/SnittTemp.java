@@ -97,7 +97,6 @@ public class SnittTemp extends Lista implements ActionListener
 			array[j] = i+"";
 			j++;
 		}
-		
 		return array;
 	}
 	

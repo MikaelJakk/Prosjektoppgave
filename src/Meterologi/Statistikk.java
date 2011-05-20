@@ -17,7 +17,6 @@ public class Statistikk extends JFrame implements ActionListener
 	DatoEkstremer datorekorder = new DatoEkstremer();
 	SnittTemp  snitttemp = new SnittTemp();
 	ÅrligeEkstremer årligeks = new ÅrligeEkstremer();
-	RegnData regndata = new RegnData();
 	
 	public JPanel ByggPanel() //utseende
 	{
@@ -28,14 +27,12 @@ public class Statistikk extends JFrame implements ActionListener
 		JPanel p2 = datorekorder.ByggPanel();
 		JPanel p3 = snitttemp.ByggPanel();
 		JPanel p4 = årligeks.ByggPanel();
-		JPanel p5 = regndata.ByggPanel();
 
 		JTabbedPane pane = new JTabbedPane();
 		pane.addTab("Dato Ekstremer", p2);
 		pane.addTab("Årlige Ekstremer", p4);
 		pane.addTab("Månedlige Rekorder", p1);
 		pane.addTab("Snitts Tempratur",p3);
-		pane.addTab("Regn Data",p5);
 		
 		//Oppdaterer utskrift i statistikkvinduene ved bytte av tabs
 		pane.addChangeListener(new ChangeListener(){
