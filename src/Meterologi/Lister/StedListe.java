@@ -599,7 +599,7 @@ public class StedListe
 		while(iter.hasNext())
 		{
 			gjeldende = iter.next();
-			snittemp = snittemp + gjeldende.dataliste.getGjennomsnittsMinTempIÅr(år);
+			snittemp += gjeldende.dataliste.getGjennomsnittsMinTempIÅr(år);
 			antall++;
 		}
 		if(snittemp != 0 && antall != 0)
@@ -621,7 +621,7 @@ public class StedListe
 		while(iter.hasNext())
 		{
 			gjeldende = iter.next();
-			snittemp = snittemp + gjeldende.dataliste.getGjennomsnittsMaksTempIÅr(år);
+			snittemp += gjeldende.dataliste.getGjennomsnittsMaksTempIÅr(år);
 			antall++;
 		}
 		if(snittemp != 0 && antall != 0)
