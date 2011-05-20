@@ -59,7 +59,7 @@ public class SnittTemp extends Lista implements ActionListener
 		toppanel.add(datopanel);
 		toppanel.add(datopanel2);
 		
-		diagram = new Diagram(0,0);
+		diagram = new Diagram(10,30);
 
 		årpanel.add(toppanel);
 		årpanel.add(oppdater);
@@ -133,7 +133,6 @@ public class SnittTemp extends Lista implements ActionListener
 		for(int i = 0; i<(til-fra-1); i++)
 		{
 			array[i] = stedliste.getGjennomsnittMinTempIÅr(fra++);
-			System.out.println(array[i]);
 		}
 		
 		return array;
@@ -145,16 +144,15 @@ public class SnittTemp extends Lista implements ActionListener
 		for(int i = 0; i<(til-fra-1); i++)
 		{
 			array[i] = stedliste.getGjennomsnittMaxTempIÅr(fra++);
-			System.out.println(array[i]);
 		}
 		
 		return array;
 	}
 	
 	public void tegnGraf(int fra, int til)
-	{
+	{/*
 		diagram.tegnGraf(fra, til);
-		/*int antallÅr = tilår - fraår;
+		int antallÅr = tilår - fraår;
 		double gammel = 0;
 		double ny;
 		
@@ -168,8 +166,8 @@ public class SnittTemp extends Lista implements ActionListener
 			ny = temp[i];
 			diagram = new Diagram(gammel,ny);
 			gammel = ny;
-		}	*/
-	}
+		}	
+	*/}
 	
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -191,7 +189,8 @@ public class SnittTemp extends Lista implements ActionListener
 			}
 			else
 			{
-				tegnGraf(fraår, tilår);
+				double[] minSnittTemp = makeSnittMinTempArray(fraår, tilår);
+				double[] maxSnittTemp = makeSnittMaxTempArray(fraår, tilår);
 			}
 		}	
 	}	
